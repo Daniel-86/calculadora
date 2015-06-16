@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.grails:grails-datastore-test-support:1.0.2-grails-2.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-test-support/1.0.2-grails-2.4/7dc629f9b64652fc18b03e801ce85a31c1a7c088/grails-datastore-test-support-1.0.2-grails-2.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-test-support/1.0.2-grails-2.4/5553580a3f2a329b3a53b7fb9fbbf7eb59576617/grails-datastore-test-support-1.0.2-grails-2.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

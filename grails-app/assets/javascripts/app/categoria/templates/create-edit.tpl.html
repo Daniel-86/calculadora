@@ -1,0 +1,28 @@
+<div crud-breadcrumbs="{{ctrl.categoria.id ? 'edit' : 'create'}}"></div>
+<h2>
+    <span ng-hide="ctrl.categoria.id">Create Categoria</span>
+    <span ng-show="ctrl.categoria.id">Edit Categoria</span>
+</h2>
+
+<div flash-message ></div>
+
+<form name="form" class="form-horizontal" role="form" novalidate> 
+	
+	<div field-container label="Descripcion" invalid="form.descripcion.$invalid">
+		<input name="descripcion" type="text" class='form-control' ng-model="ctrl.categoria.descripcion" required  />
+	</div>
+	
+	<div field-container label="Multiple" invalid="form.multiple.$invalid">
+		<input name="multiple" type="text" class='form-control' ng-model="ctrl.categoria.multiple" required  />
+	</div>
+	
+	<div field-container label="Required" invalid="form.required.$invalid">
+		<input name="required" type="text" class='form-control' ng-model="ctrl.categoria.required" required  />
+	</div>
+
+    <div>
+        <button crud-button="save" item="ctrl.categoria" is-disabled="form.$invalid"></button>
+        <span ng-if="ctrl.categoria.id"><button crud-button="delete" item="ctrl.categoria"></button></span>
+    </div>
+
+</form>

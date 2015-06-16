@@ -1,0 +1,112 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-windows-x64\\bin\\node.exe',
+1 verbose cli   'D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-linux-x86\\lib\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'karma',
+1 verbose cli   'karma-jasmine@2_0',
+1 verbose cli   'karma-phantomjs-launcher',
+1 verbose cli   '--loglevel',
+1 verbose cli   'error' ]
+2 info using npm@1.4.9
+3 info using node@v0.11.13
+4 verbose cache add [ 'karma', null ]
+5 verbose cache add name=undefined spec="karma" args=["karma",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'karma',
+6 verbose parsed url   path: 'karma',
+6 verbose parsed url   href: 'karma' }
+7 verbose cache add [ 'karma-jasmine@2_0', null ]
+8 verbose cache add name=undefined spec="karma-jasmine@2_0" args=["karma-jasmine@2_0",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'karma-jasmine@2_0',
+9 verbose parsed url   path: 'karma-jasmine@2_0',
+9 verbose parsed url   href: 'karma-jasmine@2_0' }
+10 verbose cache add name="karma-jasmine" spec="2_0" args=["karma-jasmine","2_0"]
+11 verbose parsed url { protocol: null,
+11 verbose parsed url   slashes: null,
+11 verbose parsed url   auth: null,
+11 verbose parsed url   host: null,
+11 verbose parsed url   port: null,
+11 verbose parsed url   hostname: null,
+11 verbose parsed url   hash: null,
+11 verbose parsed url   search: null,
+11 verbose parsed url   query: null,
+11 verbose parsed url   pathname: '2_0',
+11 verbose parsed url   path: '2_0',
+11 verbose parsed url   href: '2_0' }
+12 verbose addNamed [ 'karma-jasmine', '2_0' ]
+13 verbose addNamed [ null, null ]
+14 verbose cache add [ 'karma-phantomjs-launcher', null ]
+15 verbose cache add name=undefined spec="karma-phantomjs-launcher" args=["karma-phantomjs-launcher",null]
+16 verbose parsed url { protocol: null,
+16 verbose parsed url   slashes: null,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: null,
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: null,
+16 verbose parsed url   hash: null,
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: 'karma-phantomjs-launcher',
+16 verbose parsed url   path: 'karma-phantomjs-launcher',
+16 verbose parsed url   href: 'karma-phantomjs-launcher' }
+17 silly lockFile 512423cb-karma karma
+18 verbose lock karma C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\512423cb-karma.lock
+19 silly lockFile 87968950-karma-jasmine-2-0 karma-jasmine@2_0
+20 verbose lock karma-jasmine@2_0 C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\87968950-karma-jasmine-2-0.lock
+21 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
+22 verbose lock karma-phantomjs-launcher C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\e0cbf986-karma-phantomjs-launcher.lock
+23 silly lockFile 512423cb-karma karma
+24 silly lockFile 512423cb-karma karma
+25 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
+26 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
+27 info addNameTag [ 'karma-jasmine', '2_0' ]
+28 verbose addNamed [ 'karma-phantomjs-launcher', '' ]
+29 verbose addNamed [ null, '*' ]
+30 silly lockFile cdd40d81-karma-phantomjs-launcher karma-phantomjs-launcher@
+31 verbose lock karma-phantomjs-launcher@ C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\cdd40d81-karma-phantomjs-launcher.lock
+32 verbose addNamed [ 'karma', '' ]
+33 verbose addNamed [ null, '*' ]
+34 silly lockFile cd7961bb-karma karma@
+35 verbose lock karma@ C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\cd7961bb-karma.lock
+36 verbose url raw karma-jasmine
+37 verbose url resolving [ 'https://registry.npmjs.org/', './karma-jasmine' ]
+38 verbose url resolved https://registry.npmjs.org/karma-jasmine
+39 info trying registry request attempt 1 at 12:15:39
+40 http GET https://registry.npmjs.org/karma-jasmine
+41 error TypeError: Request path contains unescaped characters.
+41 error     at new ClientRequest (_http_client.js:73:11)
+41 error     at TunnelingAgent.exports.request (http.js:52:10)
+41 error     at TunnelingAgent.createSocket (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:117:25)
+41 error     at TunnelingAgent.createSecureSocket [as createSocket] (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:184:41)
+41 error     at TunnelingAgent.addRequest (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:80:8)
+41 error     at new ClientRequest (_http_client.js:153:16)
+41 error     at Object.exports.request (http.js:52:10)
+41 error     at Object.exports.request (https.js:136:15)
+41 error     at Request.start (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\request.js:583:30)
+41 error     at Request.end (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\request.js:1237:28)
+42 error If you need help, you may report this *entire* log,
+42 error including the npm and node versions, at:
+42 error     <http://github.com/npm/npm/issues>
+43 error System Windows_NT 6.1.7601
+44 error command "D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-windows-x64\\bin\\node.exe" "D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-linux-x86\\lib\\node_modules\\npm\\bin\\npm-cli.js" "install" "karma" "karma-jasmine@2_0" "karma-phantomjs-launcher" "--loglevel" "error"
+45 error cwd D:\workspace\calculadora
+46 error node -v v0.11.13
+47 error npm -v 1.4.9
+48 verbose exit [ 1, true ]

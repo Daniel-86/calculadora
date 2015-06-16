@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.codehaus.gant:gant_groovy1.8:1.9.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.gant/gant_groovy1.8/1.9.6/44e2ed02da55f25f3c1efe04ff43505d5d965c48/gant_groovy1.8-1.9.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.gant/gant_groovy1.8/1.9.6/d6374b3dd36d98606d0b2bead9fa3826c20a806d/gant_groovy1.8-1.9.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

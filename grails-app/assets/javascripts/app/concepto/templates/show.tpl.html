@@ -1,0 +1,13 @@
+<div crud-breadcrumbs="show"></div>
+<h2>Show Concepto</h2>
+<div flash-message ></div>
+
+<table class="table table-bordered table-striped">
+    <tr display-field label="Descripcion" value="ctrl.concepto.descripcion"></tr>
+    <tr display-field label="Costo" value="ctrl.concepto.costo | currency"></tr>
+</table>
+
+<div class="form-actions">
+    <button crud-button="edit" item="ctrl.concepto"></button>
+    <button crud-button="delete" item="ctrl.concepto" ></button>
+</div>

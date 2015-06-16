@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.craigburke.angular:angular-annotate-asset-pipeline:2.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.craigburke.angular/angular-annotate-asset-pipeline/2.1.0/ee94fbf6f8d17748083b76576ee1e2ed3ae91d39/angular-annotate-asset-pipeline-2.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.craigburke.angular/angular-annotate-asset-pipeline/2.1.0/838b135ad1e2a8f00a044e714161e4ed808474e2/angular-annotate-asset-pipeline-2.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

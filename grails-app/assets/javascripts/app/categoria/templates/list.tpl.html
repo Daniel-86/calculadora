@@ -1,0 +1,56 @@
+<div crud-breadcrumbs="list"></div>
+
+<div class="clearfix">
+	<h2 class="pull-left">Categoria List</h2>
+	<div class="pull-right"><button crud-button="create" ></button></div>
+</div>
+<div flash-message ></div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-filter"></i> Filter List</h3>
+  </div>
+  <div class="panel-body">
+<div class="row">
+<form class="form">
+	<div class="form-group col-md-3">
+		<label for="filter.descripcion">Descripcion</label>
+		<input type="text" class='form-control' ng-model="ctrl.filter.descripcion" ng-model-options="{ debounce: 300 }"  />
+    </div>
+	<div class="form-group col-md-3">
+		<label for="filter.multiple">Multiple</label>
+		<input type="text" class='form-control' ng-model="ctrl.filter.multiple" ng-model-options="{ debounce: 300 }"  />
+    </div>
+	<div class="form-group col-md-3">
+		<label for="filter.required">Required</label>
+		<input type="text" class='form-control' ng-model="ctrl.filter.required" ng-model-options="{ debounce: 300 }"  />
+    </div>
+</form>
+</div>
+  </div>
+</div>
+
+<table id="list" class="table table-striped table-bordered table-hover">
+
+    <thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reload()">
+        <th sortable-column title="Id" property="id"></th>
+		<th sortable-column title="Descripcion" property="descripcion"></th>
+		<th sortable-column title="Multiple" property="multiple"></th>
+		<th sortable-column title="Required" property="required"></th>
+        <th>&nbsp;</th>
+    </thead>
+    <tbody>
+        <tr class="animate-repeat" ng-repeat="item in ctrl.categoriaList">
+            <td><a href="#/show/{{item.id}}">{{item.id}}</a></td>
+			<td>{{ item.descripcion }}</td>
+			<td>{{ item.multiple }}</td>
+			<td>{{ item.required }}</td>
+            <td>
+                <button crud-button="edit" item="item" ></button>
+                <button crud-button="delete" item="item" after-action="ctrl.reload()"></button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div pagination total-items="ctrl.categoriaList.getTotalCount()" items-per-page="ctrl.pageSize" ng-model="ctrl.page" ng-change="ctrl.load()"></div>
