@@ -37,9 +37,13 @@ class CalculadoraController {
     def add() {}
 
     def list() {
-        List categories = Categoria.list(fetch:[conceptos: "eager"]);
+        List categories = Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']);
         JSON.use('deep') {
             render categories as JSON
         }
+    }
+
+    def cms() {
+
     }
 }

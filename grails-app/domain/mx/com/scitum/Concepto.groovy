@@ -7,9 +7,10 @@ class Concepto {
     Categoria categoria
     Boolean multiple = false
 
-    static belongsTo = [categoria: Categoria]
+    static belongsTo = [categoria: Categoria, padre: ConceptoEspecial]
 
     static constraints = {
-//        categoria nullable: false
+        categoria nullable: true
+        padre nullable: true
     }
 }

@@ -6,11 +6,14 @@ class Categoria {
     Boolean multiple = false
     Boolean required = true
     List conceptos
+    List componentes
 
-    static hasMany = [conceptos: Concepto]
+    static hasMany = [conceptos: Concepto, componentes: ConceptoEspecial]
 
     static constraints = {
     }
+
+//    static fetchMode = [conceptos: 'eager', ]
 
 //    def getConceptos() {
 //        println Concepto.list()

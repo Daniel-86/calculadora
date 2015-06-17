@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Calculadora de Servicios Administrados : Scitum</title>
+    <title>Calculadora de Servicios Administrados : Scitum - <g:layoutTitle/></title>
     <asset:stylesheet src="application.css"/>
     <g:layoutHead/>
 </head>
@@ -48,6 +48,7 @@
                         <li><a href="#">Tecnologías</a></li>
                         <li><a href="#">Fabricantes</a></li>
                         <li><a href="#">Servicios Administrados</a></li>
+                        <li><g:link controller="calculadora" action="cms">CMS</g:link></li>
                         <li class="divider"></li>
                         <li><a href="#">SLAs</a></li>
                     </ul>
