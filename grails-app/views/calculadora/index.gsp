@@ -68,8 +68,8 @@
                     {{category.descripcion}}
                 </accordion-heading>
 
-        
 
+        
                 <div ng-if="category.multiple">
                     <ul class="itemsList">
                         <li ng-repeat="item in category.conceptos">

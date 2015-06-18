@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66b77b74-df92-4a58-9410-4af8569d58f7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/accordion.js" afterPath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/accordion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js" afterPath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/calculadora/index.gsp" afterPath="$PROJECT_DIR$/grails-app/views/calculadora/index.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="calculadora.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -209,8 +207,8 @@
       <file leaf-file-name="index.gsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/views/calculadora/index.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.22222222">
-              <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.42592594">
+              <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -618,6 +616,9 @@
             <id>Android Lint</id>
           </State>
           <State>
+            <id>CSS</id>
+          </State>
+          <State>
             <id>Internationalization issues</id>
           </State>
           <State>
@@ -625,6 +626,18 @@
           </State>
           <State>
             <id>Java</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Manifest</id>
+          </State>
+          <State>
+            <id>Probable bugsCSS</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
           </State>
           <State>
             <id>WebSocket issues</id>
@@ -663,7 +676,7 @@
     <panes />
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -974,12 +987,12 @@
       <option name="number" value="Default" />
       <updated>1434388790193</updated>
       <workItem from="1434388803876" duration="62998000" />
-      <workItem from="1434577233188" duration="25511000" />
+      <workItem from="1434577233188" duration="26493000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88509000" />
+    <option name="totallyTimeSpent" value="89491000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1505,8 +1518,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/calculadora/index.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22222222">
-          <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.42592594">
+          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
           <folding />
         </state>
       </provider>
