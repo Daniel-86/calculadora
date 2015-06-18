@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/calculadora.iml" filepath="$PROJECT_DIR$/calculadora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calculadora-grailsPlugins.iml" filepath="$PROJECT_DIR$/calculadora-grailsPlugins.iml" />
     </modules>
   </component>
 </project>

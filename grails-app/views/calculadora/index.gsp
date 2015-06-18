@@ -33,7 +33,7 @@
 
 <body>
 <div class="row" ng-app="calculadora" ng-controller="calcularCtrl">
-    <div class="col-md-6" ng-controller="accordionCtrl">
+    <div class="col-md-6" >
         %{--<p>--}%
         %{--<button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>--}%
         %{--<button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>--}%
@@ -73,11 +73,31 @@
                             <input type="checkbox" ng-change="updateItems(category, item)" name="{{category.id}}-chkbox" ng-model="item.selected" ng-value="item"/>{{item.descripcion}}
                             <input ng-if="item.multiple" ng-show="category.selected.indexOf(item) > -1" type="number" placeholder="cantidad"/>
                         </li>
+                        %{--<li ng-repeat="item in category.componentes">--}%
+                            %{--<input type="checkbox" ng-change="updateItems(category, item)" name="{{category.id}}-chkbox" ng-model="item.selected" ng-value="item"/>{{item.descripcion}}--}%
+                            %{--<div ng-show="category.selected.indexOf(item) > -1">--}%
+                                %{--<input ng-repeat="prop in item.propiedades" type="{{prop.tipo}}" placeholder="{{prop.descripcion}}" ng-model="prop.valor"/>--}%
+                            %{--</div>--}%
+                            %{--<input ng-if="item.multiple" ng-show="category.selected.indexOf(item) > -1" type="number" placeholder="cantidad"/>--}%
+                        %{--</li>--}%
                     </ul>
+
+                    <div ng-if="category.componentes">
+                        <select ng-options="comp as comp.descripcion for comp in category.componentes" ng-model="category.asdf" ng-change="showOptions(category)"></select>
+                        <div ng-show="shwOpts">
+                            <div ng-repeat="opt in options">
+                                <input type="{{opt.tipo}}" placeholder="{{opt.descripcion}}"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div ng-if="!category.multiple">
                     <ul class="itemsList">
                         <li ng-repeat="item in category.conceptos">
+                            <input type="radio" ng-model="category.selected" name="{{category.id}}-rdo" ng-value="item"/>{{item.descripcion}}
+                            <input ng-if="item.multiple" type="number" placeholder="cantidad" ng-show="category.selected === item"/>
+                        </li>
+                        <li ng-repeat="item in category.componentes">
                             <input type="radio" ng-model="category.selected" name="{{category.id}}-rdo" ng-value="item"/>{{item.descripcion}}
                             <input ng-if="item.multiple" type="number" placeholder="cantidad" ng-show="category.selected === item"/>
                         </li>

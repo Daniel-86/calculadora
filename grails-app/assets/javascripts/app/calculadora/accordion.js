@@ -35,4 +35,12 @@ angular.module('accordion', ['ui.bootstrap']).controller('accordionCtrl', functi
             category.selected.splice(indx, 1);
         }
     };
+
+    //$scope.showOptions = function(item) {
+    //    console.log("componente: "+item);
+    //    console.log('scope: '+$scope.paquete);
+    //    $scope.shwOpts = true;
+    //    //$scope.options = item.propiedades;
+    //    $scope.options = $scope.paquete.propiedades;
+    //};
 });

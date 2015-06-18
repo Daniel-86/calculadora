@@ -8,10 +8,20 @@ class Categoria {
     List conceptos
     List componentes
 
+    String nodeType
+    static transients = ['nodeType']
+
     static hasMany = [conceptos: Concepto, componentes: ConceptoEspecial]
 
     static constraints = {
+        nodeType bindable: true
     }
+
+    def getNodeType() {
+        'ROOT'
+    }
+
+//    def setNodeType(String s) {}
 
 //    static fetchMode = [conceptos: 'eager', ]
 

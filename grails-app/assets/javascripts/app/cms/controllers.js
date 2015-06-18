@@ -5,6 +5,7 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
     var getAllData = function() {
         $http.get('list/.json').success(function(data){//console.log(data);
             $scope.categories = data;
+            $scope.children = data;
         });
     };
     getAllData();

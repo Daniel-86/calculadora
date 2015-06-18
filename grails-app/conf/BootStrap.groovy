@@ -1,6 +1,7 @@
-import grails.converters.deep.JSON
 import mx.com.scitum.Categoria
 import mx.com.scitum.Concepto
+import mx.com.scitum.ConceptoEspecial
+import mx.com.scitum.Propiedad
 
 class BootStrap {
 
@@ -10,6 +11,7 @@ class BootStrap {
 		customMarshallerRegistrar.registerMarshallers()
 
         println "loading categories data"
+
         Categoria category = new Categoria(
                 descripcion: 'Tipo de cliente',
                 multiple: false,
@@ -23,6 +25,10 @@ class BootStrap {
         }
         category.save(flush: true, failOnError: true)
 
+
+
+
+
         category = new Categoria(
                 descripcion: 'Ingeniería en sitio',
                 multiple: false,
@@ -34,18 +40,89 @@ class BootStrap {
         }
         category.save(flush: true, failOnError: true)
 
+
+
+
         category = new Categoria(
                 descripcion: 'Tecnología',
                 multiple: true,
                 required: true)
-        [
-                new Concepto(descripcion: 'IPS', costo: 23, multiple: true),
-                new Concepto(descripcion: 'Firewall', costo: 2, multiple: true),
-                new Concepto(descripcion: 'Filtrado web', costo: 3, multiple: true),
-                new Concepto(descripcion: 'Antispam', costo: 123, multiple: true)].each {
-            category.addToConceptos(it)
+        def arrProp, arrCon
+        def tecnologyProps = {
+            def lista = [
+                new Propiedad(descripcion: 'cantidad', tipo: 'Integer'),
+                new Propiedad(descripcion: 'volumetría')
+            ]
+            return lista
         }
+        def tecnologyConcepts = {
+            def lista = [
+                new Concepto(descripcion: 'Firewall/NAT', costo: 23, multiple: true),
+                new Concepto(descripcion: 'VPN IPSEC', costo: 2, multiple: true),
+                new Concepto(descripcion: 'VPN SSL', costo: 3, multiple: true),
+                new Concepto(descripcion: 'IPS', costo: 3, multiple: true),
+                new Concepto(descripcion: 'Application control', costo: 3, multiple: true),
+                new Concepto(descripcion: 'URL filtering', costo: 3, multiple: true),
+                new Concepto(descripcion: 'Antivirus', costo: 123, multiple: true)
+            ]
+            return lista
+        }
+
+        ConceptoEspecial conceptoEspecial = new ConceptoEspecial(descripcion: 'Firewall')
+        arrProp = tecnologyProps()
+        arrProp.each {
+            conceptoEspecial.addToPropiedades(it)
+        }
+
+        arrCon = tecnologyConcepts()
+        arrCon.each {
+            conceptoEspecial.addToConceptosE(it)
+        }
+        category.addToComponentes(conceptoEspecial)
+
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'IPS')
+        arrProp = tecnologyProps()
+        arrProp.each {
+            conceptoEspecial.addToPropiedades(it)
+        }
+
+        arrCon = tecnologyConcepts()
+        arrCon.each {
+            conceptoEspecial.addToConceptosE(it)
+        }
+        category.addToComponentes(conceptoEspecial)
+
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'Filtrado web')
+        arrProp = tecnologyProps()
+        arrProp.each {
+            conceptoEspecial.addToPropiedades(it)
+        }
+
+        arrCon = tecnologyConcepts()
+        arrCon.each {
+            conceptoEspecial.addToConceptosE(it)
+        }
+        category.addToComponentes(conceptoEspecial)
+
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'Antispam')
+        arrProp = tecnologyProps()
+                 arrProp.each {
+            conceptoEspecial.addToPropiedades(it)
+        }
+
+        arrCon = tecnologyConcepts()
+        arrCon.each {
+            conceptoEspecial.addToConceptosE(it)
+        }
+        category.addToComponentes(conceptoEspecial)
+
         category.save(flush: true, failOnError: true)
+
+
+
+
+
+
 
         category = new Categoria(
                 descripcion: 'Tipo de cliente',
@@ -59,8 +136,7 @@ class BootStrap {
         }
         category.save(flush: true, failOnError: true)
 
-        println Categoria.list() as JSON
-//        println Concepto.list() as JSON
+//        println Categoria.list() as JSON
 	}
     def destroy = {
     }
