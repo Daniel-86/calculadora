@@ -24,15 +24,15 @@ angular.module('accordion', ['ui.bootstrap']).controller('accordionCtrl', functi
         isFirstDisabled: false
     };
 
-    $scope.updateItems = function(category, item) {
+    $scope.updateItems = function(parent, item) {
         console.log(item);
-        if(!category.selected)
-            category.selected = [];
+        if(!parent.selected)
+            parent.selected = [];
         if(item.selected)
-            category.selected.push(item);
+            parent.selected.push(item);
         else {
-            var indx = category.selected.indexOf(item);
-            category.selected.splice(indx, 1);
+            var indx = parent.selected.indexOf(item);
+            parent.selected.splice(indx, 1);
         }
     };
 
