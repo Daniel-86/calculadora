@@ -2,6 +2,8 @@
 //= require accordion
 
 angular.module('calculadora.controllers', ['accordion']).controller('calcularCtrl', function($scope, $http) {
+
+
     var getAllData = function() {
         $http.get('list/.json').success(function(data){//console.log(data);
             $scope.categories = data;
@@ -9,7 +11,11 @@ angular.module('calculadora.controllers', ['accordion']).controller('calcularCtr
     };
     getAllData();
 
-    //$scope.paquete = {};
+    $scope.paquete = [];
+
+
+
+
 
     $scope.oneAtATime = true;
 
@@ -48,11 +54,52 @@ angular.module('calculadora.controllers', ['accordion']).controller('calcularCtr
         }
     };
 
+    $scope.newUpdateItems = function(arr, item) {
+        console.log(item);
+        if(!arr)
+            arr = [];
+        if(item.selected)
+            arr.push(item);
+        else {
+            var indx = arr.indexOf(item);
+            arr.splice(indx, 1);
+        }
+    };
+
     $scope.showOptions = function(item) {
         console.log("componente: "+item);
-        console.log('scope: '+item.asdf);
+        console.log('scope: '+item.current);
         $scope.shwOpts = true;
+        $scope.techSelected = item.current;
+        item.currentArray = [];
         //$scope.options = item.propiedades;
-        $scope.options = item.asdf.propiedades;
+        $scope.options = item.current.propiedades;
+    };
+
+    $scope.lookForQuantity = function(current, prop) {
+        if(prop.descripcion === 'cantidad') {
+            current.nItems = prop.valor;
+            console.log('nItems: ' + current.nItems);
+            var basura = [];
+            for(var i=1; i<=current.nItems; i++) {basura.push(i);}
+            current.auxArray = basura;
+            console.log('auxArray: '+current.auxArray);
+            if(!current.arr)
+                current.arr = [];
+        }
+    };
+
+    $scope.getQArray = function() {
+        var asfd = new Array($scope.Q);
+        console.log("select array: "+asfd);
+        return new Array($scope.Q);
+    };
+
+    $scope.algo = function(item) {
+        if(!item.arr[item.currentItem]) {
+            item.arr[item.currentItem] = JSON.parse(JSON.stringify(item.conceptos));
+            //item.arr[item.currentItem] = item.conceptos;
+        }
+        console.log('set current conceptos: '+item.arr[item.currentItem]);
     };
 });

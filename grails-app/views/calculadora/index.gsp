@@ -67,6 +67,9 @@
                 <accordion-heading>
                     {{category.descripcion}}
                 </accordion-heading>
+
+        
+
                 <div ng-if="category.multiple">
                     <ul class="itemsList">
                         <li ng-repeat="item in category.conceptos">
@@ -83,10 +86,20 @@
                     </ul>
 
                     <div ng-if="category.componentes">
-                        <select ng-options="comp as comp.descripcion for comp in category.componentes" ng-model="category.asdf" ng-change="showOptions(category)"></select>
+                        <select ng-options="comp as comp.descripcion for comp in category.componentes" ng-model="category.current" ng-change="showOptions(category)"></select>
                         <div ng-show="shwOpts">
-                            <div ng-repeat="opt in options">
-                                <input type="{{opt.tipo}}" placeholder="{{opt.descripcion}}"/>
+                            %{--{{category.current}}--}%
+                            <div ng-repeat="opt in category.current.propiedades">
+                                <input type="{{opt.tipo}}" placeholder="{{opt.descripcion}}" ng-model="opt.valor" ng-change="lookForQuantity(category.current, opt)"/>
+                            </div>
+                            %{--<select ng-options="itemNumber in getQArray()" ng-model="category.basura"></select>--}%
+                            <select ng-model="category.current.currentItem" ng-change="algo(category.current)">
+                                <option ng-repeat="i in category.current.auxArray" ng-model="category.current.currentItem">{{techSelected.descripcion + i}}</option>
+                             </select>
+                            <div class="col-md-6" ng-repeat="item in category.current.arr[category.current.currentItem]">
+                                %{--{{category.selected.conceptos}}--}%
+                                <input type="checkbox" ng-change="newUpdateItems(category.current.arr[$index], item)" ng-value="item" ng-model="item.selected"/>{{item.descripcion}}
+                                {{category.current.array}}
                             </div>
                         </div>
                     </div>
@@ -110,18 +123,28 @@
 
 
     <div class="col-md-6">
-        <div ng-repeat="category in categories">
-            <div ng-if="category.selected && !category.multiple" class="col-md-12 descRow">
-                <div class="col-xs-4">{{category.descripcion}}:</div> <div class="col-xs-8"><strong>{{category.selected.descripcion}}</strong></div>
-            </div>
-            <div ng-if="category.selected && category.selected.length>0 && category.multiple" class="col-md-12 descRow">
-                <div class="col-xs-4">{{category.descripcion}}</div>
-                <div class="col-xs-8">
-                    <p ng-repeat="item in category.selected" class="descMultiRow"><strong>{{item.descripcion}}</strong></p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3>Resumen general</h3>
+                <div ng-repeat="category in categories">
+                    <div ng-if="category.selected && !category.multiple" class="col-md-12 descRow">
+                        <div class="col-xs-4">{{category.descripcion}}:</div> <div class="col-xs-8"><strong>{{category.selected.descripcion}}</strong></div>
+                    </div>
+                    <div ng-if="category.selected && category.selected.length>0 && category.multiple" class="col-md-12 descRow">
+                        <div class="col-xs-4">{{category.descripcion}}</div>
+                        <div class="col-xs-8">
+                            <p ng-repeat="item in category.selected" class="descMultiRow"><strong>{{item.descripcion}}</strong></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
+
+    %{--<div class="col-md-6">--}%
+        %{--<input ng-repeat="concepto in category.selected.conceptos" type="checkbox"/>{{concepto.descripcion}}--}%
+    %{--</div>--}%
 </div>
 
 %{--<asset:deferredScripts/>--}%
