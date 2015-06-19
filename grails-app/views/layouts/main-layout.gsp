@@ -59,7 +59,9 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<g:layoutBody/>
+%{--<div class="container">--}%
+    <g:layoutBody/>
+%{--</div>--}%
 
 
 <footer class="footer">
