@@ -1,7 +1,7 @@
 //= require_self
 //= require accordion
 
-angular.module('calculadora.controllers', ['accordion']).controller('calcularCtrl', function($scope, $http) {
+angular.module('calculadora.controllers', ['checklist-model', 'accordion']).controller('calcularCtrl', function($scope, $http) {
 
 
     var getAllData = function() {
@@ -11,7 +11,46 @@ angular.module('calculadora.controllers', ['accordion']).controller('calcularCtr
     };
     getAllData();
 
+
+    function findWithAttr(array, attr, value) {
+        if(angular.isArray(array)) {
+            for(var i=0; i<array.length; i++) {
+                if(array[i][attr] === value) {
+                    return i;
+                }
+            }
+        }
+    }
+
+    function indexOfAll(array, value) {
+        var indexArr = [];
+        if(angular.isArray(array)) {
+            for(var i=0; i<array.length; i++) {
+                if(array[i] === value) indexArr.push(i);
+            }
+        }
+        return indexArr;
+    }
+
     $scope.paquete = [];
+    $scope.currentCategory = '';
+    $scope.currentCatego = {};
+    $scope.categoOpened = [true];
+    var techCategoIndx = findWithAttr($scope.categories, 'descripcion', 'Tecnología');
+
+    $scope.$watchCollection('categoOpened', function(newV, oldV) {
+        console.log("entró watch categoOpened    oldV: "+oldV+"  newV: "+newV);
+        var openedIndx = indexOfAll($scope.categoOpened, true);
+        if(angular.isArray($scope.categories) && openedIndx.length > 0) {
+            $scope.currentCatego = $scope.categories[openedIndx[0]];
+        }
+        //if(oldV === true && newV === false) {
+        //    $scope.currentCatego = null;
+        //}
+        //if(oldV === false && newV === true) {
+        //    $scope.currentCatego = $scope.categories[$scope.categoOpened.indexOf(true)];
+        //}
+    });
 
 
 
