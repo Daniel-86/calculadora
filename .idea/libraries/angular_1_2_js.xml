@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="angular-1.2.js" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../bimetrics/js/angular.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../bimetrics/js/angular.js" />
+    </CLASSES>
+    <DOCUMENTATION>
+      <root url="https://docs.angularjs.org/api" />
+    </DOCUMENTATION>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
