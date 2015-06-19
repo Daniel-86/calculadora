@@ -47,45 +47,62 @@
 
                 <ul class="itemsList">
                     <li ng-repeat="item in category.conceptos">
-                        <input ng-if="category.multiple" type="checkbox"
-                               ng-change="updateItems(category, item)"
-                               name="{{category.id}}-concepto" id="{{category.id}}-concepto"
-                               ng-model="item.selected"
-                               ng-value="item"/>
-                        %{--<input ng-if="item.multiple" ng-show="category.selected.indexOf(item) > -1" type="number" placeholder="cantidad"/>--}%
-                        <input ng-if="!category.multiple" type="radio"
-                               ng-model="category.selected"
-                               name="{{category.id}}-concepto" id="{{category.id}}-concepto"
-                               ng-value="item"/>
-                        <label for="{{category.id}}-concepto">{{item.descripcion}}</label>
+                        <label>
+                            <input ng-if="category.multiple" type="checkbox"
+                                   name="{{category.id}}-concepto"
+                                   checklist-model="category.selected"
+                                   checklist-value="item"/>
+                            <input ng-if="!category.multiple" type="radio"
+                                   name="{{category.id}}-concepto"
+                                   ng-model="category.selected"
+                                   ng-value="item"/>
+                            {{item.descripcion}}
+                        </label>
                     </li>
                 </ul>
 
                 <div ng-if="category.componentes">
-                    <select ng-options="comp as comp.descripcion for comp in category.componentes"
-                            ng-model="category.current" ng-change="showOptions(category)"
-                            title="Elige una tecnología"></select>
-
-                    <div ng-show="shwOpts">
-                        %{--{{category.current}}--}%
-                        <div ng-repeat="opt in category.current.propiedades">
-                            <input type="{{opt.tipo}}" placeholder="{{opt.descripcion}}" ng-model="opt.valor"
-                                   ng-change="lookForQuantity(category.current, opt)"/>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select ng-options="comp as comp.descripcion for comp in category.componentes"
+                                    ng-model="currentCatego.techSelected"
+                                    ng-change="showOptions(category)"
+                                    title="Elige una tecnología"
+                                    class="form-control input-sm">
+                                <option>{{$parent}}</option></select>
                         </div>
-                        <select ng-model="category.current.currentItem" ng-change="algo(category.current)"
-                                title="Elige uno para modificar sus opciones">
-                            <option ng-repeat="i in category.current.auxArray"
-                                    ng-model="category.current.currentItem">{{techSelected.descripcion + i}}</option>
-                        </select>
+                        <div class="form-group"
+                             ng-show="currentCatego.techSelected"
+                             ng-repeat="opt in currentCatego.techSelected.propiedades">
+                            <input type="{{opt.tipo}}"
+                                   class="form-control input-sm"
+                                   placeholder="{{opt.descripcion}}"
+                                   ng-model="opt.valor"
+                                   ng-change="lookForQuantity(currentCatego.techSelected, opt)"/>
+                        </div>
+                    </div>
+                    <div class="form-inline" ng-show="currentCatego.techSelected.auxArray.length > 0">
+                        <div class="form-group">
+                            <select ng-model="currentCatego.techSelected.currentItem"
+                                    ng-change="algo(currentCatego.techSelected)"
+                                    title="Elige uno para modificar sus opciones"
+                                    class="form-control input-sm">
+                                <option ng-repeat="i in currentCatego.techSelected.auxArray"
+                                        ng-model="currentCatego.techSelected.currentItem">{{currentCatego.techSelected.descripcion + i}}</option>
+                            </select>
+                        </div>
+                    </div>
 
-                        <div class="col-md-6" ng-repeat="item in category.current.arr[category.current.currentItem]">
+                    <div ng-show="currentCatego.techSelected">
+                        <div class="col-md-6" ng-repeat="item in currentCatego.techSelected.arr[currentCatego.techSelected.currentItem]">
                             {{category.selected.conceptos}}
                             <input type="checkbox" name="{{category.id}}-concepto"
                                    id="{{category.id}}-concepto-{{item.id}}"
-                                   ng-change="newUpdateItems(category.current.arr[$index], item)" ng-value="item"
+                                   ng-change="newUpdateItems(currentCatego.techSelected.arr[$index], item)"
+                                   ng-value="item"
                                    ng-model="item.selected"/><label
                                 for="{{category.id}}-concepto-{{item.id}}">{{item.descripcion}}</label>
-                            {{category.current.array}}
+                            {{currentCatego.techSelected.array}}
                         </div>
                     </div>
                 </div>

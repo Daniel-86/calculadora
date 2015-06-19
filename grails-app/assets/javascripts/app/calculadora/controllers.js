@@ -39,7 +39,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion']).cont
     var techCategoIndx = findWithAttr($scope.categories, 'descripcion', 'Tecnología');
 
     $scope.$watchCollection('categoOpened', function(newV, oldV) {
-        console.log("entró watch categoOpened    oldV: "+oldV+"  newV: "+newV);
+        //console.log("entró watch categoOpened    oldV: "+oldV+"  newV: "+newV);
         var openedIndx = indexOfAll($scope.categoOpened, true);
         if(angular.isArray($scope.categories) && openedIndx.length > 0) {
             $scope.currentCatego = $scope.categories[openedIndx[0]];
@@ -106,13 +106,16 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion']).cont
     };
 
     $scope.showOptions = function(item) {
-        console.log("componente: "+item);
-        console.log('scope: '+item.current);
+        //console.log("componente: "+item);
+        //console.log('scope: '+item.current);
         $scope.shwOpts = true;
-        $scope.techSelected = item.current;
+        //$scope.techSelected = item.current;
         item.currentArray = [];
         //$scope.options = item.propiedades;
-        $scope.options = item.current.propiedades;
+        //console.log("showOptions - scope: ", $scope);
+        //console.log("showOptions - scope.techSelected " + $scope.techSelected);
+        //console.log("showOptions -scope.currentCatego.techSelected ", $scope.currentCatego.techSelected);
+        //$scope.options = $scope.currentCatego.techSelected.propiedades;
     };
 
     $scope.lookForQuantity = function(current, prop) {

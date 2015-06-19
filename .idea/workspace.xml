@@ -5,6 +5,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js" afterPath="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/calculadora/index.gsp" afterPath="$PROJECT_DIR$/grails-app/views/calculadora/index.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp" afterPath="$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="calculadora.iws" />
@@ -206,8 +207,8 @@
       <file leaf-file-name="index.gsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/views/calculadora/index.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27659574">
-              <caret line="52" column="41" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.59574467">
+              <caret line="103" column="101" selection-start-line="103" selection-start-column="101" selection-end-line="103" selection-end-column="101" />
               <folding />
             </state>
           </provider>
@@ -217,7 +218,7 @@
         <entry file="file://$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <caret line="120" column="4" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="4" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -300,8 +301,8 @@
       <file leaf-file-name="main-layout.gsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
+            <state vertical-scroll-proportion="-29.655172">
+              <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -575,7 +576,6 @@
         <option value="$PROJECT_DIR$/grails-app/conf/Config.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/.gitignore" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp" />
         <option value="$PROJECT_DIR$/grails-app/assets/javascripts/cms.js" />
         <option value="$PROJECT_DIR$/grails-app/domain/mx/com/scitum/Propiedad.groovy" />
         <option value="$PROJECT_DIR$/grails-app/assets/javascripts/app/cms/controllers.js" />
@@ -588,6 +588,7 @@
         <option value="$PROJECT_DIR$/grails-app/assets/javascripts/app/cms/listas.js" />
         <option value="$PROJECT_DIR$/grails-app/views/calculadora/cms.gsp" />
         <option value="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/accordion.js" />
+        <option value="$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp" />
         <option value="$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js" />
         <option value="$PROJECT_DIR$/grails-app/views/calculadora/index.gsp" />
       </list>
@@ -1004,12 +1005,12 @@
       <option name="number" value="Default" />
       <updated>1434388790193</updated>
       <workItem from="1434388803876" duration="62998000" />
-      <workItem from="1434577233188" duration="41964000" />
+      <workItem from="1434577233188" duration="51936000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104962000" />
+    <option name="totallyTimeSpent" value="114934000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1374,14 +1375,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2841727">
@@ -1516,10 +1509,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main-layout.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-29.655172">
+          <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/assets/javascripts/app/calculadora/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <caret line="120" column="4" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="4" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -1528,8 +1529,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/calculadora/index.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27659574">
-          <caret line="52" column="41" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="54" />
+        <state vertical-scroll-proportion="0.59574467">
+          <caret line="103" column="101" selection-start-line="103" selection-start-column="101" selection-end-line="103" selection-end-column="101" />
           <folding />
         </state>
       </provider>
