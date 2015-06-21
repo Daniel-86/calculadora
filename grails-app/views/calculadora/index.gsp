@@ -71,6 +71,7 @@
                                     class="form-control input-sm">
                                 <option>{{$parent}}</option></select>
                         </div>
+
                         <div class="form-group"
                              ng-show="currentCatego.techSelected"
                              ng-repeat="opt in currentCatego.techSelected.propiedades">
@@ -81,6 +82,7 @@
                                    ng-change="lookForQuantity(currentCatego.techSelected, opt)"/>
                         </div>
                     </div>
+
                     <div class="form-inline" ng-show="currentCatego.techSelected.auxArray.length > 0">
                         <div class="form-group">
                             <select ng-model="currentCatego.techSelected.currentItem"
@@ -88,13 +90,15 @@
                                     title="Elige uno para modificar sus opciones"
                                     class="form-control input-sm">
                                 <option ng-repeat="i in currentCatego.techSelected.auxArray"
-                                        ng-model="currentCatego.techSelected.currentItem">{{currentCatego.techSelected.descripcion + i}}</option>
+                                        ng-model="currentCatego.techSelected.currentItem">
+                                    {{currentCatego.techSelected.descripcion + i}}</option>
                             </select>
                         </div>
                     </div>
 
                     <div ng-show="currentCatego.techSelected">
-                        <div class="col-md-6" ng-repeat="item in currentCatego.techSelected.arr[currentCatego.techSelected.currentItem]">
+                        <div class="col-md-6"
+                             ng-repeat="item in currentCatego.techSelected.arr[currentCatego.techSelected.currentItem]">
                             {{category.selected.conceptos}}
                             <input type="checkbox" name="{{category.id}}-concepto"
                                    id="{{category.id}}-concepto-{{item.id}}"
