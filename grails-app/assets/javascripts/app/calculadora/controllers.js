@@ -6,7 +6,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
 
 
         var getAllData = function () {
-            $http.get('list/.json').success(function (data) {//console.log(data);
+            $http.get('/').success(function (data) {//console.log(data);
                 $scope.categories = data;
             });
         };
