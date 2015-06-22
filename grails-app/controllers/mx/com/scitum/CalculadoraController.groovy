@@ -41,7 +41,8 @@ class CalculadoraController {
 //        JSON.use('deep') {
 //            render categories as JSON
 //        }
-        render categories as JSON
+        render ([categories: categories, currentCatego: [techSelected: [currentItem: null, propiedades: [], arr: []]]]
+                as JSON)
     }
 
     def cms() {
