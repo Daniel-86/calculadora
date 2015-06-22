@@ -55,6 +55,7 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        grails.serverURL = "http://localhost:8080/calculadora"
     }
     test {
         grails.assets.minifyJs = true
