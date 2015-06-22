@@ -6,8 +6,17 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
 
 
         var getAllData = function () {
-            $http.get('/').success(function (data) {//console.log(data);
-                $scope.categories = data;
+            $http.get('/calculadora/calculadora/list/.json').success(function (data) {//console.log(data);
+                //$scope.categories = data;
+                $scope.categories = data.categories;
+                $scope.currentCatego = {
+                    techSelected: {
+                        currentItem: null,
+                        propiedades: [],
+                        arr: [
+                            [
+                                {selected:false,
+                                    descripcion: ''}]]}};
             });
         };
         getAllData();
@@ -35,8 +44,9 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
 
         $scope.paquete = [];
         $scope.currentCategory = '';
-        $scope.currentCatego = {};
-        $scope.categoOpened = [true];
+        $scope.currentCatego = {techSelected: {currentItem: null, propiedades: [], arr: []}};
+        $scope.categoOpened = [false, false, true];
+        $scope.techs = [];
         var techCategoIndx = findWithAttr($scope.categories, 'descripcion', 'Tecnología');
 
         $scope.$watchCollection('categoOpened', function (newV, oldV) {
@@ -91,24 +101,39 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
             }
         };
 
-        $scope.newUpdateItems = function (arr, item) {
-            console.log(item);
-            if (!arr)
-                arr = [];
-            if (item.selected)
-                arr.push(item);
-            else {
-                var indx = arr.indexOf(item);
-                arr.splice(indx, 1);
+        $scope.newUpdateItems = function (arr, item, indx) {
+            console.log('newUpdateItems - item: ', item);
+            console.log('newUpdateItems - indx: ', indx);
+            //console.log('newUpdateItems - parent: ', $scope.$parent);
+            console.log('newUpdateItems - arr: ', arr[indx]);
+            if (!arr[indx]) {
+                arr[indx] = [];
+                //$scope.techs[indx] = [];
+                //$scope.$parent.currentCatego.techSelected.arr = [];
             }
+            if (item.selected) {
+                if(arr[indx].indexOf(item) < 0)
+                    arr[indx].push(item);
+                //$scope.techs[indx].push(item.descripcion);
+                //$scope.$parent.currentCatego.techSelected.arr.push(item);
+            }
+            else {
+                var iindx = arr[indx].indexOf(item);
+                arr[indx].splice(iindx, 1);
+                //$scope.techs[indx].splice(iindx,  1);
+                //$scope.$parent.currentCatego.techSelected.arr.splice(iindx, 1);
+
+            }
+            $scope.currentCatego.techSelected.arr = arr;
+            console.log("newUpdateItems - $scope: ",$scope);
         };
 
         $scope.showOptions = function (item) {
             //console.log("componente: "+item);
             //console.log('scope: '+item.current);
-            $scope.shwOpts = true;
+            //$scope.shwOpts = true;
             //$scope.techSelected = item.current;
-            item.currentArray = [];
+            //item.currentArray = [];
             //$scope.options = item.propiedades;
             //console.log("showOptions - scope: ", $scope);
             //console.log("showOptions - scope.techSelected " + $scope.techSelected);
@@ -137,11 +162,20 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
             return new Array($scope.Q);
         };
 
-        $scope.algo = function (item) {
-            if (!item.arr[item.currentItem]) {
-                item.arr[item.currentItem] = JSON.parse(JSON.stringify(item.conceptos));
+        $scope.algo = function (item, conceptos, idx) {
+            if (!item.arr[idx]) {
+                item.arr[idx] = JSON.parse(JSON.stringify(item.conceptos));
+                //$scope.currentCatego.techSelected.arr[$scope.currentCatego.techSelected.currentItem] = JSON.parse(JSON.stringify(item.conceptos));
                 //item.arr[item.currentItem] = item.conceptos;
             }
-            console.log('set current conceptos: ' + item.arr[item.currentItem]);
+            console.log('set current conceptos: ', item.arr[idx]);
+
+            //if(!item) {
+            //    item = JSON.parse(JSON.stringify(conceptos));
+            //}
+        };
+
+        $scope.currentDevice = function() {
+            return $scope.currentCatego.techSelected.arr[$scope.currentCatego.techSelected.currentItem]
         };
     });
