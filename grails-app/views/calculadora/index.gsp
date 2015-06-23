@@ -35,6 +35,9 @@
     .left-float {
         float: right;
     }
+    .right-float {
+        float: right;
+    }
     .small-input {
         max-width: 90px;
     }
@@ -45,16 +48,26 @@
         min-width: 130px;
     }
     .up-space {
-        margin-top: 15px;
+        margin-top: 10px;
     }
     .accordion-toggle {
         display: block;
+    }
+    .concepto, .conceptoC {
+        display: block;
+    }
+    .concepto:hover {
+        background-color: #eaeaea;
+        color: #454545;
+    }
+    .max-width-80 {
+        max-width: 80px;
     }
     </style>
 </head>
 
 <body>
-<div class="row" ng-app="calculadora" ng-controller="calcularCtrl">
+<div class="container-fluid row" ng-app="calculadora" ng-controller="calcularCtrl">
     <div class="col-md-6">
 
         <accordion close-others="oneAtATime">
@@ -64,9 +77,9 @@
                 </accordion-heading>
 
 
-                <ul class="itemsList">
+                <ul ng-if="category.conceptos && category.conceptos.length > 0" class="itemsList">
                     <li ng-repeat="item in category.conceptos">
-                        <label>
+                        <label class="concepto">
                             <input ng-if="category.multiple" type="checkbox"
                                    name="{{category.id}}-concepto"
                                    checklist-model="category.selected"
@@ -81,8 +94,8 @@
                 </ul>
 
                 <div ng-if="category.componentes">
-                    <div class="form-inline bottom-space">
-                        <div class="form-group">
+                    %{--<div class="form-inline bottom-space">--}%
+                        <div class="form-group col-md-2">
                             <select ng-options="comp as comp.descripcion for comp in category.componentes"
                                     ng-model="currentCatego.techSelected"
                                     ng-change="showOptions(category)"
@@ -91,45 +104,65 @@
                                 <option>{{$parent}}</option></select>
                         </div>
 
-                        <div class="left-float">
-                            <div class="form-group right-space"
-                                 ng-show="currentCatego.techSelected"
+                        %{--<div class="form-group col-md-10">--}%
+                            <div class="form-group col-md-10"
+                                 ng-class="opt.descripcion === 'cantidad'? 'col-xs-3': 'col-xs-9'"
                                  ng-repeat="opt in currentCatego.techSelected.propiedades">
                                 <input type="number"
                                        class="form-control input-sm"
                                        placeholder="{{opt.descripcion}}"
                                        ng-class="opt.descripcion === 'cantidad'? 'small-input': ''"
-                                       ng-if="['int', 'Integer'].indexOf(opt.tipo) > -1"
+                                       ng-show="['int', 'Integer'].indexOf(opt.tipo) > -1"
                                        ng-model="opt.valor"
                                        ng-change="lookForQuantity(currentCatego.techSelected, opt)"/>
-                                <select class="form-control input-sm limit-size" title="" ng-if="opt.descripcion == 'volumetría'">
+                                <select class="form-control input-sm limit-size" title=""
+                                        ng-show="opt.descripcion == 'volumetría'">
                                     <option>Small Bussiness hasta 500 usuarios</option>
                                     <option>Medium Bussiness hasta 5,000 usuarios</option>
                                     <option>Datacenters & Large Enterprise más de 5,000 usuarios</option>
                                 </select>
-                                <label ng-if="['check', 'boolean'].indexOf(opt.tipo) > -1">
+                                <label ng-show="['check', 'boolean'].indexOf(opt.tipo) > -1">
                                     <input type="checkbox" ng-model="opt.valor"/>
                                     {{opt.descripcion}}
                                 </label>
                             </div>
-                        </div>
-                    </div>
+                        %{--</div>--}%
+                    %{--</div>--}%
 
-                    <div class="form-inline bottom-space up-space" ng-show="currentCatego.techSelected.auxArray.length > 0">
-                        <div class="form-group">
-                            <select ng-init="currentCatego.techSelected.currentItem = currentCatego.techSelected.auxArray[0]"
-                                    ng-options="idx as currentCatego.techSelected.descripcion+' '+idx for idx in currentCatego.techSelected.auxArray"
-                                    ng-model="currentCatego.techSelected.currentItem"
-                                    ng-change="algo(currentCatego.techSelected, currentCatego.techSelected.conceptos,  currentCatego.techSelected.currentItem, currentCatego.techSelected.arr)"
-                                    class="form-control input-sm min-width-x"
-                                    title="Elige uno para modificar sus opciones"></select>
+                    <div class="form-group" ng-show="currentCatego.techSelected.auxArray.length > 0">
+                        <div class="form-group col-md-12">
+                            <div class="col-sm-4">
+                                <label>
+                                    <input type="radio" name="applyTo" value="todos"
+                                           ng-model="currentCatego.techSelected.deviceScope"/>Todos
+                                </label>
+                                <label>
+                                    <input type="radio" name="applyTo" value="uno"
+                                           ng-model="currentCatego.techSelected.deviceScope"/>Uno
+                                </label>
+                                <label>
+                                    <input type="radio" name="applyTo" value="varios"
+                                           ng-model="currentCatego.techSelected.deviceScope"/>Varios
+                                </label>
+                            </div>
+                            <div class="right-float col-xs-12 col-sm-6">
+                                <select
+                                        ng-init="currentCatego.techSelected.currentItem = currentCatego.techSelected.auxArray[0]"
+                                        ng-options="idx as currentCatego.techSelected.descripcion+' '+idx for idx in currentCatego.techSelected.auxArray"
+                                        ng-model="currentCatego.techSelected.currentItem"
+                                        ng-change="algo(currentCatego.techSelected, currentCatego.techSelected.conceptos,  currentCatego.techSelected.currentItem, currentCatego.techSelected.arr)"
+                                        class="form-control input-sm min-width-x"
+                                        title="Elige uno para modificar sus opciones"></select>
+                                <input type="number" placeholder="#" class="form-control input-sm max-width-801"
+                                       ng-show="currentCatego.techSelected.deviceScope === 'varios'"/>
+                            </div>
                         </div>
                     </div>    %{--{{currentCatego.techSelected.arr}}--}%
 
                     <div ng-show="currentCatego.techSelected.currentItem > 0">
                         <div class="col-md-4"
                              ng-repeat="item in currentCatego.techSelected.conceptos">
-                            <label>
+                            <label class="conceptoC">
                                 <input type="checkbox"
                                        name="{{category.id}}-concepto"
                                        checklist-model="currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1]"
@@ -154,16 +187,16 @@
 
                     <div ng-repeat="category in categories">
                         <div ng-if="category.descripcion !== 'Tecnología' && category.selected && !category.multiple" class="col-md-12 descRow">
-                            <div class="col-xs-3">{{category.descripcion}}:</div>
+                            <div class="col-sm-3">{{category.descripcion}}:</div>
 
-                            <div class="col-xs-9"><strong>{{category.selected.descripcion}}</strong></div>
+                            <div class="col-sm-9"><strong>{{category.selected.descripcion}}</strong></div>
                         </div>
 
                         <div ng-if="category.descripcion !== 'Tecnología' && category.selected && category.selected.length>0 && category.multiple"
                              class="col-md-12 descRow">
-                            <div class="col-xs-3">{{category.descripcion}}</div>
+                            <div class="col-sm-3">{{category.descripcion}}</div>
 
-                            <div class="col-xs-9">
+                            <div class="col-sm-9">
                                 <p ng-repeat="item in category.selected"
                                    class="descMultiRow"><strong>{{item.descripcion}}</strong></p>
                             </div>
@@ -171,8 +204,8 @@
 
 
                         <div ng-show="category.descripcion === 'Tecnología' && isOk(category.techSelected)" class="col-md-12">%{--{{category.techSelected}}--}%
-                            <div class="col-xs-3">{{category.descripcion}}:</div>
-                            <div class="col-xs-9">
+                            <div class="col-sm-3">{{category.descripcion}}:</div>
+                            <div class="col-sm-9">
                                 <div ng-repeat="tech in category.componentes">
                                     <div ng-show="tech.arr && tech.arr.length > 0">
                                         <h5><em>{{tech.descripcion}}</em> {{tech.nItems}} dispositivos</h5>
