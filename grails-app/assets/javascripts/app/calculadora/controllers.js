@@ -45,9 +45,12 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
         $scope.paquete = [];
         $scope.currentCategory = '';
         $scope.currentCatego = {techSelected: {currentItem: null, propiedades: [], arr: []}};
-        $scope.categoOpened = [false, false, true];
+        $scope.categoOpened = [true];
         $scope.techs = [];
         var techCategoIndx = findWithAttr($scope.categories, 'descripcion', 'Tecnología');
+
+        //$scope.categoOpened = [false, false, true];
+        //$scope.currentCatego = $scope.categories[2];
 
         $scope.$watchCollection('categoOpened', function (newV, oldV) {
             //console.log("entró watch categoOpened    oldV: "+oldV+"  newV: "+newV);
@@ -153,6 +156,27 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
                 console.log('auxArray: ' + current.auxArray);
                 if (!current.arr)
                     current.arr = [];
+                if(current.arr.length > current.nItems) {
+                    current.arr = current.arr.slice(0, current.nItems);
+                }
+                if(current.arr.length > 0) {
+                    $scope.currentCatego.selected = true;
+                } else {
+                    //$scope.currentCatego.selected = false;
+                    //angular.forEach($scope.currentCatego.componentes, function(tech) {
+                    //    if(tech.arr && tech.arr.length > 0) {
+                    //        $scope.currentCatego.selected = true;
+                    //    }
+                    //});
+                    $scope.currentCatego.selected = $scope.currentCatego.componentes.some(function(element, idx, array) {
+                        return (element.arr && element.arr.length > 0);
+                    });
+                    console.log('lookFor... - currentCatego', $scope.currentCatego);
+                    //$scope.currentCatego.selected = $scope.currentCatego.componentes.each {it.arr &&}
+                }
+                if(!current.currentItem || current.currentItem > current.auxArray.length) {
+                    current.currentItem = current.auxArray[0];
+                }
             }
         };
 
@@ -162,13 +186,23 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
             return new Array($scope.Q);
         };
 
-        $scope.algo = function (item, conceptos, idx) {
-            if (!item.arr[idx]) {
-                item.arr[idx] = JSON.parse(JSON.stringify(item.conceptos));
-                //$scope.currentCatego.techSelected.arr[$scope.currentCatego.techSelected.currentItem] = JSON.parse(JSON.stringify(item.conceptos));
-                //item.arr[item.currentItem] = item.conceptos;
-            }
-            console.log('set current conceptos: ', item.arr[idx]);
+        $scope.algo = function (item, conceptos, idx, arr) {
+            //if (!item.arr[idx]) {
+            //    item.arr[idx] = JSON.parse(JSON.stringify(item.conceptos));
+            //    //$scope.currentCatego.techSelected.arr[$scope.currentCatego.techSelected.currentItem] = JSON.parse(JSON.stringify(item.conceptos));
+            //    //item.arr[item.currentItem] = item.conceptos;
+            //}
+            //console.log('set current conceptos: ', item.arr[idx]);
+
+            //if(!arr[idx-1]) {
+            //    arr[idx-1] = JSON.parse(JSON.stringify(item.conceptos));
+            //}
+            //console.log('\n');
+            //console.log('algo - conceptos: ', conceptos);
+            //console.log('algo - idx: ', idx);
+            //console.log('algo - arr: ', arr);
+            //console.log('\n');
+
 
             //if(!item) {
             //    item = JSON.parse(JSON.stringify(conceptos));
@@ -178,4 +212,62 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
         $scope.currentDevice = function() {
             return $scope.currentCatego.techSelected.arr[$scope.currentCatego.techSelected.currentItem]
         };
+
+        $scope.updateCatego = function(currentArr) {
+            console.log('\n');
+            console.log('updateCatego');
+
+            var current = $scope.currentCatego.techSelected;
+
+            console.log('updateCatego - current:', current);
+            console.log('updateCatego - current.arr:', current.arr);
+            console.log('updateCatego - currentArr:', currentArr);
+            if(current.arr.length > 0) {console.log('updateCatego entró current.arr > 0');
+                $scope.currentCatego.selected = true;
+                console.log('updateCatego - arr > 0 currentCatego.selected', $scope.currentCatego.selected);
+            } else {
+                $scope.currentCatego.selected = $scope.currentCatego.componentes.some(function(element, idx, array) {
+                    return (element.arr && element.arr.length > 0);
+                });
+                console.log('updateCatego - arr <= 0 currentCatego.selected', $scope.currentCatego.selected);
+            }
+            console.log('\n');
+        };
+        
+        $scope.isOk = function(current) {
+            console.log('\n');
+            console.log('isOk');
+
+            //var current = $scope.currentCatego.techSelected;
+            var isOk = false;
+
+            console.log('isOk - current:', current);
+            console.log('isOk - current.arr:', current.arr);
+            //console.log('isOk - currentArr:', currentArr);
+            if(current.nItems > 0) {
+                if(current.arr && current.arr.length > 0) {console.log('isOk entró current.arr > 0');
+                    isOk = true;
+                    console.log('isOk - arr > 0 currentCatego.selected', isOk);
+                } else {
+                    isOk = $scope.currentCatego.componentes.some(function(element, idx, array) {
+                        return (element.arr && element.arr.length > 0);
+                    });
+                    console.log('isOk - arr <= 0 currentCatego.selected', isOk);
+                }
+            }
+            console.log('\n');
+            return isOk;
+        };
+    });
+
+angular.module('calculadora.controllers')
+    .filter('printString', function() {
+        return function(input, prop) {
+            if(angular.isArray(input)) {
+                var descArray = input.map(function(o) {
+                    return o[prop];
+                });
+                return descArray.join(', ');
+            }
+        }
     });

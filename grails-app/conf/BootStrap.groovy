@@ -51,7 +51,8 @@ class BootStrap {
         def tecnologyProps = {
             def lista = [
                 new Propiedad(descripcion: 'cantidad', tipo: 'Integer'),
-                new Propiedad(descripcion: 'volumetría')
+                new Propiedad(descripcion: 'volumetría'),
+                new Propiedad(descripcion: 'HA', tipo: 'boolean')
             ]
             return lista
         }
@@ -124,17 +125,17 @@ class BootStrap {
 
 
 
-        category = new Categoria(
-                descripcion: 'Tipo de cliente',
-                multiple: false,
-                required: true)
-        [
-                new Concepto(descripcion: 'Gobierno', costo: 23),
-                new Concepto(descripcion: 'Privado', costo: 2),
-                new Concepto(descripcion: 'Financiero', costo: 3)].each {
-            category.addToConceptos(it)
-        }
-        category.save(flush: true, failOnError: true)
+//        category = new Categoria(
+//                descripcion: 'Tipo de cliente',
+//                multiple: false,
+//                required: true)
+//        [
+//                new Concepto(descripcion: 'Gobierno', costo: 23),
+//                new Concepto(descripcion: 'Privado', costo: 2),
+//                new Concepto(descripcion: 'Financiero', costo: 3)].each {
+//            category.addToConceptos(it)
+//        }
+//        category.save(flush: true, failOnError: true)
 
 //        println Categoria.list() as JSON
 	}
