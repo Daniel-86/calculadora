@@ -25,7 +25,7 @@
 <body>
 
 <div class="container" ng-app="cms" ng-controller="cmsCtrl">
-    <div class="row" ng-controller="listasCtrl">
+    %{--<div class="row" ng-controller="listasCtrl">--}%
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li>
@@ -89,7 +89,7 @@
         </div>
         <div class="col-md-4" ng-if="selected.nodeType != 'LEAF'">
             <div class="list-group">
-                <a href="#" class="list-group-item" ng-repeat="child in children" ng-click="showChildren(child)">{{child.descripcion}}</a>
+                <a href="#" class="list-group-item" ng-repeat="child in childrens" ng-click="showChildren(child)">{{child.descripcion}}</a>
             </div>
         </div>
 
@@ -100,10 +100,10 @@
         %{--</div>--}%
         %{--<div class="col-md-4">--}%
             %{--<div class="list-group">--}%
-                %{--<a href="#" class="list-group-item" ng-repeat="child in children">{{child.descripcion}}</a>--}%
+                %{--<a href="#" class="list-group-item" ng-repeat="child in childrens">{{child.descripcion}}</a>--}%
             %{--</div>--}%
         %{--</div>--}%
-    </div>
+    %{--</div>--}%
 </div>
 
 </body>
