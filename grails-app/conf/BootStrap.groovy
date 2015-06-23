@@ -51,8 +51,7 @@ class BootStrap {
         def tecnologyProps = {
             def lista = [
                 new Propiedad(descripcion: 'cantidad', tipo: 'Integer'),
-                new Propiedad(descripcion: 'volumetría'),
-                new Propiedad(descripcion: 'HA', tipo: 'boolean')
+                new Propiedad(descripcion: 'volumetría')
             ]
             return lista
         }
@@ -64,7 +63,8 @@ class BootStrap {
                 new Concepto(descripcion: 'IPS', costo: 3, multiple: true),
                 new Concepto(descripcion: 'Application control', costo: 3, multiple: true),
                 new Concepto(descripcion: 'URL filtering', costo: 3, multiple: true),
-                new Concepto(descripcion: 'Antivirus', costo: 123, multiple: true)
+                new Concepto(descripcion: 'Antivirus', costo: 123, multiple: true),
+                new Concepto(descripcion: 'HA', costo:  23, multiple: true)
             ]
             return lista
         }
