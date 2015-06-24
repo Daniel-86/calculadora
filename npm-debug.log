@@ -1,112 +1,63 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-windows-x64\\bin\\node.exe',
-1 verbose cli   'D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-linux-x86\\lib\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
 1 verbose cli   'install',
-1 verbose cli   'karma',
-1 verbose cli   'karma-jasmine@2_0',
-1 verbose cli   'karma-phantomjs-launcher',
-1 verbose cli   '--loglevel',
-1 verbose cli   'error' ]
-2 info using npm@1.4.9
-3 info using node@v0.11.13
-4 verbose cache add [ 'karma', null ]
-5 verbose cache add name=undefined spec="karma" args=["karma",null]
-6 verbose parsed url { protocol: null,
-6 verbose parsed url   slashes: null,
-6 verbose parsed url   auth: null,
-6 verbose parsed url   host: null,
-6 verbose parsed url   port: null,
-6 verbose parsed url   hostname: null,
-6 verbose parsed url   hash: null,
-6 verbose parsed url   search: null,
-6 verbose parsed url   query: null,
-6 verbose parsed url   pathname: 'karma',
-6 verbose parsed url   path: 'karma',
-6 verbose parsed url   href: 'karma' }
-7 verbose cache add [ 'karma-jasmine@2_0', null ]
-8 verbose cache add name=undefined spec="karma-jasmine@2_0" args=["karma-jasmine@2_0",null]
-9 verbose parsed url { protocol: null,
-9 verbose parsed url   slashes: null,
-9 verbose parsed url   auth: null,
-9 verbose parsed url   host: null,
-9 verbose parsed url   port: null,
-9 verbose parsed url   hostname: null,
-9 verbose parsed url   hash: null,
-9 verbose parsed url   search: null,
-9 verbose parsed url   query: null,
-9 verbose parsed url   pathname: 'karma-jasmine@2_0',
-9 verbose parsed url   path: 'karma-jasmine@2_0',
-9 verbose parsed url   href: 'karma-jasmine@2_0' }
-10 verbose cache add name="karma-jasmine" spec="2_0" args=["karma-jasmine","2_0"]
-11 verbose parsed url { protocol: null,
-11 verbose parsed url   slashes: null,
-11 verbose parsed url   auth: null,
-11 verbose parsed url   host: null,
-11 verbose parsed url   port: null,
-11 verbose parsed url   hostname: null,
-11 verbose parsed url   hash: null,
-11 verbose parsed url   search: null,
-11 verbose parsed url   query: null,
-11 verbose parsed url   pathname: '2_0',
-11 verbose parsed url   path: '2_0',
-11 verbose parsed url   href: '2_0' }
-12 verbose addNamed [ 'karma-jasmine', '2_0' ]
-13 verbose addNamed [ null, null ]
-14 verbose cache add [ 'karma-phantomjs-launcher', null ]
-15 verbose cache add name=undefined spec="karma-phantomjs-launcher" args=["karma-phantomjs-launcher",null]
-16 verbose parsed url { protocol: null,
-16 verbose parsed url   slashes: null,
-16 verbose parsed url   auth: null,
-16 verbose parsed url   host: null,
-16 verbose parsed url   port: null,
-16 verbose parsed url   hostname: null,
-16 verbose parsed url   hash: null,
-16 verbose parsed url   search: null,
-16 verbose parsed url   query: null,
-16 verbose parsed url   pathname: 'karma-phantomjs-launcher',
-16 verbose parsed url   path: 'karma-phantomjs-launcher',
-16 verbose parsed url   href: 'karma-phantomjs-launcher' }
-17 silly lockFile 512423cb-karma karma
-18 verbose lock karma C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\512423cb-karma.lock
-19 silly lockFile 87968950-karma-jasmine-2-0 karma-jasmine@2_0
-20 verbose lock karma-jasmine@2_0 C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\87968950-karma-jasmine-2-0.lock
-21 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
-22 verbose lock karma-phantomjs-launcher C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\e0cbf986-karma-phantomjs-launcher.lock
-23 silly lockFile 512423cb-karma karma
-24 silly lockFile 512423cb-karma karma
-25 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
-26 silly lockFile e0cbf986-karma-phantomjs-launcher karma-phantomjs-launcher
-27 info addNameTag [ 'karma-jasmine', '2_0' ]
-28 verbose addNamed [ 'karma-phantomjs-launcher', '' ]
-29 verbose addNamed [ null, '*' ]
-30 silly lockFile cdd40d81-karma-phantomjs-launcher karma-phantomjs-launcher@
-31 verbose lock karma-phantomjs-launcher@ C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\cdd40d81-karma-phantomjs-launcher.lock
-32 verbose addNamed [ 'karma', '' ]
-33 verbose addNamed [ null, '*' ]
-34 silly lockFile cd7961bb-karma karma@
-35 verbose lock karma@ C:\Users\daniel.jimenez\AppData\Roaming\npm-cache\cd7961bb-karma.lock
-36 verbose url raw karma-jasmine
-37 verbose url resolving [ 'https://registry.npmjs.org/', './karma-jasmine' ]
-38 verbose url resolved https://registry.npmjs.org/karma-jasmine
-39 info trying registry request attempt 1 at 12:15:39
-40 http GET https://registry.npmjs.org/karma-jasmine
-41 error TypeError: Request path contains unescaped characters.
-41 error     at new ClientRequest (_http_client.js:73:11)
-41 error     at TunnelingAgent.exports.request (http.js:52:10)
-41 error     at TunnelingAgent.createSocket (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:117:25)
-41 error     at TunnelingAgent.createSecureSocket [as createSocket] (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:184:41)
-41 error     at TunnelingAgent.addRequest (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:80:8)
-41 error     at new ClientRequest (_http_client.js:153:16)
-41 error     at Object.exports.request (http.js:52:10)
-41 error     at Object.exports.request (https.js:136:15)
-41 error     at Request.start (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\request.js:583:30)
-41 error     at Request.end (D:\workspace\calculadora\build\nodejs\node-v0.11.13-linux-x86\lib\node_modules\npm\node_modules\request\request.js:1237:28)
-42 error If you need help, you may report this *entire* log,
-42 error including the npm and node versions, at:
-42 error     <http://github.com/npm/npm/issues>
-43 error System Windows_NT 6.1.7601
-44 error command "D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-windows-x64\\bin\\node.exe" "D:\\workspace\\calculadora\\build\\nodejs\\node-v0.11.13-linux-x86\\lib\\node_modules\\npm\\bin\\npm-cli.js" "install" "karma" "karma-jasmine@2_0" "karma-phantomjs-launcher" "--loglevel" "error"
-45 error cwd D:\workspace\calculadora
-46 error node -v v0.11.13
-47 error npm -v 1.4.9
-48 verbose exit [ 1, true ]
+1 verbose cli   'angular-bootstrap-switch' ]
+2 info using npm@2.10.1
+3 info using node@v0.12.4
+4 verbose install initial load of D:\workspace\calculadora\package.json
+5 verbose readDependencies loading dependencies from D:\workspace\calculadora\package.json
+6 silly cache add args [ 'angular-bootstrap-switch', null ]
+7 verbose cache add spec angular-bootstrap-switch
+8 silly cache add parsed spec { raw: 'angular-bootstrap-switch',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'angular-bootstrap-switch',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: '*',
+8 silly cache add   type: 'range' }
+9 silly addNamed angular-bootstrap-switch@*
+10 verbose addNamed "*" is a valid semver range for angular-bootstrap-switch
+11 silly addNameRange { name: 'angular-bootstrap-switch', range: '*', hasData: false }
+12 silly mapToRegistry name angular-bootstrap-switch
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry uri https://registry.npmjs.org/angular-bootstrap-switch
+16 verbose addNameRange registry:https://registry.npmjs.org/angular-bootstrap-switch not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/angular-bootstrap-switch
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 15:40:27
+20 verbose request id c4b861d3785f194c
+21 http request GET https://registry.npmjs.org/angular-bootstrap-switch
+22 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=write EPROTO 101057795:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:782:
+23 info attempt registry request try #2 at 15:40:38
+24 http request GET https://registry.npmjs.org/angular-bootstrap-switch
+25 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=write EPROTO 101057795:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:782:
+26 info attempt registry request try #3 at 15:41:38
+27 http request GET https://registry.npmjs.org/angular-bootstrap-switch
+28 verbose stack Error: tunneling socket could not be established, cause=write EPROTO 101057795:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:782:
+28 verbose stack
+28 verbose stack     at ClientRequest.onError (C:\Program Files\nodejs\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:168:17)
+28 verbose stack     at ClientRequest.g (events.js:199:16)
+28 verbose stack     at ClientRequest.emit (events.js:107:17)
+28 verbose stack     at TLSSocket.socketErrorListener (_http_client.js:271:9)
+28 verbose stack     at TLSSocket.emit (events.js:129:20)
+28 verbose stack     at onwriteError (_stream_writable.js:317:10)
+28 verbose stack     at onwrite (_stream_writable.js:335:5)
+28 verbose stack     at WritableState.onwrite (_stream_writable.js:105:5)
+28 verbose stack     at fireErrorCallbacks (net.js:456:13)
+28 verbose stack     at TLSSocket.Socket._destroy (net.js:495:3)
+29 verbose cwd D:\workspace\calculadora
+30 error Windows_NT 6.1.7601
+31 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "angular-bootstrap-switch"
+32 error node v0.12.4
+33 error npm  v2.10.1
+34 error code ECONNRESET
+35 error network tunneling socket could not be established, cause=write EPROTO 101057795:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:782:
+35 error network
+35 error network This is most likely not a problem with npm itself
+35 error network and is related to network connectivity.
+35 error network In most cases you are behind a proxy or have bad network settings.
+35 error network
+35 error network If you are behind a proxy, please make sure that the
+35 error network 'proxy' config is set properly.  See: 'npm help config'
+36 verbose exit [ 1, true ]

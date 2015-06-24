@@ -1,7 +1,8 @@
 //= require_self
 //= require accordion
 
-angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
+//angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'frapontillo.bootstrap-switch'])
+angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'toggle-switch'])
     .controller('calcularCtrl', function ($scope, $http) {
 
 
@@ -178,6 +179,9 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
                     current.currentItem = current.auxArray[0];
                 }
             }
+            if(!current.deviceScope) {
+                current.deviceScope = 'todos';
+            }
         };
 
         $scope.getQArray = function () {
@@ -257,6 +261,58 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion'])
             }
             console.log('\n');
             return isOk;
+        };
+
+        $scope.selectAll = function(o) {
+            //angular.forEach(o.componentes, function(c) {
+            //    c.selected = true;
+            //});
+            o.arr[o.currentItem-1] = o.conceptos;
+            //console.log('selectAll - o.techSelected:', o);
+            //console.log('selectAll - currentCatego.techSelected');
+        };
+
+        $scope.selectNone = function(o) {
+            o.arr[o.currentItem-1] = [];
+        };
+
+        $scope.registerQuantity = function (current, prop) {
+            if (prop.descripcion === 'cantidad') {
+                current.nItems = prop.valor;
+                console.log('nItems: ' + current.nItems);
+                //var basura = [];
+                //for (var i = 1; i <= current.nItems; i++) {
+                //    basura.push(i);
+                //}
+                //current.auxArray = basura;
+                //console.log('auxArray: ' + current.auxArray);
+                if (!current.arr)
+                    current.arr = [];
+                if(current.arr.length > current.nItems) {
+                    current.arr = current.arr.slice(0, current.nItems);
+                }
+                //if(current.arr.length > 0) {
+                //    $scope.currentCatego.selected = true;
+                //} else {
+                //    //$scope.currentCatego.selected = false;
+                //    //angular.forEach($scope.currentCatego.componentes, function(tech) {
+                //    //    if(tech.arr && tech.arr.length > 0) {
+                //    //        $scope.currentCatego.selected = true;
+                //    //    }
+                //    //});
+                //    $scope.currentCatego.selected = $scope.currentCatego.componentes.some(function(element, idx, array) {
+                //        return (element.arr && element.arr.length > 0);
+                //    });
+                //    console.log('lookFor... - currentCatego', $scope.currentCatego);
+                //    //$scope.currentCatego.selected = $scope.currentCatego.componentes.each {it.arr &&}
+                //}
+                //if(!current.currentItem || current.currentItem > current.auxArray.length) {
+                //    current.currentItem = current.auxArray[0];
+                //}
+            }
+            //if(!current.deviceScope) {
+            //    current.deviceScope = 'todos';
+            //}
         };
     });
 

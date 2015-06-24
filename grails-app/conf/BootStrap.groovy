@@ -38,6 +38,42 @@ class BootStrap {
                 new Concepto(descripcion: 'No', costo: 0)].each {
             category.addToConceptos(it)
         }
+        def arrPropC2, arrConC2
+        ConceptoEspecial ceC2
+        def techPropsC2 = {
+            def lista = [
+                    new Propiedad(descripcion: 'cantidad', tipo: 'int')
+            ]
+            return lista
+        }
+//        def techConceptsC2 = {
+//            new Concepto(descripcion: 'Ingeni')
+//        }
+        ceC2 = new ConceptoEspecial(descripcion: 'Ingeniero de operaciones')
+        arrPropC2 = techPropsC2();
+        arrPropC2.each { ceC2.addToPropiedades(it)}
+        category.addToComponentes(ceC2)
+
+        ceC2 = new ConceptoEspecial(descripcion: 'QA')
+        arrPropC2 = techPropsC2();
+        arrPropC2.each { ceC2.addToPropiedades(it)}
+        category.addToComponentes(ceC2)
+
+        ceC2 = new ConceptoEspecial(descripcion: 'Analista')
+        arrPropC2 = techPropsC2();
+        arrPropC2.each { ceC2.addToPropiedades(it)}
+        category.addToComponentes(ceC2)
+
+        ceC2 = new ConceptoEspecial(descripcion: 'Service manager')
+        arrPropC2 = techPropsC2();
+        arrPropC2.each { ceC2.addToPropiedades(it)}
+        category.addToComponentes(ceC2)
+
+        ceC2 = new ConceptoEspecial(descripcion: 'CSIRT')
+        arrPropC2 = techPropsC2();
+        arrPropC2.each { ceC2.addToPropiedades(it)}
+        category.addToComponentes(ceC2)
+
         category.save(flush: true, failOnError: true)
 
 
