@@ -108,6 +108,7 @@
                             class="pull-right"
                             on-label="Sí"
                             off-label="No"
+                            ng-click="$event.stopPropagation()"
                             ng-model="category.selected"
                             ng-if="category.descripcion === 'Ingeniería en sitio'"></toggle-switch>
                 </accordion-heading>
@@ -131,17 +132,17 @@
 
 
                 <div ng-if="category.descripcion === 'Ingeniería en sitio' && category.componentes">
-                    <div class="form-group col-md-12">
+                    %{--<div class="form-group col-md-12">--}%
                         %{--<input type="checkbox"--}%
                                %{--class="right-float"--}%
                                %{--bs-switch--}%
                                %{--ng-model="currentCatego.isYes"/>--}%
-                        <toggle-switch
-                               class="right-float"
-                               on-label="Sí"
-                               off-label="No"
-                               ng-model="category.selected"></toggle-switch>
-                    </div>
+                        %{--<toggle-switch--}%
+                               %{--class="right-float"--}%
+                               %{--on-label="Sí"--}%
+                               %{--off-label="No"--}%
+                               %{--ng-model="category.selected"></toggle-switch>--}%
+                    %{--</div>--}%
                     %{--<div class="form-inline bottom-space">--}%
                     <div class="form-group col-md-6">
                         <select ng-options="comp as comp.descripcion for comp in category.componentes"
