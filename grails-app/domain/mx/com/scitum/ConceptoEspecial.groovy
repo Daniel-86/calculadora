@@ -5,6 +5,7 @@ class ConceptoEspecial {
     String descripcion
     List propiedades
     List conceptosE
+    String custiomId
 
     String nodeType
     static transients = ['nodeType']
@@ -15,6 +16,7 @@ class ConceptoEspecial {
         categoria nullable: true
         padre nullable: true
         nodeType bindable: true
+        custiomId unique: true
     }
 
     def getNodeType() {
