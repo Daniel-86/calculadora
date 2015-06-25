@@ -7,6 +7,7 @@ class Categoria {
     Boolean required = true
     List conceptos
     List componentes
+    String customId
 
     String nodeType
     static transients = ['nodeType']
@@ -15,6 +16,7 @@ class Categoria {
 
     static constraints = {
         nodeType bindable: true
+        customId unique: true
     }
 
     def getNodeType() {

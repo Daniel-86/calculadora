@@ -48,4 +48,8 @@ class CalculadoraController {
     def cms() {
 
     }
+
+    def doCalc() {
+        
+    }
 }
