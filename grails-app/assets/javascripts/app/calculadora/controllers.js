@@ -52,6 +52,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
 
         //$scope.categoOpened = [false, false, true];
         //$scope.currentCatego = $scope.categories[2];
+        //$scope.status = {isFirstDisabled: false};
 
         $scope.$watchCollection('categoOpened', function (newV, oldV) {
             //console.log("entró watch categoOpened    oldV: "+oldV+"  newV: "+newV);
@@ -313,6 +314,53 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
             //if(!current.deviceScope) {
             //    current.deviceScope = 'todos';
             //}
+        };
+
+        $scope.updateOpened = function(catego, elem, $event) {
+            if(!catego.selected) {
+                elem = false;
+                //console.log('updateOpened - elem ', elem);
+                $scope.categoOpened[1] = false;
+            }
+            //console.log('updateOpened - scope.categoOpened ', $scope.categoOpened);
+            $event.stopPropagation();
+        };
+
+        function getMinAvlbl() {
+            return 0;
+        }
+
+        $scope.isRangeSelected = function() {
+            if($scope.currentCatego.techSelected.deviceScope === 'todos') {
+                $scope.currentCatego.techSelected.lowerLimit = 0;
+                $scope.currentCatego.techSelected.upperLimit = $scope.currentCatego.techSelected.propiedades[0].valor;
+                $scope.currentCatego.techSelected.currentItem = 0;
+                console.log('isRangeSelected - todos: limits '+$scope.currentCatego.techSelected.lowerLimit+', '+$scope.currentCatego.techSelected.upperLimit);
+                return true;
+            }
+            if($scope.currentCatego.techSelected.deviceScope === 'uno') {
+                if($scope.currentCatego.techSelected.currentItem) {
+                    $scope.currentCatego.techSelected.lowerLimit = $scope.currentCatego.techSelected.currentItem;
+                    $scope.currentCatego.techSelected.upperLimit = $scope.currentCatego.techSelected.currentItem;
+                    console.log('isRangeSelected - uno: limits '+$scope.currentCatego.techSelected.lowerLimit+', '+$scope.currentCatego.techSelected.upperLimit);
+                    return $scope.currentCatego.techSelected.currentItem;
+                }
+                console.log('isRangeSelected - uno FAILED');
+                return false;
+            }
+            if($scope.currentCatego.techSelected.deviceScope === 'varios') {
+                if($scope.currentCatego.techSelected.range > 0) {
+                    var minAvlbl = getMinAvlbl();
+                    if(minAvlbl+$scope.currentCatego.techSelected.range > $scope.currentCatego.techSelected.propiedades[0].valor) { console.log('isRangeSelected varios FAILED');
+                        return false;
+                    }
+                    $scope.currentCatego.techSelected.lowerLimit = minAvlbl;
+                    $scope.currentCatego.techSelected.upperLimit = minAvlbl + $scope.currentCatego.techSelected.range;
+                    $scope.currentCatego.techSelected.currentItem = 0;
+                    console.log('isRangeSelected - varios: limits '+$scope.currentCatego.techSelected.lowerLimit+', '+$scope.currentCatego.techSelected.upperLimit);
+                    return true;
+                }
+            }
         };
     });
 

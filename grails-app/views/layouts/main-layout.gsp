@@ -13,6 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calculadora de Servicios Administrados : Scitum - <g:layoutTitle/></title>
     <asset:stylesheet src="application.css"/>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <g:layoutHead/>
 </head>
 
@@ -73,10 +79,23 @@
 %{--<asset:javascript src="application.js"/>--}%
 %{--<asset:deferredScripts/>--}%
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+%{--<script>--}%
+    %{--$.noConflict();--}%
+    %{--jQuery( document ).ready(function( $ ) {--}%
+
+        %{--var war = $('.accordion-toggle');   --}%
+        %{--console.log('asdfasdf', war);--}%
+        %{--$.each(war, function(a,d) {console.log(d);});--}%
+        %{--// Code that uses jQuery's $ can follow here.--}%
+%{--//        var anchors = document.querySelectorAll(".accordion-toggle"), i;--}%
+%{--//        for(i=0; i<anchors.length; i++) {--}%
+%{--//            console.log('asdf  ',anchors[i]);--}%
+%{--//            anchors[i].href = "#";--}%
+%{--//        }--}%
+    %{--});--}%
+%{--</script>--}%
 
 </body>
 </html>

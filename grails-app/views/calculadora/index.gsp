@@ -14,7 +14,7 @@
     %{--<asset:javascript src="bootstrap-switch.js"/>--}%
     %{--<asset:javascript src="angular/modules/angular-bootstrap-switch.ja"/>--}%
     <asset:javascript src="angular/modules/angular-toggle-switch.min.js"/>
-    <asset:javascript src="ui-bootstrap-tpls-0.10.0.js"/>
+    <asset:javascript src="ui-bootstrap-tpls-0.12.0.js"/>
     <asset:javascript src="calculadora.js"/>
 
     <asset:stylesheet src="angular-toggle-switch.css"/>
@@ -83,32 +83,29 @@
     .panel-group > .panel-default:nth-child(2) a {
         height: 32px;
     }
+    .text-muted {
+        color: #999;
+    }
+    .text-muted:hover {
+        text-decoration: none;
+    }
     </style>
 </head>
 
 <body>
 <div class="container-fluid row" ng-app="calculadora" ng-controller="calcularCtrl">
     <div class="col-md-6">
-
         <accordion close-others="oneAtATime">
-            <accordion-group ng-repeat="category in categories" is-open="$parent.categoOpened[$index]">
+            <accordion-group ng-repeat="category in categories"
+                             is-open="$parent.categoOpened[$index]"
+                             is-disabled="category.descripcion === 'Ingeniería en sitio' && !category.selected">
                 <accordion-heading ng-class="category.descripcion === 'Ingeniería en sitio'? 'alto': ''">
                     {{category.descripcion}}
-                    %{--<input type="checkbox"--}%
-                           %{--class="right-float"--}%
-                           %{--bs-switch--}%
-                           %{--ng-if="category.descripcion === 'Ingeniería en sitios'"/>--}%
-                    %{--<toggle-switch--}%
-                            %{--class=""--}%
-                            %{--on-label="Sí"--}%
-                            %{--off-label="No"--}%
-                            %{--ng-model="$parent.categoOpened[$index]"--}%
-                            %{--ng-if="category.descripcion === 'Ingeniería en sitio'"></toggle-switch>--}%
                     <toggle-switch
                             class="pull-right"
                             on-label="Sí"
                             off-label="No"
-                            ng-click="$event.stopPropagation()"
+                            ng-click="updateOpened(category, categoOpened[$index], $event)"
                             ng-model="category.selected"
                             ng-if="category.descripcion === 'Ingeniería en sitio'"></toggle-switch>
                 </accordion-heading>
@@ -132,17 +129,6 @@
 
 
                 <div ng-if="category.descripcion === 'Ingeniería en sitio' && category.componentes">
-                    %{--<div class="form-group col-md-12">--}%
-                        %{--<input type="checkbox"--}%
-                               %{--class="right-float"--}%
-                               %{--bs-switch--}%
-                               %{--ng-model="currentCatego.isYes"/>--}%
-                        %{--<toggle-switch--}%
-                               %{--class="right-float"--}%
-                               %{--on-label="Sí"--}%
-                               %{--off-label="No"--}%
-                               %{--ng-model="category.selected"></toggle-switch>--}%
-                    %{--</div>--}%
                     %{--<div class="form-inline bottom-space">--}%
                     <div class="form-group col-md-6">
                         <select ng-options="comp as comp.descripcion for comp in category.componentes"
@@ -241,13 +227,16 @@
                                         ng-change="algo(currentCatego.techSelected, currentCatego.techSelected.conceptos,  currentCatego.techSelected.currentItem, currentCatego.techSelected.arr)"
                                         class="form-control input-sm min-width-x"
                                         title="Elige uno para modificar sus opciones"></select>
-                                <input type="number" placeholder="#" class="form-control input-sm max-width-801"
+                                <input type="number"
+                                       placeholder="#"
+                                       class="form-control input-sm max-width-801"
+                                       ng-model="currentCatego.techSelected.range"
                                        ng-show="currentCatego.techSelected.deviceScope === 'varios'"/>
                             </div>
                         %{--</div>--}%
                     </div>    %{--{{currentCatego.techSelected.arr}}--}%
 
-                    <div ng-show="currentCatego.techSelected.currentItem > 0">
+                    <div ng-show="isRangeSelected()">
                         <div class="col-md-4"
                              ng-repeat="item in currentCatego.techSelected.conceptos">
                             <label class="conceptoC">
@@ -335,6 +324,71 @@
 
 </div>
 
+<script>
+
+
+//    var algunos = document.getElementsByClassName('accordion-toggle');
+//    console.log('algunos ', algunos);
+//    console.log('algunos.length ', algunos.length);
+//    algunos[1].href = '#';
+//    for(var i=0; i<3; i++) {
+//        console.log('asdf  ',algunos[i]);
+//        algunos[i].href = "#";
+//    }
+
+//    <script>
+//    $.noConflict();
+//    jQuery( document ).ready(function( $ ) {
+//
+//        var war = $('.accordion-toggle');
+//        console.log('asdfasdf', war);
+//        $.each(war, function(a,d) {console.log(d);});
+//
+//        var algunos = document.getElementsByClassName('accordion-toggle');
+//        console.log('algunos ', algunos);
+//        // Code that uses jQuery's $ can follow here.
+////        var anchors = document.querySelectorAll(".accordion-toggle"), i;
+////        for(i=0; i<anchors.length; i++) {
+////            console.log('asdf  ',anchors[i]);
+////            anchors[i].href = "#";
+////        }
+//    });
+%{--</script>--}%
+
+
+
+
+//    $.noConflict();
+//    jQuery( document ).ready(function( $ ) {
+//        // Code that uses jQuery's $ can follow here.
+//        var anchors = document.querySelectorAll(".accordion-toggle"), i;
+//        for(i=0; i<anchors.length; i++) {
+//            console.log('asdf  ',anchors[i]);
+//            anchors[i].href = "#";
+//        }
+//    });
+
+//    JQuery('a.accordion-toggle').attr('href', '#');
+//    var anchors = document.querySelectorAll("accordion-toggle");
+//    var anchors = document.querySelectorAll(".accordion-toggle"), i;
+//    [].forEach.call(anchors, function(a) {
+//        // do whatever
+//        console.log('a: '+a);
+//        a.href = '#';
+////        div.style.color = "red";
+//    });
+//console.log('qwer');
+//    for(i=0; i<anchors.length; i++) {
+//        console.log('asdf  ',anchors[i]);
+//        anchors[i].href = "#";
+//    }
+
+
+//    for (var i in anchors) {
+//        console.log('indx i: '+i);
+////        anchors[i].setAttribute('href', '#');
+//    }
+</script>
 %{--<asset:deferredScripts/>--}%
 </body>
 </html>
