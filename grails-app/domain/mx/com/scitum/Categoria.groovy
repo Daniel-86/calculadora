@@ -23,6 +23,8 @@ class Categoria {
         'ROOT'
     }
 
+    static def NODE_TYPE() {'ROOT'}
+
 //    def setNodeType(String s) {}
 
 //    static fetchMode = [conceptos: 'eager', ]

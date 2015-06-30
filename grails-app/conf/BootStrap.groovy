@@ -52,31 +52,31 @@ class BootStrap {
 //        def techConceptsC2 = {
 //            new Concepto(descripcion: 'Ingeni')
 //        }
-        ceC2 = new ConceptoEspecial(descripcion: 'Ingeniero de operaciones', custiomId: 'ingeniero_de_operaciones')
+        ceC2 = new ConceptoEspecial(descripcion: 'Ingeniero de operaciones', customId: 'ingeniero_de_operaciones')
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('ingeniero_de_operaciones_cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
-        ceC2 = new ConceptoEspecial(descripcion: 'QA', custiomId: 'qa')
+        ceC2 = new ConceptoEspecial(descripcion: 'QA', customId: 'qa')
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('qa_cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
-        ceC2 = new ConceptoEspecial(descripcion: 'Analista', custiomId: 'analista')
+        ceC2 = new ConceptoEspecial(descripcion: 'Analista', customId: 'analista')
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('analista_cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
-        ceC2 = new ConceptoEspecial(descripcion: 'Service manager', custiomId: 'service_manager')
+        ceC2 = new ConceptoEspecial(descripcion: 'Service manager', customId: 'service_manager')
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('service_manager_cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
-        ceC2 = new ConceptoEspecial(descripcion: 'CSIRT', custiomId: 'csirt')
+        ceC2 = new ConceptoEspecial(descripcion: 'CSIRT', customId: 'csirt')
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('csirt_cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
@@ -114,54 +114,54 @@ class BootStrap {
             return lista
         }
 
-        ConceptoEspecial conceptoEspecial = new ConceptoEspecial(descripcion: 'Firewall', custiomId: 'firewall')
+        ConceptoEspecial conceptoEspecial = new ConceptoEspecial(descripcion: 'Firewall', customId: 'firewall')
         arrProp = tecnologyProps()
         arrProp.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = tecnologyConcepts()
         arrCon.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
-        conceptoEspecial = new ConceptoEspecial(descripcion: 'IPS', custiomId: 'ips')
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'IPS', customId: 'ips')
         arrProp = tecnologyProps()
         arrProp.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = tecnologyConcepts()
         arrCon.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
-        conceptoEspecial = new ConceptoEspecial(descripcion: 'Filtrado web', custiomId: 'filtrado_web')
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'Filtrado web', customId: 'filtrado_web')
         arrProp = tecnologyProps()
         arrProp.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = tecnologyConcepts()
         arrCon.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
-        conceptoEspecial = new ConceptoEspecial(descripcion: 'Antispam', custiomId: 'antispam')
+        conceptoEspecial = new ConceptoEspecial(descripcion: 'Antispam', customId: 'antispam')
         arrProp = tecnologyProps()
         arrProp.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = tecnologyConcepts()
         arrCon.each {
-            it.setCustomId(conceptoEspecial.custiomId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
+            it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
@@ -174,6 +174,33 @@ class BootStrap {
 
 
         Tickets tickets = new Tickets(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat', cc: 50, es: 80, acs: 0,
+                rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips', cc: 270,
+                es: 80, acs: 250, rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web,  ' +
+                'firewall_application-' +
+                'control', cc: 300, es: 120,
+                acs: 250, rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, ' +
+                'firewall_application-control', cc: 280,
+                es: 80, acs: 250, rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web', cc:
+                280, es: 80,
+                acs: 250, rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_application-control', cc:
+                270, es: 80,
+                acs: 0, rq: 0)
+        tickets.save(flush: true, failOnError: true)
+        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_filtrado-web',
+                cc: 270, es: 80,
+                acs: 0, rq: 0)
         tickets.save(flush: true, failOnError: true)
 	}
     def destroy = {

@@ -58,4 +58,14 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
         item.propiedades.push(newProp);
         $scope.newProp = null;
     };
+
+    $scope.addItem = function() {
+        var newData = {item: $scope.selected, descripcion: $scope.descripcion};
+        $http.post("addItem", newData).success(function(data) {
+            $scope.categories = data.categories;
+            $scope.childrens = data.children;
+            console.log('adDItem - children', $scope.childrens);
+            $scope.showChildren($scope.selected);
+        });
+    };
 });

@@ -95,20 +95,20 @@
 <body>
 <div class="container-fluid row" ng-app="calculadora" ng-controller="calcularCtrl">
     <div class="col-md-6">
-        <accordion close-others="oneAtATime">
-            <accordion-group ng-repeat="category in categories"
+        <div accordion close-others="oneAtATime">
+            <div accordion-group ng-repeat="category in categories"
                              is-open="$parent.categoOpened[$index]"
                              is-disabled="category.descripcion === 'Ingeniería en sitio' && !category.selected">
-                <accordion-heading ng-class="category.descripcion === 'Ingeniería en sitio'? 'alto': ''">
+                <div accordion-heading ng-class="category.descripcion === 'Ingeniería en sitio'? 'alto': ''">
                     {{category.descripcion}}
-                    <toggle-switch
+                    <div toggle-switch
                             class="pull-right"
                             on-label="Sí"
                             off-label="No"
                             ng-click="updateOpened(category, categoOpened[$index], $event)"
                             ng-model="category.selected"
-                            ng-if="category.descripcion === 'Ingeniería en sitio'"></toggle-switch>
-                </accordion-heading>
+                            ng-if="category.descripcion === 'Ingeniería en sitio'"></div>
+                </div>
 
 
                 <ul ng-if="category.descripcion === 'Tipo de cliente' && category.conceptos && category.conceptos.length > 0" class="itemsList">
@@ -189,11 +189,14 @@
                                        ng-show="['int', 'Integer'].indexOf(opt.tipo) > -1"
                                        ng-model="opt.valor"
                                        ng-change="lookForQuantity(currentCatego.techSelected, opt)"/>
-                                <select class="form-control input-sm limit-size" title=""
-                                        ng-show="opt.descripcion == 'volumetría'">
-                                    <option>Small Bussiness hasta 500 usuarios</option>
-                                    <option>Medium Bussiness hasta 5,000 usuarios</option>
-                                    <option>Datacenters & Large Enterprise más de 5,000 usuarios</option>
+                                <select class="form-control input-sm limit-size"
+                                        title=""
+                                        ng-show="opt.descripcion == 'volumetría'"
+                                        ng-model="opt.valor">
+                                    <option value="small">Small Bussiness hasta 500 usuarios</option>
+                                    <option value="medium">Medium Bussiness hasta 5,000 usuarios</option>
+                                    <option value="datacenter">Datacenters & Large Enterprise más de 5,000
+                                    usuarios</option>
                                 </select>
                                 <label ng-show="['check', 'boolean'].indexOf(opt.tipo) > -1">
                                     <input type="checkbox" ng-model="opt.valor"/>
@@ -208,15 +211,18 @@
                             <div class="col-sm-5">
                                 <label>
                                     <input type="radio" name="applyTo" value="todos"
-                                           ng-model="currentCatego.techSelected.deviceScope"/>Todos
+                                           ng-model="currentCatego.techSelected.deviceScope"
+                                           ng-change="updateTempArr()"/>Todos
                                 </label>
                                 <label>
                                     <input type="radio" name="applyTo" value="uno"
-                                           ng-model="currentCatego.techSelected.deviceScope"/>Uno
+                                           ng-model="currentCatego.techSelected.deviceScope"
+                                           ng-change="updateTempArr()"/>Uno
                                 </label>
                                 <label>
                                     <input type="radio" name="applyTo" value="varios"
-                                           ng-model="currentCatego.techSelected.deviceScope"/>Varios
+                                           ng-model="currentCatego.techSelected.deviceScope"
+                                           ng-change="updateTempArr()"/>Varios
                                 </label>
                             </div>
                             <div class="right-float col-xs-12 col-sm-6">
@@ -224,13 +230,21 @@
                                         ng-init="currentCatego.techSelected.currentItem = currentCatego.techSelected.auxArray[0]"
                                         ng-options="idx as currentCatego.techSelected.descripcion+' '+idx for idx in currentCatego.techSelected.auxArray"
                                         ng-model="currentCatego.techSelected.currentItem"
-                                        ng-change="algo(currentCatego.techSelected, currentCatego.techSelected.conceptos,  currentCatego.techSelected.currentItem, currentCatego.techSelected.arr)"
+                                        ng-change="updateTempArr()"
                                         class="form-control input-sm min-width-x"
                                         title="Elige uno para modificar sus opciones"></select>
+                                %{--<select ng-show="currentCatego.techSelected.deviceScope === 'uno'"--}%
+                                        %{--ng-init="currentCatego.techSelected.currentItem = currentCatego.techSelected.auxArray[0]"--}%
+                                        %{--ng-options="idx as currentCatego.techSelected.descripcion+' '+idx for idx in currentCatego.techSelected.auxArray"--}%
+                                        %{--ng-model="currentCatego.techSelected.currentItem"--}%
+                                        %{--ng-change="algo(currentCatego.techSelected, currentCatego.techSelected.conceptos,  currentCatego.techSelected.currentItem, currentCatego.techSelected.arr)"--}%
+                                        %{--class="form-control input-sm min-width-x"--}%
+                                        %{--title="Elige uno para modificar sus opciones"></select>--}%
                                 <input type="number"
                                        placeholder="#"
                                        class="form-control input-sm max-width-801"
                                        ng-model="currentCatego.techSelected.range"
+                                       ng-change="updateTempArr()"
                                        ng-show="currentCatego.techSelected.deviceScope === 'varios'"/>
                             </div>
                         %{--</div>--}%
@@ -242,22 +256,27 @@
                             <label class="conceptoC">
                                 <input type="checkbox"
                                        name="{{category.id}}-concepto"
-                                       checklist-model="currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1]"
-                                       ng-change="updateCatego(currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1])"
+                                       checklist-model="currentCatego.techSelected.tempArr"
+                                       checklist-change="updateCatego(currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1])"
                                        checklist-value="item"/>
+                                %{--<input type="checkbox"--}%
+                                       %{--name="{{category.id}}-concepto"--}%
+                                       %{--checklist-model="currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1]"--}%
+                                       %{--ng-change="updateCatego(currentCatego.techSelected.arr[currentCatego.techSelected.currentItem-1])"--}%
+                                       %{--checklist-value="item"/>--}%
                                 {{item.descripcion}}
                             </label>
                         </div>    %{--{{currentCatego.techSelected.arr}}--}%
                     <div class="col-md-12 btn-group">
-                        <a href="#" class="btn right-float" ng-disabled="currentCatego.techSelected.deviceScope == 'todos'"><span class="glyphicon glyphicon-paste"></span> Pegar</a>
-                        <a href="#" class="btn right-float" ng-disabled="currentCatego.techSelected.deviceScope == 'todos'"><span class="glyphicon glyphicon-copy"></span> Copiar</a>
+                        <a href="#" class="btn right-float" ng-disabled="currentCatego.techSelected.deviceScope == 'todos'"><span class="glyphicon glyphicon-paste"></span> P</a>
+                        <a href="#" class="btn right-float" ng-disabled="currentCatego.techSelected.deviceScope == 'todos'"><span class="glyphicon glyphicon-copy"></span> C</a>
                         <a href="#" class="right-float btn" ng-click="selectNone(currentCatego.techSelected)"><span class="glyphicon glyphicon-unchecked"></span> Ninguno</a>
                         <a href="#" class="right-float btn" ng-click="selectAll(currentCatego.techSelected)"><span class="glyphicon glyphicon-ok"></span> Todos</a>
                     </div>
                     </div>
                 </div>
-            </accordion-group>
-        </accordion>
+            </div>
+        </div>
     </div>
 
 
@@ -303,7 +322,7 @@
                         </div>
 
 
-                        <div ng-show="category.descripcion === 'Tecnología' && isOk(category.techSelected)" class="col-md-12">%{--{{category.techSelected}}--}%
+                        <div ng-show="category.descripcion === 'Tecnología' && category.selected" class="col-md-12">%{--{{category.techSelected}}--}%
                             <div class="col-sm-3">{{category.descripcion}}:</div>
                             <div class="col-sm-9">
                                 <div ng-repeat="tech in category.componentes">
@@ -318,6 +337,17 @@
                         </div> %{--{{category.selected}}--}%
                     </div>
                 </div>
+
+                <button type="button" ng-click="calcular()">Calcular</button>
+                <div>
+                    <ul>
+                        <li><span><strong>cc</strong>{{resultados.cc}}</span></li>
+                        <li><span><strong>es</strong>{{resultados.es}}</span></li>
+                        <li><span><strong>rq</strong>{{resultados.rq}}</span></li>
+                        <li><span><strong>as</strong>{{resultados.acs}}</span></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

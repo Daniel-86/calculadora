@@ -113,4 +113,31 @@ angular.module('checklist-model', [])
       return postLinkFn;
     }
   };
-}]);
+}])
+    .directive('checklist-change', ['$parse', '$compile', function($parse, $compile) {
+      return {
+        priority: 10001,
+        require: '?checklistModel',
+        link: function(scope, elm, attr, ctrl) {
+          if (!ctrl) return;
+          attr.required = true; // force truthy in case we are on non input element
+
+          var validator = function(value) {
+            if (attr.required && ctrl.$isEmpty(value)) {
+              ctrl.$setValidity('required', false);
+              return;
+            } else {
+              ctrl.$setValidity('required', true);
+              return value;
+            }
+          };
+
+          ctrl.$formatters.push(validator);
+          ctrl.$parsers.unshift(validator);
+
+          attr.$observe('required', function() {
+            validator(ctrl.$viewValue);
+          });
+        }
+      };
+    }]);
