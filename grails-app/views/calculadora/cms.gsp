@@ -8,10 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="main-layout">
-    <asset:javascript src="angular/angular.js"/>
-    <asset:javascript src="ui-bootstrap-tpls-0.10.0.js"/>
-    <asset:javascript src="cms.js"/>
+    <meta name="layout" content="main-backoffice">
+    %{--<asset:javascript src="angular/angular.js"/>--}%
+    %{--<asset:javascript src="ui-bootstrap-tpls-0.10.0.js"/>--}%
+    %{--<asset:javascript src="cms.js"/>--}%
     <title>CMS</title>
 
     <style>
@@ -24,7 +24,7 @@
 
 <body>
 
-<div class="container" ng-app="cms" ng-controller="cmsCtrl">
+<div ng-app="cms" ng-controller="cmsCtrl">
     %{--<div class="row" ng-controller="listasCtrl">--}%
         <div class="col-md-12">
             <ol class="breadcrumb">

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: daniel.jimenez
-  Date: 15/06/2015
-  Time: 01:42 PM
+  Date: 30/06/2015
+  Time: 12:30 PM
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -18,6 +18,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <asset:javascript src="angular/angular.js"/>
+    <asset:javascript src="ui-bootstrap-tpls-0.12.0.js"/>
+    <asset:javascript src="cms.js"/>
 
     <g:layoutHead/>
 </head>
@@ -38,7 +42,7 @@
                 <asset:image src="logoScitum_MR_300x120px.png" style="display:inline" height="40" alt="Scitum"/>
                 %{--<img alt="Scitum" style="display:inline" height="40" src="img/logoScitum_MR_300x120px.png"> --}%
             </a>
-
+        <g:link uri="/">Home</g:link>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -67,9 +71,16 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-%{--<div class="container">--}%
-    <g:layoutBody/>
-%{--</div>--}%
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="animate-view" ng-view></div>
+            <g:layoutBody/>
+        </div>
+    </div>
+</div>
 
 
 <footer class="footer">
@@ -77,27 +88,6 @@
         <p class="text-muted">© 2015 - Scitum, S.A. de C.V. Todos los derechos reservados </p>
     </div>
 </footer>
-
-%{--<asset:javascript src="application.js"/>--}%
-%{--<asset:deferredScripts/>--}%
-
-
-
-%{--<script>--}%
-    %{--$.noConflict();--}%
-    %{--jQuery( document ).ready(function( $ ) {--}%
-
-        %{--var war = $('.accordion-toggle');   --}%
-        %{--console.log('asdfasdf', war);--}%
-        %{--$.each(war, function(a,d) {console.log(d);});--}%
-        %{--// Code that uses jQuery's $ can follow here.--}%
-%{--//        var anchors = document.querySelectorAll(".accordion-toggle"), i;--}%
-%{--//        for(i=0; i<anchors.length; i++) {--}%
-%{--//            console.log('asdf  ',anchors[i]);--}%
-%{--//            anchors[i].href = "#";--}%
-%{--//        }--}%
-    %{--});--}%
-%{--</script>--}%
 
 </body>
 </html>

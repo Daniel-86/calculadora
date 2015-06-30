@@ -1,8 +1,8 @@
 package mx.com.scitum
 
-class Concepto {
+class Concepto extends Item{
 
-    String descripcion
+//    String descripcion
     Float costo
     Categoria categoria
     Boolean multiple = false
