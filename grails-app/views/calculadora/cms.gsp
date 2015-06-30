@@ -91,6 +91,13 @@
             <div class="list-group">
                 <a href="#" class="list-group-item" ng-repeat="child in childrens" ng-click="showChildren(child)">{{child.descripcion}}</a>
             </div>
+            <div>
+                <form class="form">
+                    <input type="text" placeholder="descripción" required class="form-control"
+                           ng-model="$parent.descripcion">
+                    <button type="submit" class="btn btn-default" ng-click="addItem()">Agregar</button>
+                </form>
+            </div>
         </div>
 
         %{--<div class="col-md-4">--}%

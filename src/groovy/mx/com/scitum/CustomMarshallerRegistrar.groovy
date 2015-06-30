@@ -15,6 +15,7 @@ class CustomMarshallerRegistrar {
 			map['nodeType'] = it?.nodeType
 			map['categoria'] = it?.categoria
 			map['padre'] = it?.padre
+			map['customId'] = it?.customId
 //	    	map['toText'] = it?.toString()
 			return map 
 		}
@@ -23,6 +24,7 @@ class CustomMarshallerRegistrar {
 			def map = [:]
 			map['descripcion'] = it?.descripcion
 			map['tipo'] = it?.tipo
+			map['customId'] = it?.customId
 			return map
 		}
 
@@ -34,6 +36,7 @@ class CustomMarshallerRegistrar {
 			map['padre'] = it?.padre
 			map['conceptos'] = it?.conceptosE
 			map['propiedades'] = it?.propiedades
+			map['customId'] = it?.customId
 			return map
 		}
 
@@ -48,6 +51,7 @@ class CustomMarshallerRegistrar {
 			map['componentes'] = it?.componentes
 			map['techSelected'] = [currentItem: null, propiedades: [], arr: [[[descripcion: '', selected: false]]]]
 //	    	map['toText'] = it?.toString()
+			map['customId'] = it?.customId
 			return map 
 		}
 
