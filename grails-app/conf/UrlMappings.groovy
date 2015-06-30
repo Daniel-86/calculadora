@@ -15,6 +15,9 @@ class UrlMappings {
         }
 
         "/"(controller:  "calculadora", action: "index")
+        "/new-ticket" {
+            view='/backoffice/create-ticket'
+        }
         "500"(view: '/error')
     }
 }

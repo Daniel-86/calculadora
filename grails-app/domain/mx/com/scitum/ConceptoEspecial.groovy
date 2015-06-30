@@ -1,8 +1,8 @@
 package mx.com.scitum
 
-class ConceptoEspecial {
+class ConceptoEspecial extends Item {
 
-    String descripcion
+//    String descripcion
     List propiedades
     List conceptosE
     String customId

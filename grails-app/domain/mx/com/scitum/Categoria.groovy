@@ -1,8 +1,8 @@
 package mx.com.scitum
 
-class Categoria {
+class Categoria  extends Item{
 
-    String descripcion
+//    String descripcion
     Boolean multiple = false
     Boolean required = true
     List conceptos

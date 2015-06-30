@@ -2,7 +2,7 @@ import mx.com.scitum.Categoria
 import mx.com.scitum.Concepto
 import mx.com.scitum.ConceptoEspecial
 import mx.com.scitum.Propiedad
-import mx.com.scitum.Tickets
+import mx.com.scitum.Ticket
 
 class BootStrap {
 
@@ -173,32 +173,32 @@ class BootStrap {
 
 
 
-        Tickets tickets = new Tickets(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
+        Ticket tickets = new Ticket(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat', cc: 50, es: 80, acs: 0,
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat', cc: 50, es: 80, acs: 0,
                 rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips', cc: 270,
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips', cc: 270,
                 es: 80, acs: 250, rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web,  ' +
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web,  ' +
                 'firewall_application-' +
                 'control', cc: 300, es: 120,
                 acs: 250, rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, ' +
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, ' +
                 'firewall_application-control', cc: 280,
                 es: 80, acs: 250, rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web', cc:
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web', cc:
                 280, es: 80,
                 acs: 250, rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_application-control', cc:
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_application-control', cc:
                 270, es: 80,
                 acs: 0, rq: 0)
         tickets.save(flush: true, failOnError: true)
-        tickets = new Tickets(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_filtrado-web',
+        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_filtrado-web',
                 cc: 270, es: 80,
                 acs: 0, rq: 0)
         tickets.save(flush: true, failOnError: true)

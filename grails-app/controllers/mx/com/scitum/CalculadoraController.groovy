@@ -1,7 +1,6 @@
 package mx.com.scitum
 
 import grails.converters.JSON
-import grails.converters.deep.JSON as deepJSON
 
 class CalculadoraController {
 
@@ -128,8 +127,8 @@ class CalculadoraController {
 
         println "QUERYS $queryList"
 
-//        List ticketsRecords = queryList.collect {Tickets.findByIdsString(it.join(','))}
-        List<Tickets> tickets = Tickets.list()
+//        List ticketsRecords = queryList.collect {Ticket.findByIdsString(it.join(','))}
+        List<Ticket> tickets = Ticket.list()
         List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
         ticketsRecords.removeAll([null, []])
         println "ticketsRecords $ticketsRecords"

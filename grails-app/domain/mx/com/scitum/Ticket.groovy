@@ -1,6 +1,6 @@
 package mx.com.scitum
 
-class Tickets {
+class Ticket extends Regla{
 
     Integer cc
     Integer es
@@ -9,6 +9,8 @@ class Tickets {
     String idsString
 
     static transients = ['idsList']
+
+//    static hasMany = [dependencias: Dependencia]
 
     static constraints = {
         idsString unique: true, validator: {val, obj->
@@ -25,7 +27,7 @@ class Tickets {
 
     def setIdsList(List ids) {
         def tempList = ids*.trim()
-        idsString = tempList.join(', ')
+        idsString = tempList.sort().join(', ')
         idsList = tempList
     }
 
@@ -36,15 +38,16 @@ class Tickets {
     def addToIds(String id) {
         id = id.trim()
         if(!idsList.contains(id)) {
-            idsString += dependenciesCount() > 1? ", $id": id
+//            idsString += dependenciesCount() > 1? ", $id": id
             idsList << id
+            idsString = idsList.sort().join(', ')
         }
     }
 
     def removeFromIds(String id) {
         id = id.trim()
         if(idsList.remove(id))
-            idsString = idsList.join(', ')
+            idsString = idsList.sort().join(', ')
     }
 
     def addToIds(List ids) {

@@ -1,8 +1,8 @@
 package mx.com.scitum
 
-class Propiedad {
+class Propiedad extends Item{
 
-    String descripcion
+//    String descripcion
     String tipo = 'String'
     String valor
     String customId

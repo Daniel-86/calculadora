@@ -13,8 +13,8 @@ class CustomMarshallerRegistrar {
 			map['costo'] = it?.costo
 			map['multiple'] = it?.multiple
 			map['nodeType'] = it?.nodeType
-			map['categoria'] = it?.categoria
-			map['padre'] = it?.padre
+//			map['categoria'] = it?.categoria
+//			map['padre'] = it?.padre
 			map['customId'] = it?.customId
 //	    	map['toText'] = it?.toString()
 			return map 
@@ -32,8 +32,8 @@ class CustomMarshallerRegistrar {
 			def map = [:]
 			map['descripcion'] = it?.descripcion
 			map['nodeType'] = it?.nodeType
-			map['categoria'] = it?.categoria
-			map['padre'] = it?.padre
+//			map['categoria'] = it?.categoria
+//			map['padre'] = it?.padre
 			map['conceptos'] = it?.conceptosE
 			map['propiedades'] = it?.propiedades
 			map['customId'] = it?.customId
