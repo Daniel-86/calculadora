@@ -6,7 +6,7 @@ class Concepto extends Item{
     Float costo
     Categoria categoria
     Boolean multiple = false
-    String customId
+//    String customId
 
     String nodeType
     static transients = ['nodeType']
@@ -16,7 +16,7 @@ class Concepto extends Item{
         categoria nullable: true
         padre nullable: true
         nodeType bindable: true
-        customId unique: true
+//        customId unique: true
     }
 
     def getNodeType() {

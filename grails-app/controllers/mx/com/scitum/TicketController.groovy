@@ -24,7 +24,14 @@ class TicketController {
     }
 
     @Transactional
-    def save(Ticket ticketInstance) {
+    def save() {
+        Ticket ticketInstance = new Ticket()
+        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq']])
+        def dependenciasJSON = request.JSON.dependencias
+        dependenciasJSON.each { String id->
+            ticketInstance.addToDependencias(Item.findByCustomId(id))
+        }
+
         if (ticketInstance == null) {
             notFound()
             return
@@ -100,5 +107,16 @@ class TicketController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+
+    def editNG() {
+//        println params
+        Ticket ticket = Ticket.get(params.id)
+        def dependencies = ticket.dependencias
+        def all = Item.list()
+        all.removeAll(dependencies)
+        def data = [available: all, ticket: ticket]
+        respond data
+//        render data as JSON
     }
 }

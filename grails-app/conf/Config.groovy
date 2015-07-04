@@ -56,6 +56,12 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         grails.serverURL = "http://localhost:8080/calculadora"
+
+        log4j = {
+            debug 'org.hibernate.SQL'
+            trace 'org.hibernate.type'
+        }
+        grails.gorm.failOnError = true
     }
     test {
         grails.assets.minifyJs = true
@@ -86,4 +92,8 @@ grails.databinding.dateFormats = ["yyyy-MM-dd'T'hh:mm:ss'Z'", "yyyy-MM-dd'T'hh:m
 
 angular.pageSize = 25
 angular.dateFormat="MM/dd/yyyy"
+
+//Habilitar content-negotiation basado en el header Accept
+grails.mime.use.accept.header = true
+grails.mime.disable.accept.header.userAgents = []
 
