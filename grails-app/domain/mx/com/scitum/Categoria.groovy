@@ -7,7 +7,7 @@ class Categoria  extends Item{
     Boolean required = true
     List conceptos
     List componentes
-    String customId
+//    String customId
 
     String nodeType
     static transients = ['nodeType']
@@ -16,7 +16,7 @@ class Categoria  extends Item{
 
     static constraints = {
         nodeType bindable: true
-        customId unique: true
+//        customId unique: true
     }
 
     def getNodeType() {

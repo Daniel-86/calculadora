@@ -18,6 +18,11 @@ class UrlMappings {
         "/new-ticket" {
             view='/backoffice/create-ticket'
         }
+        "/new-factor" (view: '/backoffice/create-factor')
+        "/edit-ticket/$id" {
+            controller= 'backoffice'
+            action= 'editTicket'
+        }
         "500"(view: '/error')
     }
 }

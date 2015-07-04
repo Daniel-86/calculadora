@@ -1,6 +1,7 @@
 import mx.com.scitum.Categoria
 import mx.com.scitum.Concepto
 import mx.com.scitum.ConceptoEspecial
+import mx.com.scitum.Item
 import mx.com.scitum.Propiedad
 import mx.com.scitum.Ticket
 
@@ -93,14 +94,14 @@ class BootStrap {
                 required: true, 
                 customId: 'tecnologia')
         def arrProp, arrCon
-        def tecnologyProps = {
+        def technologyProps = {
             def lista = [
                 new Propiedad(descripcion: 'cantidad', tipo: 'Integer'),
                 new Propiedad(descripcion: 'volumetría')
             ]
             return lista
         }
-        def tecnologyConcepts = {
+        def technologyConcepts = {
             def lista = [
                 new Concepto(descripcion: 'Firewall/NAT', costo: 23, multiple: true),
                 new Concepto(descripcion: 'VPN IPSEC', costo: 2, multiple: true),
@@ -115,12 +116,12 @@ class BootStrap {
         }
 
         ConceptoEspecial conceptoEspecial = new ConceptoEspecial(descripcion: 'Firewall', customId: 'firewall')
-        arrProp = tecnologyProps()
+        arrProp = technologyProps()
         arrProp.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
-        arrCon = tecnologyConcepts()
+        arrCon = technologyConcepts()
         arrCon.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
@@ -128,12 +129,12 @@ class BootStrap {
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'IPS', customId: 'ips')
-        arrProp = tecnologyProps()
+        arrProp = technologyProps()
         arrProp.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
-        arrCon = tecnologyConcepts()
+        arrCon = technologyConcepts()
         arrCon.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
@@ -141,12 +142,12 @@ class BootStrap {
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'Filtrado web', customId: 'filtrado_web')
-        arrProp = tecnologyProps()
+        arrProp = technologyProps()
         arrProp.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
-        arrCon = tecnologyConcepts()
+        arrCon = technologyConcepts()
         arrCon.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
@@ -154,12 +155,12 @@ class BootStrap {
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'Antispam', customId: 'antispam')
-        arrProp = tecnologyProps()
+        arrProp = technologyProps()
         arrProp.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToPropiedades(it)
         }
-        arrCon = tecnologyConcepts()
+        arrCon = technologyConcepts()
         arrCon.each {
             it.setCustomId(conceptoEspecial.customId+'_'+it.descripcion.toLowerCase().replaceAll(' ', '_'))
             conceptoEspecial.addToConceptosE(it)
@@ -172,36 +173,45 @@ class BootStrap {
 
 
 
+        Ticket ticket
+        ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket.addToDependencias(Item.get(1))
+        ticket.addToDependencias(Item.get(2))
+        ticket.save(flush: true)
 
-        Ticket tickets = new Ticket(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat', cc: 50, es: 80, acs: 0,
-                rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips', cc: 270,
-                es: 80, acs: 250, rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web,  ' +
-                'firewall_application-' +
-                'control', cc: 300, es: 120,
-                acs: 250, rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, ' +
-                'firewall_application-control', cc: 280,
-                es: 80, acs: 250, rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web', cc:
-                280, es: 80,
-                acs: 250, rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_application-control', cc:
-                270, es: 80,
-                acs: 0, rq: 0)
-        tickets.save(flush: true, failOnError: true)
-        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_filtrado-web',
-                cc: 270, es: 80,
-                acs: 0, rq: 0)
-        tickets.save(flush: true, failOnError: true)
+        ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket.save(flush: true)
+
+
+//        Ticket tickets = new Ticket(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat', cc: 50, es: 80, acs: 0,
+//                rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips', cc: 270,
+//                es: 80, acs: 250, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web,  ' +
+//                'firewall_application-' +
+//                'control', cc: 300, es: 120,
+//                acs: 250, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, ' +
+//                'firewall_application-control', cc: 280,
+//                es: 80, acs: 250, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_ips, firewall_filtrado-web', cc:
+//                280, es: 80,
+//                acs: 250, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_application-control', cc:
+//                270, es: 80,
+//                acs: 0, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
+//        tickets = new Ticket(idsString: 'gobierno, sitio, datacenter, firewall_firewall/nat, firewall_filtrado-web',
+//                cc: 270, es: 80,
+//                acs: 0, rq: 0)
+//        tickets.save(flush: true, failOnError: true)
 	}
     def destroy = {
     }
