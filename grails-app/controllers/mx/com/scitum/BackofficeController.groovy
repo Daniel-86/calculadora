@@ -1,7 +1,10 @@
 package mx.com.scitum
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['ROLE_USER'])
+//@Secured(['permitAll'])
 class BackofficeController {
 
     def list() {
@@ -39,5 +42,9 @@ class BackofficeController {
 //        def data = [available: all, ticket: ticket]
         render view: '/backoffice/edit-ticket', model: [ticketId: params.id]
 //        render data as JSON
+    }
+
+    def editFactor() {
+        render view: '/backoffice/create-factor', model: [factorId: params.id]
     }
 }

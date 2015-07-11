@@ -18,11 +18,20 @@ class UrlMappings {
         "/new-ticket" {
             view='/backoffice/create-ticket'
         }
-        "/new-factor" (view: '/backoffice/create-factor')
+//        "/new-factor" (view: '/backoffice/create-factor')
         "/edit-ticket/$id" {
             controller= 'backoffice'
             action= 'editTicket'
         }
+        "/factor/$id?" {
+            controller= 'backoffice'
+            action= 'editFactor'
+            constraints {
+                id matches: /\d*/
+            }
+        }
+
+        "/factores" view: '/backoffice/list-factor'
         "500"(view: '/error')
     }
 }

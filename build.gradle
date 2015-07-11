@@ -114,7 +114,9 @@ dependencies {
 		[name: 'asset-pipeline', version: '2.2.0'],
 		[name: 'angular-template-asset-pipeline', version: '2.1.0'],
 		[name: 'angular-annotate-asset-pipeline', version: '2.1.0'],
-		[name: 'geb', version: gebVersion, scope: 'test']
+		[name: 'geb', version: gebVersion, scope: 'test'],
+		[name: 'spring-security-core', version: '2.0-RC5'],
+		[name: 'spring-security-ldap', version: '2.0-RC2']
 	]
 
 	plugins.each { plugin ->

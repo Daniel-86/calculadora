@@ -13,4 +13,9 @@ grails.project.fork = [
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
+//plugins {
+//    compile ":spring-security-core:2.0-RC5"
+//    compile ":spring-security-ldap:2.0-RC2"
+//}
+
 // See gradle.build for dependencies

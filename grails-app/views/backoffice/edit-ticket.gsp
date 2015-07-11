@@ -33,9 +33,29 @@
             %{--<ul>--}%
             %{--<li ng-repeat="item in available">{{item.customId}}</li>--}%
             %{--</ul>--}%
-            <span style="color: #ff0000;" ng-show="createTForm.generalErrors">
-                <span ng-repeat="errorMessage in createTForm.generalErrors">{{errorMessage}}</span>
-            </span>
+            %{--<span style="color: #ff0000;" ng-show="createTForm.generalInfo">--}%
+                %{--<span ng-repeat="errorMessage in createTForm.generalInfo">{{errorMessage}}</span>--}%
+            %{--</span>--}%
+            %{--<div>--}%
+                %{--<alert ng-repeat="errorMessage in createTForm.generalInfo" type="info"--}%
+                     %{--close="">{{errorMessage}}</alert>--}%
+                %{--<button class='btn btn-default' ng-click="addAlert()">Add Alert</button>--}%
+            %{--</div>--}%
+            <div ng-show="createTForm.generalInfo" class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class='close' data-dismiss="alert"
+                        aria-label="Close"><span aria-hidden="true">x</span></button>
+                <alert ng-repeat="errorMessage in createTForm.generalInfo" type="success"
+                       close="">{{errorMessage}}</alert>
+            </div>
+            <div ng-show="createTForm.generalErrors" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class='close' data-dismiss="alert"
+                        aria-label="Close"><span aria-hidden="true">x</span></button>
+                <alert ng-repeat="errorMessage in createTForm.generalErrors" type="danger"
+                     close="">{{errorMessage}}</alert>
+            </div>
+            %{--<span style="color: #ff0000;" ng-show="createTForm.generalErrors">--}%
+                %{--<span ng-repeat="errorMessage in createTForm.generalErrors">{{errorMessage}}</span>--}%
+            %{--</span>--}%
 
             <div class="form-group">
             <label for="dependencies">Dependencias</label>
