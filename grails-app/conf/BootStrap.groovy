@@ -175,11 +175,15 @@ class BootStrap {
 
         Ticket ticket
         ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket.setNombre('tickets 1')
+        ticket.setDescripcion('Para pruebas')
         ticket.addToDependencias(Item.get(1))
         ticket.addToDependencias(Item.get(2))
         ticket.save(flush: true)
 
         ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket.setNombre('tickets 2')
+        ticket.setDescripcion('Para pruebas')
         ticket.save(flush: true)
 
 

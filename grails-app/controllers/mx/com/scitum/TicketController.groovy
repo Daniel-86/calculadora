@@ -58,11 +58,25 @@ class TicketController {
     }
 
     @Transactional
-    def update(Ticket ticketInstance) {
+    def update() {
+        def dats = request.JSON
+        Ticket ticketInstance = Ticket.get(request.JSON.id)
         if (ticketInstance == null) {
             notFound()
             return
         }
+        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq']])
+        def dependenciasJSON = request.JSON.dependencias
+        def dependencies = []
+        dependenciasJSON.each { String id->
+            Item item = Item.findByCustomId(id)
+            if(item) {dependencies << item}
+//            ticketInstance.addToDependencias(Item.findByCustomId(id))
+        }
+        def deletions = ticketInstance.dependencias.collect()
+        deletions.removeAll(dependencies)
+        deletions.each {ticketInstance.removeFromDependencias(it)}
+        dependencies.each {ticketInstance.addToDependencias(it)}
 
         if (ticketInstance.hasErrors()) {
             respond ticketInstance.errors, view:'edit'

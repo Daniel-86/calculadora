@@ -1,8 +1,12 @@
 package mx.com.scitum
 
+import grails.plugin.springsecurity.annotation.Secured
+
+//@Secured(['ROLE_USER'])
+@Secured(['permitAll'])
 class Factor extends Regla{
 
-    String descripcion
+//    String descripcion
     Double factor
     Integer lowerLimit
     Integer upperLimit
@@ -17,7 +21,7 @@ class Factor extends Regla{
     static constraints = {
         lowerLimit nullable: true, validator: {val, obj-> if(val && obj.upperLimit) {return val <= obj.upperLimit}}
         upperLimit nullable: true, validator: {val, obj-> if(val && obj.lowerLimit) {return val >= obj.lowerLimit}}
-        descripcion nullable: true, blank: true
+//        descripcion nullable: true, blank: true
 //        idsDependecies nullable: true
     }
 

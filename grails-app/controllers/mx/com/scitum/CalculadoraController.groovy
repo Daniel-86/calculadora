@@ -4,6 +4,8 @@ import grails.converters.JSON
 
 class CalculadoraController {
 
+    def springSecurityService
+
     def index() {
         [categories: [
                  [descripcion: 'Tipo de cliente',
@@ -31,6 +33,8 @@ class CalculadoraController {
                           [descripcion: 'Filtrado web', costo: 3]]]
                  ]
         ]
+        def user = springSecurityService.getPrincipal()
+        def asdf = ""
     }
 
     def addItem() {

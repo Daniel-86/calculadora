@@ -15,6 +15,10 @@ class FactorController {
         respond Factor.list(params), model:[factorInstanceCount: Factor.count()]
     }
 
+    def list() {
+        respond Ticket.list()
+    }
+
     def show(Factor factorInstance) {
         respond factorInstance
     }
@@ -58,11 +62,24 @@ class FactorController {
     }
 
     @Transactional
-    def update(Factor factorInstance) {
+    def update() {
+        Factor factorInstance = Factor.get(request.JSON.id)
         if (factorInstance == null) {
             notFound()
             return
         }
+        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion']])
+        def dependenciasJSON = request.JSON.dependencias
+        def dependencies = []
+        dependenciasJSON.each { String id->
+            Item item = Item.findByCustomId(id)
+            if(item) {dependencies << item}
+//            factorInstance.addToDependencias(Item.findByCustomId(id))
+        }
+        def deletions = factorInstance.dependencias.collect()
+        deletions.removeAll(dependencies)
+        deletions.each {factorInstance.removeFromDependencias(it)}
+        dependencies.each {factorInstance.addToDependencias(it)}
 
         if (factorInstance.hasErrors()) {
             respond factorInstance.errors, view:'edit'
@@ -107,5 +124,14 @@ class FactorController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+    
+    def dependenciesData() {
+        Factor factor = Factor.get(params.id)
+        def dependencies = factor?.dependencias?: []
+        def all = Item.list()
+        all.removeAll(dependencies)
+        def data = [available: all, factor: factor]
+        respond data
     }
 }

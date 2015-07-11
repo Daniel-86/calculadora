@@ -33,7 +33,7 @@
 
 
 
-
+<sec:ifLoggedIn>ESTOY LOGUEADO<p><sec:username/></p></sec:ifLoggedIn>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -87,27 +87,6 @@
         <p class="text-muted">© 2015 - Scitum, S.A. de C.V. Todos los derechos reservados </p>
     </div>
 </footer>
-
-%{--<asset:javascript src="application.js"/>--}%
-%{--<asset:deferredScripts/>--}%
-
-
-
-%{--<script>--}%
-    %{--$.noConflict();--}%
-    %{--jQuery( document ).ready(function( $ ) {--}%
-
-        %{--var war = $('.accordion-toggle');   --}%
-        %{--console.log('asdfasdf', war);--}%
-        %{--$.each(war, function(a,d) {console.log(d);});--}%
-        %{--// Code that uses jQuery's $ can follow here.--}%
-%{--//        var anchors = document.querySelectorAll(".accordion-toggle"), i;--}%
-%{--//        for(i=0; i<anchors.length; i++) {--}%
-%{--//            console.log('asdf  ',anchors[i]);--}%
-%{--//            anchors[i].href = "#";--}%
-%{--//        }--}%
-    %{--});--}%
-%{--</script>--}%
 
 </body>
 </html>
