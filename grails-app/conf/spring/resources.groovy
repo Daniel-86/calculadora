@@ -7,9 +7,10 @@ beans = {
 //    ldapAuthenticator(org.springframework.security.ldap.authentication.BindAuthenticator, ref("contextSource")) {
 //        userDnPatterns = ['uid={0},OU=Scitum Seguridad,DC=mex,DC=scitum,DC=com,DC=mx']
 //    }
-//
-//    ldapAuthProvider(org.springframework.security.ldap.authentication.LdapAuthenticationProvider, ref
-//            ("ldapAuthenticator"), ref("authoritiesPopulator"))
-//
-//    authoritiesPopulator(mx.com.scitum.Basura)
+
+    ldapAuthenticationProvider(org.springframework.security.ldap.authentication.LdapAuthenticationProvider,
+            ref("ldapAuthenticator"),
+            ref("authoritiesPopulator"))
+
+    authoritiesPopulator(mx.com.scitum.auth.CustomLdapAuthoritiesPopulator)
 }

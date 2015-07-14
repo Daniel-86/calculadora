@@ -105,9 +105,9 @@ grails.mime.disable.accept.header.userAgents = []
 
 
 // Added by the Spring Security Core plugin:
-//grails.plugin.springsecurity.userLookup.userDomainClassName = 'mx.com.scitum.auth.User'
-//grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'mx.com.scitum.auth.UserRole'
-//grails.plugin.springsecurity.authority.className = 'mx.com.scitum.auth.Role'k
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'mx.com.scitum.auth.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'mx.com.scitum.auth.UserRole'
+grails.plugin.springsecurity.authority.className = 'mx.com.scitum.auth.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                ['permitAll'],
 	'/index':           ['permitAll'],

@@ -33,7 +33,7 @@
 
 
 
-<sec:ifLoggedIn>ESTOY LOGUEADO<p><sec:username/></p></sec:ifLoggedIn>
+%{--<sec:ifLoggedIn>ESTOY LOGUEADO<p><sec:username/></p></sec:ifLoggedIn>--}%
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -58,20 +58,27 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administración <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Tecnologías</a></li>
-                        <li><a href="#">Fabricantes</a></li>
-                        <li><a href="#">Servicios Administrados</a></li>
-                        <li><g:link controller="backoffice" action="list"
-                                    params="[section: 'ticket']">Tabla de tickets</g:link></li>
-                        <li><g:link controller="calculadora" action="cms">CMS</g:link></li>
-                        <li class="divider"></li>
-                        <li><a href="#">SLAs</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Logout</a></li>
+                <sec:ifAllGranted roles="ROLE_ADMIN">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administración <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Tecnologías</a></li>
+                            <li><a href="#">Fabricantes</a></li>
+                            <li><a href="#">Servicios Administrados</a></li>
+                            <li><g:link controller="backoffice" action="list"
+                                        params="[section: 'ticket']">Tabla de tickets</g:link></li>
+                            <li><g:link controller="calculadora" action="cms">CMS</g:link></li>
+                            <li class="divider"></li>
+                            <li><a href="#">SLAs</a></li>
+                        </ul>
+                    </li>
+                </sec:ifAllGranted>
+                <sec:ifLoggedIn>
+                    <li><g:link controller="logout" action="index">Logout</g:link> </li>
+                </sec:ifLoggedIn>
+                <sec:ifNotLoggedIn>
+                    <li><g:link controller="login" action="index">Login</g:link> </li>
+                </sec:ifNotLoggedIn>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
