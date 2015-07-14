@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 grails.project.groupId = "mx.com.scitum"
 
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
@@ -65,6 +67,16 @@ environments {
             info 'org.springframework.security'
         }
         grails.gorm.failOnError = true
+
+//        C:\Users\daniel.jimenez\calculadora-development-config.groovy
+//        "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
+//        grails.config.locations = {
+//            "file:C:\\Users\\daniel.jimenez\\calculadora-development-config.groovy"
+//        }
+//        println "**********${userHome}\\${appName}-${Environment.current.name}-config.groovy*********"
+        grails.config.locations = [
+                "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
+        ]
     }
     test {
         grails.assets.minifyJs = true
@@ -121,24 +133,6 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 
 //grails.plugin.springsecurity.providerNames = ['ldapAuthProvider', 'anonymousAuthenticationProvider']
 grails.plugin.springsecurity.providerNames = ['ldapAuthProvider']
-
-
-grails.plugin.springsecurity.ldap.context.server = 'ldap://SRVQRO-DC01.mex.scitum.com.mx'
-//grails.plugin.springsecurity.ldap.context.managerDn = 'CN=adminsyss,DC=mex,DC=scitum,DC=com,DC=mx'
-grails.plugin.springsecurity.ldap.context.managerDn = 'adminsys'
-grails.plugin.springsecurity.ldap.context.managerPassword = '53cur3!53cur3'
-//grails.plugin.springsecurity.ldap.authorities.retrieveGroupRoles = false
-grails.plugin.springsecurity.ldap.authorities.groupSearchBase = 'OU=Scitum Seguridad,DC=mex,DC=scitum,DC=com,DC=mx'
-grails.plugin.springsecurity.ldap.search.filter = '(sAMAccountName={0})'
-grails.plugin.springsecurity.ldap.search.base = 'OU=Scitum Seguridad,DC=mex,DC=scitum,DC=com,DC=mx'
-
-
-//grails.plugin.springsecurity.ldap.context.server = 'ldap://ldap.forumsys.com'
-//grails.plugin.springsecurity.ldap.context.managerDn = 'cn=read-only-admin,dc=example,dc=com'
-//grails.plugin.springsecurity.ldap.context.managerPassword = 'password'
-//grails.plugin.springsecurity.ldap.authorities.groupSearchBase = 'ou=mathematicians,dc=example,dc=com'
-//grails.plugin.springsecurity.ldap.search.filter = '(sAMAccountName={0})'
-//grails.plugin.springsecurity.ldap.search.base = 'dc=example,dc=com'
 
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
