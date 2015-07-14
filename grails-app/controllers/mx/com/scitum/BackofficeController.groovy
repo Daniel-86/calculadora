@@ -3,7 +3,7 @@ package mx.com.scitum
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['ROLE_USER'])
+@Secured(['ROLE_ADMIN'])
 //@Secured(['permitAll'])
 class BackofficeController {
 

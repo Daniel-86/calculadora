@@ -4,6 +4,9 @@ import mx.com.scitum.ConceptoEspecial
 import mx.com.scitum.Item
 import mx.com.scitum.Propiedad
 import mx.com.scitum.Ticket
+import mx.com.scitum.auth.Role
+import mx.com.scitum.auth.User
+import mx.com.scitum.auth.UserRole
 
 class BootStrap {
 
@@ -216,6 +219,40 @@ class BootStrap {
 //                cc: 270, es: 80,
 //                acs: 0, rq: 0)
 //        tickets.save(flush: true, failOnError: true)
+
+        Role role
+        if(!Role.findByAuthority('ROLE_ADMIN')) {
+            println "Agregando el rol 'ROLE_ADMIN'"
+            role = new Role('ROLE_ADMIN')
+            role.save(flush: true)
+        }
+        if(!Role.findByAuthority('ROLE_USER')) {
+            println "Agregando el rol 'ROLE_USER'"
+            role = new Role('ROLE_USER')
+            role.save(flush: true)
+        }
+
+        User user
+        UserRole userRole
+        if(!User.findByUsername('daniel.jimenez')) {
+            println "Agregando el usuario 'daniel.jimenez' con rol 'ROLE_ADMIN'"
+            user = new User('daniel.jimenez', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_ADMIN')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
+        if(!User.findByUsername('edgar.bravo')) {
+            println "Agregando el usuario 'edgar.bravo' con rol 'ROLE_USER'"
+            user = new User('edgar.bravo', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_USER')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
+
 	}
     def destroy = {
     }
