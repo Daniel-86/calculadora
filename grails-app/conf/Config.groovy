@@ -139,3 +139,8 @@ grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 
 grails.plugin.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 
+grails.plugin.springsecurity.roleHierarchy = '''
+   ROLE_GOD > ROLE_ADMIN
+   ROLE_ADMIN > ROLE_USER
+'''
+
