@@ -7,7 +7,7 @@ class User implements Serializable {
 	transient springSecurityService
 
 	String username
-	String password
+	String password = 'asdf'
 	boolean enabled = true
 	boolean accountExpired
 	boolean accountLocked
