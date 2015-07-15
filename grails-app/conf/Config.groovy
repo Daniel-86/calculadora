@@ -84,7 +84,10 @@ environments {
 
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://172.22.20.53:8080"
+        grails.config.locations = [
+                "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
+        ]
     }
 }
 
