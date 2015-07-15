@@ -221,6 +221,11 @@ class BootStrap {
 //        tickets.save(flush: true, failOnError: true)
 
         Role role
+        if(!Role.findByAuthority('ROLE_GOD')) {
+            println "Agregando el rol 'ROLE_GOD'"
+            role = new Role('ROLE_GOD')
+            role.save(flush: true)
+        }
         if(!Role.findByAuthority('ROLE_ADMIN')) {
             println "Agregando el rol 'ROLE_ADMIN'"
             role = new Role('ROLE_ADMIN')
@@ -235,10 +240,10 @@ class BootStrap {
         User user
         UserRole userRole
         if(!User.findByUsername('daniel.jimenez')) {
-            println "Agregando el usuario 'daniel.jimenez' con rol 'ROLE_ADMIN'"
+            println "Agregando el usuario 'daniel.jimenez' con rol 'ROLE_GOD'"
             user = new User('daniel.jimenez', 'asdf')
             user.save(flush: true)
-            role = Role.findByAuthority('ROLE_ADMIN')
+            role = Role.findByAuthority('ROLE_GOD')
             userRole = new UserRole(user, role)
             userRole.save(flush: true)
         }
