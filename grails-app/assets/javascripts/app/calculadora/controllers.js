@@ -116,7 +116,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
 
 
         function findWithAttr(array, attr, value) {
-            var muted = false;
+            var muted = true;
             if(!muted) console.log('\t\t\tfindWithAttr - array', array);
             if(!muted) console.log('\t\t\tfindWithAttr - attr', attr);
             if(!muted) console.log('\t\t\tfindWithAttr - value', value);
@@ -625,7 +625,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
 
 
         $scope.calcular = function () {
-            var muted = false;
+            var muted = true;
             if(!muted) console.log('\n');
             var requestData = [];
             var categoKey;
@@ -659,8 +659,18 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
                 if(category.descripcion === 'Tecnología') {
                     var compos = category.componentes;
                     categoVal = [];
-                    var volumet = compos[0].arr.length > 0? compos[0].propiedades[1].valor: null;
-                    if(!muted) console.log('calcular - arr.length', compos[0].arr.length);
+                    var volumet = null;
+                    if(compos.some(function(elem, idx, arr) {
+                            return angular.isArray(elem.arr) && elem.arr.length > 0;
+                        })) {
+                        for(var iaux=0; iaux<compos.length; iaux++) {
+                            if(angular.isArray(compos[iaux].arr) && compos[iaux].arr.length > 0) {
+                                volumet = compos[iaux].propiedades[1].valor;
+                            }
+                        }
+                    }
+                    //var volumet = compos[0].arr.length > 0? compos[0].propiedades[1].valor: null;
+                    if(!muted && compos[0].arr) console.log('calcular - arr.length', compos[0].arr.length);
                     if(!muted) console.log('calcular - volumet', compos[0].propiedades[1].valor);
                     for(var techIndx=0; techIndx<compos.length; techIndx++) {
                         var tech = compos[techIndx];
@@ -697,11 +707,85 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
 
 
         function calcularAjax(postData) {
+            var muted = false;
+            if(!muted) console.log('\n');
             $http.post('/calculadora/calculadora/calcular/.json', {"postData": postData}).success(function(data) {
-                //$scope.resultados = data;
-                $scope.resultados = data[0];
+                $scope.resultados = data;
+                if(!muted) console.log('calcularAjax data',data);
+                //$scope.resultados = data[0];
             });
         }
+
+        $scope.isReady = function() {
+            var muted = true;
+            if(!muted) console.log('\n');
+            var hasErrors = false;
+            var hasBeenSelected = false;
+            angular.forEach($scope.categories, function(catego){
+                if(catego.descripcion === 'Tipo de cliente') {if(!muted) console.log('isReady - tipoCliente.selected', catego.selected);
+                    if(!catego.selected) {if(!muted) console.log('\tisReady - tipoCliente HAS_ERRORS');
+                        hasErrors = true;
+                        return hasErrors;
+                    }
+                }
+                if(catego.descripcion === 'Ingeniería en sitio' && catego.selected) {if(!muted) console.log('isReady' +
+                    ' - ingenieriaSitio.selected', catego.selected);
+                    hasBeenSelected = catego.componentes.some(function(elem, idx, arr) {
+                        return angular.isDefined(elem.nItems) && elem.nItems > 0;
+                    });
+                    if(!hasBeenSelected) {if(!muted) console.log('isReady - ingenieriaSitio.selected NO HAY CANTIDAD' +
+                        ' PARA NINGUN RECURSO');
+                        hasErrors = true;
+                        return hasErrors;
+                    }
+                    //angular.forEach(catego.componentes, function(resource){if(!muted) console.log('\tisReady -' +
+                    //    ' empleado', resource);
+                    //    if(!(resource.propiedades[0].valor > 0)) {if(!muted) console.log('\t\tisReady -' +
+                    //        ' ingenieriaSitio' +
+                    //        ' HAS_ERRORS');
+                    //        hasErrors = true;
+                    //        return hasErrors;
+                    //    }
+                    //});
+                }
+                if(catego.descripcion === 'Tecnología') {if(!muted) console.log('isReady -' +
+                    ' tecnologia.selected', catego.selected);
+                    hasBeenSelected = catego.componentes.some(function(elem, idx, arr) {
+                        return angular.isDefined(elem.nItems) && elem.nItems > 0;
+                    });
+                    if(!hasBeenSelected) {if(!muted) console.log('isReady - tecnologia NOHAY CANTIDAD PARA NINGUNA' +
+                        ' TECNO');
+                        hasErrors = true;
+                        return hasErrors;
+                    }
+                    angular.forEach(catego.componentes, function(tech){if(!muted) console.log('\tisReady -' +
+                        ' tech', tech);
+                        if(tech.nItems > 0) {
+                            if(!tech.propiedades[1].valor) {if(!muted) console.log('\t\tisReady - tecnologia' +
+                                ' HAS_ERRORS  no hay volumetria seleccionada');
+                                hasErrors = true;
+                                return hasErrors;
+                            }
+                            if(!angular.isArray(tech.arr) || !(tech.arr.length > 0)) {if(!muted) console.log('\t\tisReady - tecnologia HAS_ERRORS');
+                                hasErrors = true;
+                                return hasErrors;
+                            }
+                            angular.forEach(tech.arr, function(item){if(!muted) console.log('\t\tisReady - tecnologia' +
+                                ' item' +
+                                ' ', item);
+                                if(!angular.isArray(item) || !(item.length > 0)) {if(!muted) console.log('\t\t\tisReady' +
+                                    ' - tecnologia HAS_ERRORS');
+                                    hasErrors = true;
+                                    return hasErrors;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            if(!muted) console.log('*****isReady hasErrors', hasErrors);
+            return hasErrors;
+        };
     });
 
 angular.module('calculadora.controllers')

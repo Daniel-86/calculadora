@@ -38,10 +38,12 @@ angular.module('backoffice.controllers', [])
 
         $scope.factor = {};
         $scope.factor.id = angular.isDefined(ticketId)? ticketId: null;
+        console.log('factorCtrl ticketId', ticketId);
 
         function getAvailableDependencies() {
-            var url = '/calculadora/factor/dependenciesData' + ticketId > 0? '/'+ticketId: '';
-            $http.get(url).success(function (data) {
+            var url = '/calculadora/factor/dependenciesData' + (ticketId > 0? '/'+ticketId: ''); console.log('factorCtrl' +
+                ' url', url);
+            $http.get(url).success(function (data) {console.log('factorCtrl data', data);
                 $scope.available = data.available;
                 $scope.factor = data.factor;
                 if($scope.factor && $scope.factor.id > 0) $scope.selected = data.factor.dependencias;

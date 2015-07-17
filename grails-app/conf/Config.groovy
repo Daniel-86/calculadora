@@ -62,9 +62,13 @@ environments {
         grails.plugin.springsecurity.logout.postOnly = false
 
         log4j = {
-            debug 'org.hibernate.SQL'
-            trace 'org.hibernate.type'
-            info 'org.springframework.security'
+            appenders {
+                file name: 'sqlLog', file: 'target/sql.log', maxFileSize: 1024
+                file name: 'springSecurity', file: 'target/sringsecurity.log'
+            }
+            debug sqlLog:'org.hibernate.SQL', additivity: false
+            trace sqlLog:'org.hibernate.type', additivity: false
+            info springSecurity:'org.springframework.security', additivity: false
         }
         grails.gorm.failOnError = true
 

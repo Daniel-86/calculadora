@@ -133,7 +133,30 @@ class CalculadoraController {
 
 //        List ticketsRecords = queryList.collect {Ticket.findByIdsString(it.join(','))}
         List<Ticket> tickets = Ticket.list()
-        List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
+        List<Regla> rules = Regla.list()
+        List selectedDependencies = queryList.collect{
+            List<Item> dependencies = []
+            it.each {
+                Item item = Item.findByCustomId(it as String)
+                if(item) dependencies << item
+            }
+            return dependencies
+        }
+
+        List ticketsRecords = selectedDependencies.collect { depList->
+            def matched = rules.findAll {depList.containsAll(it.dependencias)}
+//            def asdf = depList as Set<Item>
+//            def qwe = Regla.findAllByDescripcion('Para pruebas')
+//            Regla.executeQuery("select r from Regla r where r.dependencias.containsAll(:lista)")
+//            def miCrit = Regla.createCriteria()
+//            def algun = Regla.createCriteria().list() {
+//                inList 'dependencias', depList
+//            }
+//            Regla.findAllByDependenciasInList(asdf)
+//            return qwe
+            return matched
+        }
+//        List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
         ticketsRecords.removeAll([null, []])
         println "ticketsRecords $ticketsRecords"
 

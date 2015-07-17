@@ -597,14 +597,27 @@
                     </div>
                 </div>
 
-                <button type="button" ng-click="calcular()">Calcular</button>
-                <div>
-                    <ul>
-                        <li><span><strong>cc</strong>{{resultados.cc}}</span></li>
-                        <li><span><strong>es</strong>{{resultados.es}}</span></li>
-                        <li><span><strong>rq</strong>{{resultados.rq}}</span></li>
-                        <li><span><strong>as</strong>{{resultados.acs}}</span></li>
-                    </ul>
+                <button type="button" class="btn btn-primary" ng-click="calcular()" ng-disabled="isReady()">Calcular
+                </button>
+                <div ng-show="resultados">
+                    <h4>Coindice con</h4>
+                    <div ng-repeat="res in resultados">
+                        <span ng-repeat="ite in res">
+                            <p>{{ite.nombre}}: {{ite.descripcion}}</p>
+                            <ul ng-if="ite.class.indexOf('Ticket', ite.class.length - 'Ticket'.length) !== -1">
+                                <li><span><strong>cc</strong> {{ite.cc}}, <strong>es</strong> {{ite.es}}, <strong>rq
+                                </strong> {{ite.rq}}, <strong>as</strong> {{ite.acs}}</span></li>
+                                %{--<li><span><strong>cc</strong>{{ite.cc}}</span></li>--}%
+                                %{--<li><span><strong>es</strong>{{ite.es}}</span></li>--}%
+                                %{--<li><span><strong>rq</strong>{{ite.rq}}</span></li>--}%
+                                %{--<li><span><strong>as</strong>{{ite.acs}}</span></li>--}%
+                            </ul>
+                            <ul ng-if="ite.class.indexOf('Factor', ite.class.length - 'Factor'.length) !== -1">
+                                <li><span><strong>factor</strong> {{ite.factor}}, {{ite.lowerLimit}} -
+                                {{ite.upperLimit}}</li>
+                            </ul>
+                        </span>
+                    </div>
                 </div>
 
             </div>

@@ -44,7 +44,7 @@ class BackofficeController {
 //        render data as JSON
     }
 
-    def editFactor() {
+    def editFactor() {def algo = params
         render view: '/backoffice/create-factor', model: [factorId: params.id]
     }
 }

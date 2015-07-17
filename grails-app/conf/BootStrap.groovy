@@ -1,21 +1,27 @@
 import mx.com.scitum.Categoria
 import mx.com.scitum.Concepto
 import mx.com.scitum.ConceptoEspecial
+import mx.com.scitum.Factor
 import mx.com.scitum.Item
 import mx.com.scitum.Propiedad
 import mx.com.scitum.Ticket
 import mx.com.scitum.auth.Role
 import mx.com.scitum.auth.User
 import mx.com.scitum.auth.UserRole
+import org.apache.commons.logging.LogFactory
+
+import java.util.logging.Logger
 
 class BootStrap {
 
 	def customMarshallerRegistrar
 
+    private static final log = LogFactory.getLog("grails.app.BootStrap")
+
     def init = { servletContext ->
 		customMarshallerRegistrar.registerMarshallers()
 
-        println "loading categories data"
+        log.debug("Loading categories data")
 
         Categoria category = new Categoria(
                 descripcion: 'Tipo de cliente',
@@ -180,14 +186,21 @@ class BootStrap {
         ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
         ticket.setNombre('tickets 1')
         ticket.setDescripcion('Para pruebas')
-        ticket.addToDependencias(Item.get(1))
-        ticket.addToDependencias(Item.get(2))
+        ticket.addToDependencias(Item.get(3))
+        ticket.addToDependencias(Item.get(21))
         ticket.save(flush: true)
 
-        ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket = new Ticket(cc: 5, es: 4, acs: 3, rq: 0)
         ticket.setNombre('tickets 2')
         ticket.setDescripcion('Para pruebas')
+        ticket.addToDependencias(Item.get(48))
+        ticket.addToDependencias(Item.get(47))
         ticket.save(flush: true)
+
+        Factor factor
+        factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: -0.5)
+        factor.addToDependencias(Item.get(27))
+        factor.save(flush: true)
 
 
 //        Ticket tickets = new Ticket(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
@@ -222,17 +235,17 @@ class BootStrap {
 
         Role role
         if(!Role.findByAuthority('ROLE_GOD')) {
-            println "Agregando el rol 'ROLE_GOD'"
+            log.debug("Agregando el rol 'ROLE_GOD'")
             role = new Role('ROLE_GOD')
             role.save(flush: true)
         }
         if(!Role.findByAuthority('ROLE_ADMIN')) {
-            println "Agregando el rol 'ROLE_ADMIN'"
+            log.debug("Agregando el rol 'ROLE_ADMIN'")
             role = new Role('ROLE_ADMIN')
             role.save(flush: true)
         }
         if(!Role.findByAuthority('ROLE_USER')) {
-            println "Agregando el rol 'ROLE_USER'"
+            log.debug("Agregando el rol 'ROLE_USER'")
             role = new Role('ROLE_USER')
             role.save(flush: true)
         }
@@ -240,7 +253,7 @@ class BootStrap {
         User user
         UserRole userRole
         if(!User.findByUsername('daniel.jimenez')) {
-            println "Agregando el usuario 'daniel.jimenez' con rol 'ROLE_GOD'"
+            log.debug("Agregando el usuario 'daniel.jimenez' con rol 'ROLE_GOD'")
             user = new User('daniel.jimenez', 'asdf')
             user.save(flush: true)
             role = Role.findByAuthority('ROLE_GOD')
@@ -249,7 +262,7 @@ class BootStrap {
         }
 
         if(!User.findByUsername('edgar.bravo')) {
-            println "Agregando el usuario 'edgar.bravo' con rol 'ROLE_USER'"
+            log.debug("Agregando el usuario 'edgar.bravo' con rol 'ROLE_USER'")
             user = new User('edgar.bravo', 'asdf')
             user.save(flush: true)
             role = Role.findByAuthority('ROLE_USER')
