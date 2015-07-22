@@ -645,7 +645,8 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
                     categoVal = {};
                     for(var compoIndx=0; compoIndx<componentes.length; compoIndx++) {
                         if(!muted) console.log('calcular - componente', componentes[compoIndx]);
-                        var compoKey = componentes[compoIndx].customId;
+                        //var compoKey = componentes[compoIndx].customId;
+                        var compoKey = componentes[compoIndx].propiedades[0].customId;
                         var compoValue = componentes[compoIndx].propiedades[0].valor;
                         if(!muted) console.log('calcular - compoKey', compoKey);
                         if(!muted) console.log('calcular - compoValue', compoValue);

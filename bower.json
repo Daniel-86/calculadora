@@ -1,0 +1,16 @@
+{
+  "name": "calculadora",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Daniel-86/calculadora",
+  "authors": [
+    "Daniel Jiménez <daniel.jimenez@scitum.com.mx>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

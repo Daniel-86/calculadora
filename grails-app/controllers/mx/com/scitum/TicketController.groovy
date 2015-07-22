@@ -1,10 +1,12 @@
 package mx.com.scitum
 
-
+import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class TicketController {
 
@@ -13,6 +15,11 @@ class TicketController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Ticket.list(params), model:[ticketInstanceCount: Ticket.count()]
+    }
+
+    def list() {def asdf = Ticket.list()
+//        respond Ticket.list()
+        render (Ticket.list() as JSON)
     }
 
     def show(Ticket ticketInstance) {
@@ -126,7 +133,7 @@ class TicketController {
     def editNG() {
 //        println params
         Ticket ticket = Ticket.get(params.id)
-        def dependencies = ticket.dependencias
+        def dependencies = ticket?.dependencias?: []
         def all = Item.list()
         all.removeAll(dependencies)
         def data = [available: all, ticket: ticket]

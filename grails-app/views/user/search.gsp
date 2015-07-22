@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<meta name='layout' content='springSecurityUI'/>
+	<meta name='layout' content='main-users'/>
 	<title><g:message code='spring.security.ui.user.search'/></title>
 </head>
 
@@ -116,7 +116,7 @@ $(document).ready(function() {
 	});
 });
 
-<s2ui:initCheckboxes/>
+%{--<s2ui:initCheckboxes/>--}%
 
 </script>
 

@@ -28,6 +28,7 @@
 <body>
 
 <div ng-app="backoffice" ng-controller="editTicketCtrl">
+    <h1>{{ticket.id > 0? 'Editar': 'Crear'}}</h1>
     <div class="col-md-6">
         <form novalidate class="" name="createTForm" ng-submit="createTicketAjax()">
             %{--<ul>--}%
@@ -127,7 +128,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" ng-disabled="isDirty()">Crear</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="isDirty()">{{ticket.id > 0? 'Editar':
+            'Crear'}}</button>
 
         </form>
     </div>

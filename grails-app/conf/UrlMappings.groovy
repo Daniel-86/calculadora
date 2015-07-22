@@ -30,8 +30,16 @@ class UrlMappings {
                 id matches: /\d*/
             }
         }
+        "/ticket/$id?" {
+            controller = 'backoffice'
+            action = 'editTicket'
+            constraints {
+                id matches: /\d*/
+            }
+        }
 
         "/factores" view: '/backoffice/list-factor'
+        "/tickets" view: '/backoffice/list-ticket'
         "500"(view: '/error')
     }
 }

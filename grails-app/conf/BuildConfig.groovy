@@ -13,6 +13,8 @@ grails.project.fork = [
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
+//grails.server.port.http=8083
+
 //plugins {
 //    compile ":spring-security-core:2.0-RC5"
 //    compile ":spring-security-ldap:2.0-RC2"

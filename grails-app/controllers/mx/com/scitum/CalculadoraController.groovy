@@ -102,8 +102,10 @@ class CalculadoraController {
                     println "category ${category.key}"
                     if (category.key == 'tipo_de_cliente')
                         tipocli = category.value
-                    if(category.key == 'ingenieria_en_sitio' && category.value)
+                    if(category.key == 'ingenieria_en_sitio' && category.value) {
                         sitio = 'sitio'
+//                        def
+                    }
                     if (category.key == 'tecnologia') {
                         println "TECHS ${category.value}"
                         def techList = category.value

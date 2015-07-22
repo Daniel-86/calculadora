@@ -16,11 +16,10 @@
     <title>backoffice ${section?: ''}</title>
     <style>
     </style>
-    <base href="/calculadora/"/>
 </head>
 
 <body>
-<div ng-app="backoffice" ng-controller="factorCtrl">
+<div ng-app="backoffice" ng-controller="ticketCtrl">
     <table class="table table-stripped table-bordered">
         <thead>
         <th>Nombre</th>
@@ -28,8 +27,8 @@
         %{--<th>Dependencias</th>--}%
         </thead>
         <tbody>
-        <tr ng-repeat="rule in factorList">
-            <td><a href="factor/{{rule.id}}">{{rule.nombre}}</a> </td>
+        <tr ng-repeat="rule in ticketList">
+            <td><a href="ticket/{{rule.id}}">{{rule.nombre}}</a> </td>
             <td>{{rule.descripcion}}</td>
         </tr>
         </tbody>

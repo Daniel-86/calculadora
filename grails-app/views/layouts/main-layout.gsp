@@ -24,6 +24,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <base href="/calculadora/"/>
+
     <g:layoutHead/>
 </head>
 
@@ -54,7 +56,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a class="center-block" href="#"><span class="lead ">Calculadora de Servicios Administrados </span></a></li>
+                <li>
+                    <g:link uri="/" class="center-block">
+                        <span class="lead ">Calculadora de Servicios Administrados
+                        </span>
+                    </g:link></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -62,14 +68,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administración <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Tecnologías</a></li>
-                            <li><a href="#">Fabricantes</a></li>
-                            <li><a href="#">Servicios Administrados</a></li>
+                            <sec:ifAllGranted roles="ROLE_GOD"><li><g:link controller="user">Usuarios</g:link></li></sec:ifAllGranted>
+                            <li><g:link controller="backoffice" action="list"
+                                        params="[section: 'factor']">Factores</g:link></li>
                             <li><g:link controller="backoffice" action="list"
                                         params="[section: 'ticket']">Tabla de tickets</g:link></li>
                             <li><g:link controller="calculadora" action="cms">CMS</g:link></li>
-                            <li class="divider"></li>
-                            <li><a href="#">SLAs</a></li>
                         </ul>
                     </li>
                 </sec:ifAllGranted>

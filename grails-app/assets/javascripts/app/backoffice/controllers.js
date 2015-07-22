@@ -1,6 +1,6 @@
 //= require_self
 
-angular.module('backoffice.controllers', [])
+angular.module('backoffice.controllers', ['ui.sortable'])
 
     .controller('ticketCtrl', function ($scope, $http) {
         function getAvailableDependencies() {
@@ -32,6 +32,13 @@ angular.module('backoffice.controllers', [])
                 alert('creado');
             });
         };
+
+        function getList() {
+            $http.get('ticket/list').success(function(data) {console.log('list data', data);
+                $scope.ticketList = data;
+            });
+        }
+        getList();
     })
 
     .controller('factorCtrl', function ($scope, $http) {
@@ -75,10 +82,11 @@ angular.module('backoffice.controllers', [])
             factorData['lowerLimit'] = $scope.factor.lowerLimit;
             factorData['upperLimit'] = $scope.factor.upperLimit;
             factorData['descripcion'] = $scope.factor.descripcion;
+            factorData['nombre'] = $scope.factor.nombre;
             factorData['id'] = $scope.factor.id;
 
 
-            var url = ticketId > 0? '/calculadora/factor/update/'+ticketId: '/calculadora/factor/save';
+            var url = $scope.factor.id > 0? '/calculadora/factor/update/'+$scope.factor.id: '/calculadora/factor/save';
             console.log('url '+url);
             console.log('factorData', factorData);
             function successAjax(data, status) {
@@ -114,7 +122,7 @@ angular.module('backoffice.controllers', [])
                 }
             }
 
-            if(ticketId > 0) {
+            if($scope.factor.id > 0) {
                 $http.put(url, factorData)
                     .success(successAjax)
                     .error(errorAjax);
@@ -125,18 +133,48 @@ angular.module('backoffice.controllers', [])
                     .error(errorAjax);
             }
         };
+
+        $scope.dragControlListeners = {
+            accept: function (sourceItemHandleScope, destSortableScope) {
+                return true
+            },
+            containment: '#dependencies-container',
+            itemMoved: function(event) {
+                //console.log('dragControl parent', event.dest.sortableScope.$parent);
+                //console.log('dragControl sortableScope', event.dest.sortableScope);
+                //console.log('dragControl status', event.dest.sortableScope.$parent);
+                //event.source.itemScope.modelValue.status = event.dest.sortableScope.$parent.column.name;
+            }
+        };
+
+        $scope.itemsList = {
+            items1: [],
+            items2: []
+        };
+
+        for (i = 0; i <= 5; i += 1) {
+            $scope.itemsList.items1.push({'Id': i, 'Label': 'Item ' + i});
+        }
     })
 
     .controller('editTicketCtrl', function ($scope, $http) {
         $scope.ticket = {};
         $scope.ticket.id = ticketId;
         function getAvailableDependencies() {
-            $http.get('/calculadora/ticket/editNG/' + ticketId).success(function (data) {
-                console.log(data);
+            var url = '/calculadora/ticket/editNG' + (ticketId > 0? '/'+ticketId: ''); console.log('ticketCtrl' +
+                ' url', url);
+            $http.get(url).success(function (data) {console.log('ticketCtrl data', data);
                 $scope.available = data.available;
                 $scope.ticket = data.ticket;
-                $scope.selected = data.ticket.dependencias;
+                if($scope.ticket && $scope.ticket.id > 0) $scope.selected = data.ticket.dependencias;
             });
+            
+            //$http.get('/calculadora/ticket/editNG/' + ticketId).success(function (data) {
+            //    console.log(data);
+            //    $scope.available = data.available;
+            //    $scope.ticket = data.ticket;
+            //    $scope.selected = data.ticket.dependencias;
+            //});
         }
 
         getAvailableDependencies();

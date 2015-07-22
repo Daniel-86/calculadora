@@ -1,10 +1,11 @@
 package mx.com.scitum
 
-
+import org.springframework.security.access.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class FactorController {
 
@@ -16,7 +17,7 @@ class FactorController {
     }
 
     def list() {
-        respond Ticket.list()
+        respond Factor.list()
     }
 
     def show(Factor factorInstance) {
@@ -30,7 +31,8 @@ class FactorController {
     @Transactional
     def save() {
         Factor factorInstance = new Factor()
-        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion']])
+        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
+                                                          'nombre']])
         def dependenciasJSON = request.JSON.dependencias
         dependenciasJSON.each { String id->
             factorInstance.addToDependencias(Item.findByCustomId(id))
@@ -68,7 +70,8 @@ class FactorController {
             notFound()
             return
         }
-        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion']])
+        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
+                                                          'nombre']])
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { String id->
