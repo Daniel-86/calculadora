@@ -29,6 +29,8 @@
     <asset:javascript src="cms.js"/>
     <s2ui:resources module='spring-security-ui' />
 
+    <base href="/calculadora/"/
+
     <g:layoutHead/>
 </head>
 

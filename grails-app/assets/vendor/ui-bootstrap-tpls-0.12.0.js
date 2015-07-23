@@ -3921,7 +3921,8 @@ angular.module("template/accordion/accordion.html", []).run(["$templateCache", f
     "<div class=\"panel-group\" ng-transclude></div>");
 }]);
 
-angular.module("template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
+angular.module("template/alert/alert.html", []).run(["$templateCache", function($templateCache) {console.log('en' +
+    ' alert');
   $templateCache.put("template/alert/alert.html",
     "<div class=\"alert\" ng-class=\"['alert-' + (type || 'warning'), closeable ? 'alert-dismissable' : null]\" role=\"alert\">\n" +
     "    <button ng-show=\"closeable\" type=\"button\" class=\"close\" ng-click=\"close()\">\n" +

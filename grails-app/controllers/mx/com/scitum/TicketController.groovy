@@ -33,7 +33,7 @@ class TicketController {
     @Transactional
     def save() {
         Ticket ticketInstance = new Ticket()
-        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq']])
+        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
         def dependenciasJSON = request.JSON.dependencias
         dependenciasJSON.each { String id->
             ticketInstance.addToDependencias(Item.findByCustomId(id))
@@ -72,7 +72,7 @@ class TicketController {
             notFound()
             return
         }
-        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq']])
+        bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { String id->
@@ -130,14 +130,13 @@ class TicketController {
         }
     }
 
-    def editNG() {
-//        println params
+
+    def dependenciesData() {
         Ticket ticket = Ticket.get(params.id)
         def dependencies = ticket?.dependencias?: []
         def all = Item.list()
         all.removeAll(dependencies)
         def data = [available: all, ticket: ticket]
         respond data
-//        render data as JSON
     }
 }

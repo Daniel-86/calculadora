@@ -58,3 +58,17 @@ h2 {
 	border: 0;
   	opacity:0;
 }
+
+
+.scrollable-list {
+	max-height: 337px;
+	overflow: auto;
+	min-height: 80px;
+	background-color: lightgrey;
+	padding: 6px;
+}
+.as-sortable-item, .as-sortable-placeholder {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}

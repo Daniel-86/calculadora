@@ -13,6 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calculadora de Servicios Administrados : Scitum - <g:layoutTitle/></title>
     <asset:stylesheet src="application.css"/>
+    <asset:stylesheet src="ng-sortable.style.css"/>
+    <asset:stylesheet src="ng-sortable.css"/>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -24,9 +26,11 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <asset:javascript src="angular/angular.js"/>
+    %{--<asset:javascript src="angular/angular.js"/>--}%
+    <asset:javascript src="angular/angular-1.3.js"/>
     <asset:javascript src="ui-bootstrap-tpls-0.12.0.js"/>
-    <asset:javascript src="cms.js"/>
+    %{--<asset:javascript src="cms.js"/>--}%
+    <asset:javascript src="backoffice.js"/>
 
     <base href="/calculadora/"/>
 

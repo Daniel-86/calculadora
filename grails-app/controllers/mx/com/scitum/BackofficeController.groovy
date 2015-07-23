@@ -47,4 +47,13 @@ class BackofficeController {
     def editFactor() {def algo = params
         render view: '/backoffice/create-factor', model: [factorId: params.id]
     }
+
+    def dependenciesData() {
+        Regla regla = Regla.get(params.id)
+        def dependencies = regla?.dependencias?: []
+        def all = Item.list()
+        all.removeAll(dependencies)
+        def data = [available: all, rule: regla]
+        respond data
+    }
 }

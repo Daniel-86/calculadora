@@ -1,56 +1,145 @@
 //= require_self
+//= require angular/modules/ng-sortable.js
 
-angular.module('backoffice.controllers', ['ui.sortable'])
+angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
 
-    .controller('ticketCtrl', function ($scope, $http) {
+    .controller('ticketCtrl', function ($scope, $http, $timeout, $filter) {
+        var muted = true;
+        if(!muted) console.log('\n');
+        $scope.ticket = {};
+        $scope.ticket.id = ticketId;
+        //$scope.filteredItems = 0;
+        //$scope.currentPage = 1;
+        //$scope.entryLimit = 2;
         function getAvailableDependencies() {
-            $http.get('backoffice/listAvailableDependencies/.json').success(function (data) {
-                console.log(data);
+            var url = 'ticket/dependenciesData' + (ticketId > 0? '/'+ticketId: '');
+            //var url = 'backoffice/dependenciesData' + (ticketId > 0? '/'+ticketId: '');
+            if(!muted) console.log('ticketCtrl url', url);
+            $http.get(url).success(function (data) {
+                if(!muted) console.log('ticketCtrl data', data);
                 $scope.available = data.available;
+                $scope.ticket = data.ticket;
+                //$scope.ticket = data.regla;
+                if($scope.ticket && $scope.ticket.id > 0) $scope.selected = data.ticket.dependencias;
             });
         }
 
         getAvailableDependencies();
 
-        $scope.isDirty = function () {
-            var creaForma = $scope.createTForm;
-            return creaForma.cc.$invalid || creaForma.es.$invalid || creaForma.acs.$invalid || creaForma.rq.$invalid;
-        };
 
         $scope.createTicketAjax = function () {
+
+            var muted = true;
+            if(!muted) console.log('\n');
             var ticketData = {};
-            var dependencies = $scope.selected.map(function (obj) {
+            var ticketDependencies = $scope.selected.map(function (obj) {
                 return obj.customId;
             });
-            console.log('createTicketAjax - dependencies', dependencies);
-            ticketData['dependencias'] = dependencies;
-            ticketData['cc'] = $scope.cc;
-            ticketData['es'] = $scope.es;
-            ticketData['acs'] = $scope.acs;
-            ticketData['rq'] = $scope.rq;
-            $http.post('/calculadora/ticket/save', ticketData).success(function (data) {
-                alert('creado');
-            });
+            if(!muted) console.log('createAjax - dependencies', ticketDependencies);
+            ticketData['dependencias'] = ticketDependencies;
+            ticketData['cc'] = $scope.ticket.cc;
+            ticketData['es'] = $scope.ticket.es;
+            ticketData['acs'] = $scope.ticket.acs;
+            ticketData['rq'] = $scope.ticket.rq;
+            ticketData['descripcion'] = $scope.ticket.descripcion;
+            ticketData['nombre'] = $scope.ticket.nombre;
+            ticketData['id'] = $scope.ticket.id;
+
+
+            var url = $scope.ticket.id > 0? '/calculadora/ticket/update/'+$scope.ticket.id: '/calculadora/ticket/save';
+            if(!muted) console.log('url '+url);
+            if(!muted) console.log('ticketData', ticketData);
+            function successAjax(data, status) {
+                if(!muted) console.log('nuevo ticket creado', data);
+                var creaForma = $scope.createTForm;
+                if(status === 201 || status === 200) {
+                    creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
+                    $scope.alerts = [{type: 'success', msg: 'El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')}]
+                    if(!muted) console.log('alertas', $scope.alerts);
+                }
+            }
+            function errorAjax(data, status, headers, config)  {
+                $scope.createTForm.generalInfo = [];
+                angular.forEach($scope.createTForm, function(item) {
+                    item.serverErrors = [];
+                });
+                if(!muted) console.log('error (' + status + '): ', data);
+                var creaForma = $scope.createTForm;
+                if(status === 402 || status === 422) {
+                    var serverErrors = data.errors;
+                    angular.forEach(serverErrors, function (error) {
+                        var field = error.field;
+                        var message = error.message; if(!muted) console.log('field, message ' + field + '   '+message);
+                        var rejectedVal = error['rejected-value'];
+                        if (!angular.isArray(creaForma[field].serverErrors)) creaForma[field].serverErrors = [];
+                        creaForma[field].serverErrors.push(message);
+                    });
+                }
+                if(status === 405) {if(!muted) console.log('createTicketAjax es 405');
+                    creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
+                    ' resource.'];
+                }
+                else {
+                    creaForma.generalErrors = ["Se recibió un error "+status]
+                }
+            }
+
+            if($scope.ticket.id > 0) {
+                $http.put(url, ticketData)
+                    .success(successAjax)
+                    .error(errorAjax);
+            }
+            else {
+                $http.post(url, ticketData)
+                    .success(successAjax)
+                    .error(errorAjax);
+            }
         };
 
         function getList() {
-            $http.get('ticket/list').success(function(data) {console.log('list data', data);
+            var muted = true;
+            if(!muted) console.log('\n');
+            $http.get('ticket/list').success(function(data) {
+                if(!muted) console.log('list data', data);
                 $scope.ticketList = data;
+                $scope.filteredItems = $scope.ticketList.length;
+                $scope.currentPage = 1;
+                $scope.entryLimit = 20;
+                $scope.totalItems = $scope.ticketList.length;
             });
         }
         getList();
+
+        $scope.filter = function() {
+            $timeout(function() {
+                $scope.filteredItems = $scope.filtered.length;
+            }, 10);
+        };
+
+        $scope.sort_by = function(predicate) {
+            $scope.predicate = predicate;
+            $scope.reverse = !$scope.reverse;
+        };
+
+        $scope.setPage = function(pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
     })
 
     .controller('factorCtrl', function ($scope, $http) {
 
+        var muted = true;
+        if(!muted) console.log('\n');
         $scope.factor = {};
         $scope.factor.id = angular.isDefined(ticketId)? ticketId: null;
-        console.log('factorCtrl ticketId', ticketId);
+        if(!muted) console.log('factorCtrl ticketId', ticketId);
 
         function getAvailableDependencies() {
-            var url = '/calculadora/factor/dependenciesData' + (ticketId > 0? '/'+ticketId: ''); console.log('factorCtrl' +
-                ' url', url);
-            $http.get(url).success(function (data) {console.log('factorCtrl data', data);
+            var url = 'factor/dependenciesData' + (ticketId > 0? '/'+ticketId: '');
+            if(!muted) console.log('factorCtrl url', url);
+            $http.get(url).success(function (data) {
+                if(!muted) console.log('factorCtrl data', data);
                 $scope.available = data.available;
                 $scope.factor = data.factor;
                 if($scope.factor && $scope.factor.id > 0) $scope.selected = data.factor.dependencias;
@@ -60,23 +149,21 @@ angular.module('backoffice.controllers', ['ui.sortable'])
         getAvailableDependencies();
 
         function getList() {
-            $http.get('/calculadora/factor/list').success(function(data) {
+            $http.get('factor/list').success(function(data) {
                 $scope.factorList = data;
             });
         }
         getList();
 
-        $scope.isDirty = function () {
-            var creaForma = $scope.createForm;
-            return creaForma.factor.$invalid || creaForma.lowerLimit.$invalid || creaForma.upperLimit.$invalid;
-        };
 
         $scope.createFactorAjax = function () {
+            var muted = true;
+            if(!muted) console.log('\n');
             var factorData = {};
             var factorDependencies = $scope.selected.map(function (obj) {
                 return obj.customId;
             });
-            console.log('createAjax - dependencies', factorDependencies);
+            if(!muted) console.log('createAjax - dependencies', factorDependencies);
             factorData['dependencias'] = factorDependencies;
             factorData['factor'] = $scope.factor.factor;
             factorData['lowerLimit'] = $scope.factor.lowerLimit;
@@ -87,10 +174,10 @@ angular.module('backoffice.controllers', ['ui.sortable'])
 
 
             var url = $scope.factor.id > 0? '/calculadora/factor/update/'+$scope.factor.id: '/calculadora/factor/save';
-            console.log('url '+url);
-            console.log('factorData', factorData);
+            if(!muted) console.log('url '+url);
+            if(!muted) console.log('factorData', factorData);
             function successAjax(data, status) {
-                console.log('nuevo factor creado', data);
+                if(!muted) console.log('nuevo factor creado', data);
                 var creaForma = $scope.createForm;
                 if(status === 201 || status === 200) {
                     creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
@@ -101,19 +188,19 @@ angular.module('backoffice.controllers', ['ui.sortable'])
                 angular.forEach($scope.createForm, function(item) {
                     item.serverErrors = [];
                 });
-                console.log('error (' + status + '): ', data);
+                if(!muted) console.log('error (' + status + '): ', data);
                 var creaForma = $scope.createForm;
                 if(status === 402 || status === 422) {
                     var serverErrors = data.errors;
                     angular.forEach(serverErrors, function (error) {
                         var field = error.field;
-                        var message = error.message; console.log('field, message ' + field + '   '+message);
+                        var message = error.message; if(!muted) console.log('field, message ' + field + '   '+message);
                         var rejectedVal = error['rejected-value'];
                         if (!angular.isArray(creaForma[field].serverErrors)) creaForma[field].serverErrors = [];
                         creaForma[field].serverErrors.push(message);
                     });
                 }
-                if(status === 405) {console.log('createTicketAjax es 405');
+                if(status === 405) {if(!muted) console.log('createFactorAjax es 405');
                     creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
                     ' resource.'];
                 }
@@ -133,6 +220,14 @@ angular.module('backoffice.controllers', ['ui.sortable'])
                     .error(errorAjax);
             }
         };
+
+
+        $scope.$watch('createForm.lowerLimit.$valid', function(isValid, lastValue) {
+            if(!isValid) {console.log('isValid', isValid, lastValue);
+                $scope.factor.upperLimit = '';
+                $scope.createForm.upperLimit.$dirty = true;
+            }
+        });
 
         $scope.dragControlListeners = {
             accept: function (sourceItemHandleScope, destSortableScope) {
@@ -157,77 +252,6 @@ angular.module('backoffice.controllers', ['ui.sortable'])
         }
     })
 
-    .controller('editTicketCtrl', function ($scope, $http) {
-        $scope.ticket = {};
-        $scope.ticket.id = ticketId;
-        function getAvailableDependencies() {
-            var url = '/calculadora/ticket/editNG' + (ticketId > 0? '/'+ticketId: ''); console.log('ticketCtrl' +
-                ' url', url);
-            $http.get(url).success(function (data) {console.log('ticketCtrl data', data);
-                $scope.available = data.available;
-                $scope.ticket = data.ticket;
-                if($scope.ticket && $scope.ticket.id > 0) $scope.selected = data.ticket.dependencias;
-            });
-            
-            //$http.get('/calculadora/ticket/editNG/' + ticketId).success(function (data) {
-            //    console.log(data);
-            //    $scope.available = data.available;
-            //    $scope.ticket = data.ticket;
-            //    $scope.selected = data.ticket.dependencias;
-            //});
-        }
-
-        getAvailableDependencies();
-
-        $scope.isDirty = function () {
-            var creaForma = $scope.createTForm;
-            return creaForma.cc.$invalid || creaForma.es.$invalid || creaForma.acs.$invalid || creaForma.rq.$invalid;
-        };
-
-        $scope.createTicketAjax = function () {
-            var ticketData = {};
-            var dependencies = $scope.selected.map(function (obj) {
-                return obj.customId;
-            });
-            console.log('createTicketAjax - dependencies', dependencies);
-            ticketData['dependencias'] = dependencies;
-            ticketData['cc'] = $scope.ticket.cc;
-            ticketData['es'] = $scope.ticket.es;
-            ticketData['acs'] = $scope.ticket.acs;
-            ticketData['rq'] = $scope.ticket.rq;
-            ticketData['id'] = $scope.ticket.id;
-            $http.put('/calculadora/ticket/update', ticketData)
-                .success(function (data) {
-                    //alert('editado');
-                    var creaForma = $scope.createTForm;
-                    creaForma.generalInfo = ['Se actualizó el elemento con id '+data.id];
-                }).error(function(data, status) {
-                    console.log('error (' + status + '): ', data);
-                    console.log(typeof status);
-                    var creaForma = $scope.createTForm;
-                    if(status === 402 || status === 422) {
-                        var serverErrors = data.errors;
-                        angular.forEach(serverErrors, function (error) {
-                            var field = error.field;
-                            var message = error.message;
-                            var rejectedVal = error['rejected-value'];
-                            if (!angular.isArray(creaForma[field].serverErrors)) creaForma[field].serverErrors = [];
-                            creaForma[field].serverErrors.push(message);
-                        });
-                    }
-                    if(status === 405) {console.log('createTicketAjax es 405');
-                        creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
-                            ' resource.'];
-                    }
-                    else {
-                        creaForma.generalErrors = ["Se recibió un error "+status]
-                    }
-
-                });
-        };
-    })
-
-
 
     .directive('dependsOn', function() {
         return {
@@ -247,20 +271,57 @@ angular.module('backoffice.controllers', ['ui.sortable'])
                 //});
 
                 ctrl.$parsers.unshift(function(value) {
+                    var muted = false;
+                    if(!muted) console.log('\n');
                     //console.log('directive PARSER dependsOn val: ', attr.dependsOn);
                     //console.log('directive PARSER dependsOn element: ', elem);
                     //console.log('directive PARSER dependsOn scope: ', scope);
                     //console.log('directive PARSER dependsOn ctrl: ', ctrl);
                     var valid = false;
-                    if(value && value >= attr.dependsOn) {
-                        //console.log('ES VALIDO parser');
+                    if(!muted) console.log('es numero', angular.isNumber(value));
+                    if(!muted) console.log('vacio', !value);
+                    if(!muted) console.log('undefined', angular.isUndefined(value));
+                    if(!muted) console.log('value', value);
+                    if(!muted) console.log('es mayor', value >= attr.dependsOn);
+                    if(!value || value >= attr.dependsOn) {
                         valid = true;
-                    }else {
-                        //console.log('ES INVALIDO parser');
                     }
                     ctrl.$setValidity('range', valid);
                     return valid? value: undefined;
                 });
             }
         }
+    })
+
+
+
+    .filter('startFrom', function() {
+        return function(input, start) {
+            if(input && input.length > 0) {
+                start = +start; //parse to int
+                return input.slice(start);
+            }
+            return [];
+        }
+    })
+
+
+
+    .filter('customS', function() {
+        return function(items, strin) {
+            if(!strin) {
+                return items;
+            }
+            var filtered = [];
+            if(items && items.length>0) {
+                for(var i=0; i < items.length; i++) {
+                    var item = items[i];
+                    if((item.nombre && ~item.nombre.toLowerCase().indexOf(strin))
+                        || (item.descripcion && ~item.descripcion.toLowerCase().indexOf(strin))) {
+                        filtered.push(item);
+                    }
+                }
+            }
+            return filtered;
+        };
     });
