@@ -26,19 +26,7 @@
     <div class="col-md-12" id="dependencies-container">
         <h1>{{factor.id > 0? 'Editar': 'Crear'}}</h1>
 
-        <div ng-show="createForm.generalInfo" class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class='close' data-dismiss="alert"
-                    aria-label="Close"><span aria-hidden="true">x</span></button>
-            <alert ng-repeat="errorMessage in createForm.generalInfo" type="success"
-                   close="">{{errorMessage}}</alert>
-        </div>
-
-        <div ng-show="createForm.generalErrors" class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class='close' data-dismiss="alert"
-                    aria-label="Close"><span aria-hidden="true">x</span></button>
-            <alert ng-repeat="errorMessage in createForm.generalErrors" type="danger"
-                   close="">{{errorMessage}}</alert>
-        </div>
+        <div alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</div>
 
         <form novalidate class="" name="createForm" ng-submit="createFactorAjax()">
             %{--<ul>--}%

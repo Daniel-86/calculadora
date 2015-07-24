@@ -202,6 +202,12 @@ class BootStrap {
         factor.addToDependencias(Item.get(27))
         factor.save(flush: true)
 
+        factor = new Factor(nombre: 'qa 5', descripcion: 'despues de 5 qa disminuye 0.03 por cada qa extra',
+                factor:-0.03, lowerLimit: 5)
+        factor.addToDependencias(Item.get(9))
+        factor.save(flush: true)
+
+
 
 //        Ticket tickets = new Ticket(idsString: 'gobierno, firewall_firewall/nat', cc: 20, es: 10, acs: 5, rq: 15)
 //        tickets.save(flush: true, failOnError: true)

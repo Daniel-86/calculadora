@@ -9,9 +9,7 @@
 <html>
 <head>
     <meta name="layout" content="main-backoffice">
-    %{--<asset:javascript src="angular/angular.js"/>--}%
-    %{--<asset:javascript src="ui-bootstrap-tpls-0.10.0.js"/>--}%
-    %{--<asset:javascript src="cms.js"/>--}%
+    <asset:javascript src="cms.js"/>
     <title>CMS</title>
 
     <style>
@@ -29,10 +27,10 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li>
-                    <a href="#" ng-if="tree.length > 0" ng-click="resetView()">Todos</a>
+                    <a href="" ng-if="tree.length > 0" ng-click="resetView()">Todos</a>
                     <span ng-if="!(tree.length > 0)">Todos</span> </li>
                 <li ng-repeat="item in tree" ng-class="{'active':$last}">
-                    <a href="#" ng-click="showChildren(item)" ng-if="!$last">{{item.descripcion}}</a>
+                    <a href="" ng-click="showChildren(item)" ng-if="!$last">{{item.descripcion}}</a>
                     <span ng-if="$last">{{item.descripcion}}</span> </li>
             </ol>
         </div>
@@ -89,7 +87,8 @@
         </div>
         <div class="col-md-4" ng-if="selected.nodeType != 'LEAF'">
             <div class="list-group">
-                <a href="#" class="list-group-item" ng-repeat="child in childrens" ng-click="showChildren(child)">{{child.descripcion}}</a>
+                <a href="" class="list-group-item" ng-repeat="child in childrens"
+                   ng-click="showChildren(child)">{{child.descripcion}}</a>
             </div>
             <div>
                 <form class="form">

@@ -34,14 +34,7 @@ class BackofficeController {
     }
 
     def editTicket() {
-//        println params
-//        Ticket ticket = Ticket.get(params.id)
-//        def dependencies = ticket.dependencias
-//        def all = Item.list()
-//        all.removeAll(dependencies)
-//        def data = [available: all, ticket: ticket]
         render view: '/backoffice/edit-ticket', model: [ticketId: params.id]
-//        render data as JSON
     }
 
     def editFactor() {def algo = params

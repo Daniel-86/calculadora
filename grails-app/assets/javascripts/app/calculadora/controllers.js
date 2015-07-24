@@ -717,6 +717,16 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
             });
         }
 
+        $scope.noMatches = function() {
+            var muted = true;
+            if(!muted) console.log('\n');
+            if(!muted) console.log('noMatches es array', angular.isArray($scope.resultados));
+            if(angular.isArray($scope.resultados))
+                if(!muted) console.log('noMatches es vacio', $scope.resultados.length == 0);
+            return (angular.isArray($scope.resultados) && $scope.resultados.length == 0);
+
+        };
+
         $scope.isReady = function() {
             var muted = true;
             if(!muted) console.log('\n');

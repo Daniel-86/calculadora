@@ -34,21 +34,7 @@
     <div class="col-md-12" id="dependencies-container">
         <h1>{{ticket.id > 0? 'Editar': 'Crear'}}</h1>
 
-        <div ng-show="createTForm.generalInfo" class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class='close' data-dismiss="alert"
-                    aria-label="Close"><span aria-hidden="true">x</span></button>
-            <alert ng-repeat="errorMessage in createTForm.generalInfo" type="success"
-                   close="">{{errorMessage}}</alert>
-        </div>
-
-        <div ng-show="createTForm.generalErrors" class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class='close' data-dismiss="alert"
-                    aria-label="Close"><span aria-hidden="true">x</span></button>
-            <alert ng-repeat="errorMessage in createTForm.generalErrors" type="danger"
-                   close="">{{errorMessage}}</alert>
-        </div>
-
-        %{--<div alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</div>--}%
+        <div alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</div>
 
         <form novalidate class="" name="createTForm" ng-submit="createTicketAjax()">
             <div class="form-horizontal">

@@ -96,6 +96,8 @@ class CalculadoraController {
         String sitio
         String volumetria
         List techs = []
+        Map recursos = [:]
+        def sitioDetail = []
         tree.each {categorie->
             categorie.each { category ->
                 if (category) {
@@ -104,6 +106,11 @@ class CalculadoraController {
                         tipocli = category.value
                     if(category.key == 'ingenieria_en_sitio' && category.value) {
                         sitio = 'sitio'
+                        recursos = category.value
+//                        sitioDetail
+                        category.value.each {
+                            sitioDetail << it.key
+                        }
 //                        def
                     }
                     if (category.key == 'tecnologia') {
@@ -127,7 +134,7 @@ class CalculadoraController {
         }
         List queryList = []
         techs.each {
-            queryList << it + tipocli + sitio + volumetria
+            queryList << it + tipocli + sitio + volumetria + sitioDetail
         }
         queryList = queryList.unique()
 
@@ -144,6 +151,7 @@ class CalculadoraController {
             }
             return dependencies
         }
+//        selectedDependencies = selectedDependencies.unique()
 
         List ticketsRecords = selectedDependencies.collect { depList->
             def matched = rules.findAll {depList.containsAll(it.dependencias)}

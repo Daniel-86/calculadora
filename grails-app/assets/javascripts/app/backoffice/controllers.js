@@ -46,15 +46,15 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             ticketData['id'] = $scope.ticket.id;
 
 
-            var url = $scope.ticket.id > 0? '/calculadora/ticket/update/'+$scope.ticket.id: '/calculadora/ticket/save';
+            var url = $scope.ticket.id > 0? 'ticket/update/'+$scope.ticket.id: 'ticket/save';
             if(!muted) console.log('url '+url);
             if(!muted) console.log('ticketData', ticketData);
             function successAjax(data, status) {
                 if(!muted) console.log('nuevo ticket creado', data);
                 var creaForma = $scope.createTForm;
                 if(status === 201 || status === 200) {
-                    creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
-                    $scope.alerts = [{type: 'success', msg: 'El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')}]
+                    //creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
+                    $scope.alerts = [{type: 'success', msg: 'El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')}];
                     if(!muted) console.log('alertas', $scope.alerts);
                 }
             }
@@ -76,12 +76,15 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                     });
                 }
                 if(status === 405) {if(!muted) console.log('createTicketAjax es 405');
-                    creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
-                    ' resource.'];
+                    //creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
+                    //' resource.'];
+                    $scope.alerts = [{type: 'danger', msg: 'The specified HTTP method is not allowed for the' +
+                    ' requested resource'}];
                 }
                 else {
-                    creaForma.generalErrors = ["Se recibió un error "+status]
-                }
+                    //creaForma.generalErrors = ["Se recibió un error "+status];
+                    $scope.alerts = [{type: 'danger', msg: 'Se recibió un error '+status}];
+                    }
             }
 
             if($scope.ticket.id > 0) {
@@ -110,6 +113,8 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         }
         getList();
 
+
+        //Para la tabla
         $scope.filter = function() {
             $timeout(function() {
                 $scope.filteredItems = $scope.filtered.length;
@@ -121,8 +126,15 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             $scope.reverse = !$scope.reverse;
         };
 
+        //Paginacion
+
         $scope.setPage = function(pageNo) {
             $scope.currentPage = pageNo;
+        };
+
+        //Alertas
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
         };
 
     })
@@ -151,6 +163,10 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         function getList() {
             $http.get('factor/list').success(function(data) {
                 $scope.factorList = data;
+                $scope.filteredItems = $scope.factorList.length;
+                $scope.currentPage = 1;
+                $scope.entryLimit = 20;
+                $scope.totalItems = $scope.factorList.length;
             });
         }
         getList();
@@ -173,14 +189,15 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             factorData['id'] = $scope.factor.id;
 
 
-            var url = $scope.factor.id > 0? '/calculadora/factor/update/'+$scope.factor.id: '/calculadora/factor/save';
+            var url = $scope.factor.id > 0? 'factor/update/'+$scope.factor.id: 'factor/save';
             if(!muted) console.log('url '+url);
             if(!muted) console.log('factorData', factorData);
             function successAjax(data, status) {
                 if(!muted) console.log('nuevo factor creado', data);
                 var creaForma = $scope.createForm;
                 if(status === 201 || status === 200) {
-                    creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
+                    //creaForma.generalInfo = ['El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')];
+                    $scope.alerts = [{type: 'success', msg: 'El elemento con id '+data.id+' fue '+(status === 201? 'creado': 'actualizado')}];
                 }
             }
             function errorAjax(data, status, headers, config)  {
@@ -201,11 +218,13 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                     });
                 }
                 if(status === 405) {if(!muted) console.log('createFactorAjax es 405');
-                    creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
-                    ' resource.'];
+                    //creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
+                    //' resource.'];
+                    $scope.alerts = [{type: 'success', msg: 'The specified HTTP method is not allowed for the requested'}];
                 }
                 else {
-                    creaForma.generalErrors = ["Se recibió un error "+status]
+                    //creaForma.generalErrors = ["Se recibió un error "+status];
+                    $scope.alerts = [{type: 'success', msg: 'Se recibió un error '+status}];
                 }
             }
 
@@ -222,12 +241,12 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         };
 
 
-        $scope.$watch('createForm.lowerLimit.$valid', function(isValid, lastValue) {
-            if(!isValid) {console.log('isValid', isValid, lastValue);
-                $scope.factor.upperLimit = '';
-                $scope.createForm.upperLimit.$dirty = true;
-            }
-        });
+        //$scope.$watch('createForm.lowerLimit.$valid', function(isValid, lastValue) {
+        //    if(!isValid) {console.log('isValid', isValid, lastValue);
+        //        $scope.factor.upperLimit = '';
+        //        $scope.createForm.upperLimit.$dirty = true;
+        //    }
+        //});
 
         $scope.dragControlListeners = {
             accept: function (sourceItemHandleScope, destSortableScope) {
@@ -242,14 +261,28 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             }
         };
 
-        $scope.itemsList = {
-            items1: [],
-            items2: []
+        //Para la tabla
+        $scope.filter = function() {
+            $timeout(function() {
+                $scope.filteredItems = $scope.filtered.length;
+            }, 10);
         };
 
-        for (i = 0; i <= 5; i += 1) {
-            $scope.itemsList.items1.push({'Id': i, 'Label': 'Item ' + i});
-        }
+        $scope.sort_by = function(predicate) {
+            $scope.predicate = predicate;
+            $scope.reverse = !$scope.reverse;
+        };
+
+        //Paginacion
+
+        $scope.setPage = function(pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
+        //Alertas
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
     })
 
 
@@ -271,7 +304,7 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                 //});
 
                 ctrl.$parsers.unshift(function(value) {
-                    var muted = false;
+                    var muted = true;
                     if(!muted) console.log('\n');
                     //console.log('directive PARSER dependsOn val: ', attr.dependsOn);
                     //console.log('directive PARSER dependsOn element: ', elem);

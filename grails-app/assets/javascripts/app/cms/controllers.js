@@ -2,23 +2,33 @@
 //= require listas
 
 angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($scope, $http) {
+    var muted = false;
+    if(!muted) console.log('\n');
     var getAllData = function() {
-        $http.get('list/.json').success(function(data){console.log(data);
+        var muted = false;
+        if(!muted) console.log('\n');
+        $http.get('calculadora/list/.json').success(function(data){
+            if(!muted) console.log('getAllData data', data);
             $scope.categories = data.categories;
             $scope.childrens = data.categories;
         });
     };
     getAllData();
 
-    console.log('cms.controllers - childrens', $scope.categories);
+    if(!muted) console.log('cms.controllers - childrens', $scope.categories);
 
     $scope.showChildren = function(item, property) {
+        var muted = false;
+        if(!muted) console.log('\n');
+        if(!muted) console.log('showChildren item', item);
         if(!property)
             property = ['componentes', 'conceptos'];
+        if(!muted) console.log('showChildren property', property);
         var childrens = [];
         angular.forEach(property, function(prop) {
             childrens.push.apply(childrens, item[prop]);
         });
+        if(!muted) console.log('showChildren children', childrens);
         //return childrens;
         $scope.childrens = childrens;
         if(!angular.isArray($scope.tree))
@@ -29,6 +39,7 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
         else
             $scope.tree.push(item);
         $scope.selected = item;
+        if(!muted) console.log('showChildren scope.selected', $scope.selected);
     };
 
     $scope.resetView = function() {
@@ -61,7 +72,7 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
 
     $scope.addItem = function() {
         var newData = {item: $scope.selected, descripcion: $scope.descripcion};
-        $http.post("addItem", newData).success(function(data) {
+        $http.post("calculadora/addItem", newData).success(function(data) {
             $scope.categories = data.categories;
             $scope.childrens = data.children;
             console.log('adDItem - children', $scope.childrens);

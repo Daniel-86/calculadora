@@ -619,6 +619,9 @@
                         </span>
                     </div>
                 </div>
+                <div ng-show="noMatches()">
+                    Ninguna regla coincide para lo seleccionado
+                </div>
 
             </div>
         </div>
