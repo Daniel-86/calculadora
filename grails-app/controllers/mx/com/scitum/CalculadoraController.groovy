@@ -1,6 +1,7 @@
 package mx.com.scitum
 
 import grails.converters.JSON
+import mx.com.scitum.helpers.DependenciesList
 
 class CalculadoraController {
 
@@ -84,6 +85,42 @@ class CalculadoraController {
 
     }
 
+    private def inspectTree(Collection collection) {
+        def sizesMap = [:]
+        collection.each { rootItem->
+            if(rootItem.value instanceof Collection) {
+                sizesMap."${rootItem.key}" = rootItem.value
+            }
+        }
+    }
+
+
+
+    def bestMatch = { lista, test->
+        lista.inject([:]) { found, current ->
+            def matched = current.data.intersect(test)
+            print "\n\n${current.data} \tC\t $test \t=\t $matched\t\tmissing:${current.data - matched}\textra:${test - matched}"
+            def matchedVals = matched?.size()
+            println "\t\t*$matchedVals*"
+            if (matchedVals == current.data.size()) {
+                found = current
+                found.matched = matched
+                found.missing = found.data - matched
+                found.extra = test - matched
+            } else if (matchedVals > found.size()) {
+                found = current
+                found.matched = matched
+                found.missing = found.data - matched
+                found.extra = test - matched
+            }
+            println "\tFOUND $found"
+            return found
+        }
+    }
+
+
+
+
     def calcular() {
         def requestData = params.postData
 //        println "requestData $requestData"
@@ -91,6 +128,78 @@ class CalculadoraController {
         println "postData ${request.JSON.postData}"
 
         def tree = request.JSON.postData
+
+
+
+//        def sizesMap = [:]
+//        tree.each { rootItem->
+//            if(rootItem.value instanceof Collection) {
+//                sizesMap."${rootItem.key}" = rootItem.value
+//                rootItem.value.each {
+//
+//                }
+//            }
+//        }
+
+        List dependenciesList = []
+        List dependenciesName = []
+        tree.each { categor->
+            categor.each { catego ->
+                dependenciesName << catego.key
+                if (catego.key == 'tipo_de_cliente') {
+                    dependenciesName << catego.value
+                } else if (catego.key == 'ingenieria_en_sitio') {
+                    dependenciesName += catego.value.keySet() as List
+                } else if(catego.key == 'tecnologia') {
+                    catego.value.each { techh->
+                        techh.each { tech ->
+                            dependenciesName << tech.key
+                            tech.value.each { depsPerDevice ->
+                                dependenciesName += depsPerDevice
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        dependenciesList = dependenciesName.collect {Item.findByCustomId(it)}
+
+        List allRules = Regla.list()
+        def bestMatch
+        use(DependenciesList) {
+            bestMatch = allRules.bestTicketMatch(dependenciesList)
+        }
+
+
+//        dependenciesList.each { depItem->
+//
+//        }
+
+
+
+
+
+//        List.metaClass.findBestMatch = { List list->
+//
+//        }
+
+        /**
+         * Esto debe servir para obtener los tickets y los factores
+         * **** considerar la posibilidad de siempre obtener un registro, puede ser el que tenga mayor número de
+         * concidencias
+         * **** considerar posibilidad de reportar las dependencias faltantes para coincidir completamente con la regla
+         */
+//        matchedRules = allRules.findAll {rule->
+//            temptativeRules = dependenciesList.findBestMatch(rule.dependencies)
+//            subconditions = rule.dependencies.findAll {it.lowerLimit}
+//            return temptativeRules.findAll {it.matchesAny{subconditions*.rule}}
+//        }
+
+
+
+
+
 
         String tipocli
         String sitio
