@@ -290,6 +290,42 @@ class BootStrap {
             userRole.save(flush: true)
         }
 
+        if(!User.findByUsername('jcarsi')) {
+            log.debug("Agregando el usuario 'jcarsi' con rol 'ROLE_ADMIN'")
+            user = new User('jcarsi', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_ADMIN')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
+        if(!User.findByUsername('abraham.aguilar')) {
+            log.debug("Agregando el usuario 'abraham.aguilar' con rol 'ROLE_GOD'")
+            user = new User('abraham.aguilar', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_GOD')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
+        if(!User.findByUsername('luis.bravo')) {
+            log.debug("Agregando el usuario 'luis.bravo' con rol 'ROLE_ADMIN'")
+            user = new User('luis.bravo', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_ADMIN')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
+        if(!User.findByUsername('luis.valle')) {
+            log.debug("Agregando el usuario 'luis.valle' con rol 'ROLE_ADMIN'")
+            user = new User('luis.valle', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_ADMIN')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
 
 	}
     def destroy = {
