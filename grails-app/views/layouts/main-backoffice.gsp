@@ -32,7 +32,7 @@
     %{--<asset:javascript src="cms.js"/>--}%
     <asset:javascript src="backoffice.js"/>
 
-    <base href="/calculadora/"/>
+    <base href="${grailsApplication.config.application.base}"/>
 
     <g:layoutHead/>
 </head>

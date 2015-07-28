@@ -99,7 +99,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
 
 
         var getAllData = function () {
-            $http.get('/calculadora/calculadora/list/.json').success(function (data) {//console.log(data);
+            $http.get('calculadora/list/.json').success(function (data) {//console.log(data);
                 //$scope.categories = data;
                 $scope.categories = data.categories;
                 $scope.currentCatego = {

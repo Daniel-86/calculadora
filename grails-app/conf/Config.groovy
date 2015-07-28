@@ -54,10 +54,11 @@ grails.hibernate.cache.queries = false
 grails.hibernate.pass.readonly = false
 grails.hibernate.osiv.readonly = false
 
+def basePathExtraConfigs = userHome
 environments {
     development {
         grails.logging.jul.usebridge = true
-        grails.serverURL = "http://localhost:8080/calculadora"
+        //grails.serverURL = "http://localhost:8080/calculadora"
 
         grails.plugin.springsecurity.logout.postOnly = false
 
@@ -71,16 +72,6 @@ environments {
             info springSecurity:'org.springframework.security', additivity: false
         }
         grails.gorm.failOnError = true
-
-//        C:\Users\daniel.jimenez\calculadora-development-config.groovy
-//        "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
-//        grails.config.locations = {
-//            "file:C:\\Users\\daniel.jimenez\\calculadora-development-config.groovy"
-//        }
-//        println "**********${userHome}\\${appName}-${Environment.current.name}-config.groovy*********"
-        grails.config.locations = [
-                "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
-        ]
     }
     test {
         grails.assets.minifyJs = true
@@ -88,12 +79,20 @@ environments {
 
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = "http://172.22.20.53:8080"
-        grails.config.locations = [
-                "file:${userHome}\\${appName}-${Environment.current.name}-config.groovy"
-        ]
+        println basePathExtraConfigs
+        println "${basePathExtraConfigs.contains('tomcat')}"
+        if(basePathExtraConfigs.contains('tomcat')) {println "Es un tomcat"; basePathExtraConfigs = '/home/sistemas'; println "base $basePathExtraConfigs";}
     }
 }
+
+String extraConfigFile = System.properties['os.name'].toLowerCase().contains('windows')? "file:${basePathExtraConfigs}\\${appName}-${Environment.current.name}-config.groovy": "file:${basePathExtraConfigs}/${appName}-${Environment.current.name}-config.groovy"
+grails.config.locations = [
+        extraConfigFile
+]
+println extraConfigFile
+//        grails.config.locations = {
+//            "file:C:\\Users\\daniel.jimenez\\calculadora-development-config.groovy"
+//        }
 
 log4j.main = {
 
