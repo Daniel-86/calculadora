@@ -437,9 +437,11 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
         };
 
         $scope.registerQuantity = function (current, prop) {
+            var muted = true;
+            if(!muted) console.log('\n');
             if (prop.descripcion === 'cantidad') {
                 current.nItems = prop.valor;
-                console.log('nItems: ' + current.nItems);
+                if(!muted) console.log('registerQuantity nItems: ' + current.nItems);
                 //var basura = [];
                 //for (var i = 1; i <= current.nItems; i++) {
                 //    basura.push(i);
@@ -710,9 +712,15 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
         function calcularAjax(postData) {
             var muted = false;
             if(!muted) console.log('\n');
-            $http.post('/calculadora/calculadora/calcular/.json', {"postData": postData}).success(function(data) {
+            $http.post('calculadora/calcular/.json', {"postData": postData}).success(function(data) {
                 $scope.resultados = data;
                 if(!muted) console.log('calcularAjax data',data);
+                $scope.baseData = data.best;
+                angular.forEach($scope.resultados.modifiers, function(mod) {
+                    if(!muted) console.log('calcularAjax mod', mod[0]);
+                    if(!muted) console.log('calcularAjax baseData', $scope.baseData);
+                    if(!muted) console.log('calcularAjax cal', $scope.baseData.cc  + mod[0].factor*$scope.baseData.cc);
+                });
                 //$scope.resultados = data[0];
             });
         }

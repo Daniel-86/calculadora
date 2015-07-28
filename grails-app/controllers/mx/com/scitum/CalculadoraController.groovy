@@ -125,7 +125,7 @@ class CalculadoraController {
         def requestData = params.postData
 //        println "requestData $requestData"
 //        println "params $params"
-        println "postData ${request.JSON.postData}"
+//        println "postData ${request.JSON.postData}"
 
         def tree = request.JSON.postData
 
@@ -143,6 +143,7 @@ class CalculadoraController {
 
         List dependenciesList = []
         List dependenciesName = []
+        Map ammountMap = [:].withDefault {0}
         tree.each { categor->
             categor.each { catego ->
                 dependenciesName << catego.key
@@ -150,13 +151,16 @@ class CalculadoraController {
                     dependenciesName << catego.value
                 } else if (catego.key == 'ingenieria_en_sitio') {
                     dependenciesName += catego.value.keySet() as List
+                    ammountMap << catego.value
                 } else if(catego.key == 'tecnologia') {
                     catego.value.each { techh->
                         techh.each { tech ->
                             dependenciesName << tech.key
                             tech.value.each { depsPerDevice ->
                                 dependenciesName += depsPerDevice
+                                depsPerDevice.each {ammountMap[it]++}
                             }
+                            ammountMap[tech.key] = tech.value.size()
                         }
                     }
                 }
@@ -165,24 +169,56 @@ class CalculadoraController {
 
         dependenciesList = dependenciesName.collect {Item.findByCustomId(it)}
 
-        List allRules = Regla.list()
-        def bestMatch
+        List<Regla> allRules = Regla.list()
+        def bestMatch = null
         use(DependenciesList) {
             bestMatch = allRules.bestTicketMatch(dependenciesList)
         }
+        List factores = allRules.findAll {
+            if(!(it instanceof Factor))
+                return false
+            if(!dependenciesList.containsAll(it.dependencies))
+                return false
+            def deps = it.dependencyDetail
+            deps.each {
+                if(it.lowerLimit) {
+                    if(it.lowerLimit > ammountMap[it.item.customId]) return false
+                }
+                if(it.upperLimit) {
+                    if(it.upperLimit < ammountMap[it.item.customId]) return false
+                }
+            }
 
+            return true
+        }
 
-//        dependenciesList.each { depItem->
-//
-//        }
+        def modifiers = factores.collect {fac->
+            def modDataL = []
+            def deps = fac.dependencyDetail
+            deps.each {
+                def modData = [:]
+                modData.lowerLimit = it.lowerLimit
+                modData.upperLimit = it.upperLimit
+                modData.step = it.step
+                modData.factor = it.rule.factor
+                modData.nombre = it.rule.nombre
+                modData.descripcion = it.rule.descripcion
+                modDataL << modData
+            }
+            return modDataL
+        }
+        def baseData = [:]
+        baseData.nombre = bestMatch?.nombre
+        baseData.descripcion = bestMatch?.descripcion
+        baseData.acs = bestMatch?.acs
+        baseData.rq = bestMatch?.rq
+        baseData.es = bestMatch?.es
+        baseData.cc = bestMatch?.cc
+        def data = [best: baseData, modifiers: modifiers]
+//        println "${data as JSON}"
 
+        render(data as JSON)
 
-
-
-
-//        List.metaClass.findBestMatch = { List list->
-//
-//        }
 
         /**
          * Esto debe servir para obtener los tickets y los factores
@@ -200,106 +236,86 @@ class CalculadoraController {
 
 
 
-
-        String tipocli
-        String sitio
-        String volumetria
-        List techs = []
-        Map recursos = [:]
-        def sitioDetail = []
-        tree.each {categorie->
-            categorie.each { category ->
-                if (category) {
-                    println "category ${category.key}"
-                    if (category.key == 'tipo_de_cliente')
-                        tipocli = category.value
-                    if(category.key == 'ingenieria_en_sitio' && category.value) {
-                        sitio = 'sitio'
-                        recursos = category.value
-//                        sitioDetail
-                        category.value.each {
-                            sitioDetail << it.key
-                        }
-//                        def
-                    }
-                    if (category.key == 'tecnologia') {
-                        println "TECHS ${category.value}"
-                        def techList = category.value
-                        techList.each { techch ->
-                            techch.each { tech ->
-                                println "tech $tech"
-                                def deviceList = tech.value
-                                deviceList.each { device ->
-                                    techs << device
-                                }
-                            }
-                        }
-                    }
-                    if(category.key == 'volumetria') {
-                        volumetria = category.value
-                    }
-                }
-            }
-        }
-        List queryList = []
-        techs.each {
-            queryList << it + tipocli + sitio + volumetria + sitioDetail
-        }
-        queryList = queryList.unique()
-
-        println "QUERYS $queryList"
-
-//        List ticketsRecords = queryList.collect {Ticket.findByIdsString(it.join(','))}
-        List<Ticket> tickets = Ticket.list()
-        List<Regla> rules = Regla.list()
-        List selectedDependencies = queryList.collect{
-            List<Item> dependencies = []
-            it.each {
-                Item item = Item.findByCustomId(it as String)
-                if(item) dependencies << item
-            }
-            return dependencies
-        }
-//        selectedDependencies = selectedDependencies.unique()
-
-        List ticketsRecords = selectedDependencies.collect { depList->
-            def matched = rules.findAll {depList.containsAll(it.dependencias)}
-//            def asdf = depList as Set<Item>
-//            def qwe = Regla.findAllByDescripcion('Para pruebas')
-//            Regla.executeQuery("select r from Regla r where r.dependencias.containsAll(:lista)")
-//            def miCrit = Regla.createCriteria()
-//            def algun = Regla.createCriteria().list() {
-//                inList 'dependencias', depList
+//
+//        String tipocli
+//        String sitio
+//        String volumetria
+//        List techs = []
+//        Map recursos = [:]
+//        def sitioDetail = []
+//        tree.each {categorie->
+//            categorie.each { category ->
+//                if (category) {
+//                    println "category ${category.key}"
+//                    if (category.key == 'tipo_de_cliente')
+//                        tipocli = category.value
+//                    if(category.key == 'ingenieria_en_sitio' && category.value) {
+//                        sitio = 'sitio'
+//                        recursos = category.value
+////                        sitioDetail
+//                        category.value.each {
+//                            sitioDetail << it.key
+//                        }
+////                        def
+//                    }
+//                    if (category.key == 'tecnologia') {
+//                        println "TECHS ${category.value}"
+//                        def techList = category.value
+//                        techList.each { techch ->
+//                            techch.each { tech ->
+//                                println "tech $tech"
+//                                def deviceList = tech.value
+//                                deviceList.each { device ->
+//                                    techs << device
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if(category.key == 'volumetria') {
+//                        volumetria = category.value
+//                    }
+//                }
 //            }
-//            Regla.findAllByDependenciasInList(asdf)
-//            return qwe
-            return matched
-        }
-//        List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
-        ticketsRecords.removeAll([null, []])
-        println "ticketsRecords $ticketsRecords"
-
-//        [[tipo_de_cliente:privado],
-//         [:],
-//         [tecnologia:
-//                  [
-//                          [firewall:
-//                                   [
-//                                           [firewall_firewall/nat,
-//                                            firewall_ips,
-//                                            firewall_antivirus]]],
-//                          [ips:
-//                                   [
-//                                           [ips_firewall/nat,
-//                                            ips_application_control,
-//                                            ips_ha],
-//                                           [ips_firewall/nat,
-//                                            ips_application_control,
-//                                            ips_ha,
-//                                            ips_vpn_ssl,
-//                                            ips_vpn_ipsec]]]]]]
-
-        render (ticketsRecords as JSON)
-//        render ([cc:12, es: 4, rq: 1, acs:8] as JSON)
+//        }
+//        List queryList = []
+//        techs.each {
+//            queryList << it + tipocli + sitio + volumetria + sitioDetail
+//        }
+//        queryList = queryList.unique()
+//
+//        println "QUERYS $queryList"
+//
+////        List ticketsRecords = queryList.collect {Ticket.findByIdsString(it.join(','))}
+//        List<Ticket> tickets = Ticket.list()
+//        List<Regla> rules = Regla.list()
+//        List selectedDependencies = queryList.collect{
+//            List<Item> dependencies = []
+//            it.each {
+//                Item item = Item.findByCustomId(it as String)
+//                if(item) dependencies << item
+//            }
+//            return dependencies
+//        }
+////        selectedDependencies = selectedDependencies.unique()
+//
+//        List ticketsRecords = selectedDependencies.collect { depList->
+//            def matched = rules.findAll {depList.containsAll(it.dependencias)}
+////            def asdf = depList as Set<Item>
+////            def qwe = Regla.findAllByDescripcion('Para pruebas')
+////            Regla.executeQuery("select r from Regla r where r.dependencias.containsAll(:lista)")
+////            def miCrit = Regla.createCriteria()
+////            def algun = Regla.createCriteria().list() {
+////                inList 'dependencias', depList
+////            }
+////            Regla.findAllByDependenciasInList(asdf)
+////            return qwe
+//            return matched
+//        }
+////        List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
+//        ticketsRecords.removeAll([null, []])
+//        println "ticketsRecords $ticketsRecords"
+//
+//
+//        render (ticketsRecords as JSON)
     }
 }

@@ -55,6 +55,19 @@ class CustomMarshallerRegistrar {
 			return map 
 		}
 
+//		JSON.registerObjectMarshaller(mx.com.scitum.Factor) {
+//			def map = [:]
+//			map['id'] = it?.id
+//			map['factor'] = it?.factor
+//		}
+
+//		JSON.registerObjectMarshaller(mx.com.scitum.Regla) {
+//			def map = [:]
+//			map['id'] = it?.id
+//			map['nombre'] = it?.nombre
+//			map['descripcion'] = it?.descripcion
+//			map['dependencies'] = it?.dependencyDetail
+//		}
 		 
 	}
 

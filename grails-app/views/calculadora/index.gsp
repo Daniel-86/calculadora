@@ -599,25 +599,49 @@
 
                 <button type="button" class="btn btn-primary" ng-click="calcular()" ng-disabled="isReady()">Calcular
                 </button>
+
+
                 <div ng-show="resultados">
                     <h4>Coindice con</h4>
-                    <div ng-repeat="res in resultados">
-                        <span ng-repeat="ite in res">
-                            <p>{{ite.nombre}}: {{ite.descripcion}}</p>
-                            <ul ng-if="ite.class.indexOf('Ticket', ite.class.length - 'Ticket'.length) !== -1">
-                                <li><span><strong>cc</strong> {{ite.cc}}, <strong>es</strong> {{ite.es}}, <strong>rq
-                                </strong> {{ite.rq}}, <strong>as</strong> {{ite.acs}}</span></li>
+                    <table class="table table-striped">
+                        <thead>
+                        <th>CC</th>
+                        <th>ES</th>
+                        <th>RQ</th>
+                        <th>AS</th>
+                        </thead>
+                        <tbody>
+                        <tr title="{{resultados.best.descripcion}}">
+                            <td>{{resultados.best.cc}}</td>
+                            <td>{{resultados.best.es}}</td>
+                            <td>{{resultados.best.rq}}</td>
+                            <td>{{resultados.best.acs}}</td>    |
+                        </tr>
+                        <tr ng-repeat="res in resultados.modifiers" title="{{res[0].descripcion}}">
+                            <td>{{baseData.cc + baseData.cc * res[0].factor}}</td>
+                            <td>{{baseData.es + baseData.es*res[0].factor}}</td>
+                            <td>{{baseData.rq + baseData.rq*res[0].factor}}</td>
+                            <td>{{baseData.acs + baseData.acs*res[0].factor}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    %{--<div ng-repeat="res in resultados">--}%
+                        %{--<span ng-repeat="ite in res">--}%
+                            %{--<p>{{ite.nombre}}: {{ite.descripcion}}</p>--}%
+                            %{--<ul ng-if="ite.class.indexOf('Ticket', ite.class.length - 'Ticket'.length) !== -1">--}%
+                                %{--<li><span><strong>cc</strong> {{ite.cc}}, <strong>es</strong> {{ite.es}}, <strong>rq--}%
+                                %{--</strong> {{ite.rq}}, <strong>as</strong> {{ite.acs}}</span></li>--}%
                                 %{--<li><span><strong>cc</strong>{{ite.cc}}</span></li>--}%
                                 %{--<li><span><strong>es</strong>{{ite.es}}</span></li>--}%
                                 %{--<li><span><strong>rq</strong>{{ite.rq}}</span></li>--}%
                                 %{--<li><span><strong>as</strong>{{ite.acs}}</span></li>--}%
-                            </ul>
-                            <ul ng-if="ite.class.indexOf('Factor', ite.class.length - 'Factor'.length) !== -1">
-                                <li><span><strong>factor</strong> {{ite.factor}}, {{ite.lowerLimit}} -
-                                {{ite.upperLimit}}</li>
-                            </ul>
-                        </span>
-                    </div>
+                            %{--</ul>--}%
+                            %{--<ul ng-if="ite.class.indexOf('Factor', ite.class.length - 'Factor'.length) !== -1">--}%
+                                %{--<li><span><strong>factor</strong> {{ite.factor}}, {{ite.lowerLimit}} ---}%
+                                %{--{{ite.upperLimit}}</li>--}%
+                            %{--</ul>--}%
+                        %{--</span>--}%
+                    %{--</div>--}%
                 </div>
                 <div ng-show="noMatches()">
                     Ninguna regla coincide para lo seleccionado

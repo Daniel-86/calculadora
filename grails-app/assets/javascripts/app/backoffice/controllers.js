@@ -100,7 +100,7 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         };
 
         function getList() {
-            var muted = true;
+            var muted = false;
             if(!muted) console.log('\n');
             $http.get('ticket/list').success(function(data) {
                 if(!muted) console.log('list data', data);

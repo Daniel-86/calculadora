@@ -7,7 +7,7 @@ class Regla {
     List dependencies
 
     static hasMany = [dependencias: Item]
-    static transients = ['dependencies']
+    static transients = ['dependencies', 'dependencyDetail']
 
     static constraints = {
 //        dependencias nullable: false
@@ -16,5 +16,9 @@ class Regla {
 
     def getDependencies() {
         return (Dependencia.findAllByRule(this)?.collect{it.item})
+    }
+
+    def getDependencyDetail() {
+        return (Dependencia.findAllByRule(this))
     }
 }

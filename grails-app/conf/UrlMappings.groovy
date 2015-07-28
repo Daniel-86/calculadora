@@ -15,14 +15,6 @@ class UrlMappings {
         }
 
         "/"(controller:  "calculadora", action: "index")
-        "/new-ticket" {
-            view='/backoffice/create-ticket'
-        }
-//        "/new-factor" (view: '/backoffice/create-factor')
-        "/edit-ticket/$id" {
-            controller= 'backoffice'
-            action= 'editTicket'
-        }
         "/factor/$id?" {
             controller= 'backoffice'
             action= 'editFactor'
@@ -36,6 +28,11 @@ class UrlMappings {
             constraints {
                 id matches: /\d*/
             }
+        }
+
+        "/ticket/$id/delete" {
+            controller = 'ticket'
+            action = 'delete'
         }
 
         "/factores" view: '/backoffice/list-factor'

@@ -40,12 +40,14 @@
                 <thead>
                 <th>Nombre<a ng-click="sort_by('nombre');"><i class="glyphicon glyphicon-sort"></i> </a> </th>
                 <th>Descripción<a ng-click="sort_by('descripcion');"><i class="glyphicon glyphicon-sort"></i> </a> </th>
+                <th>Acciones</th>
                 </thead>
                 <tbody>
                 <tr
                         ng-repeat="data in filtered = (ticketList | filter:search | orderBy :predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
-                    <td>{{data.nombre}}</td>
+                    <td><a href="ticket/{{data.id}}"> {{data.nombre}}</a></td>
                     <td>{{data.descripcion}}</td>
+                    <td><a href="ticket/{{data.id}}/delete"><i class="glyphicon glyphicon-trash"></i> </a></td>
                 </tr>
                 </tbody>
             </table>

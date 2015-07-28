@@ -6,6 +6,7 @@ class Dependencia {
 //    Regla rule
     Integer lowerLimit
     Integer upperLimit
+    Integer step = 1
 
     static belongsTo = [rule: Regla, item: Item]
 

@@ -39,7 +39,7 @@
                 <tbody>
                 <tr
                         ng-repeat="data in filtered = (factorList | filter:search | orderBy :predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
-                    <td>{{data.nombre}}</td>
+                    <td><a href="factor/{{data.id}}"> {{data.nombre}}</a></td>
                     <td>{{data.descripcion}}</td>
                 </tr>
                 </tbody>
