@@ -55,11 +55,24 @@ class CustomMarshallerRegistrar {
 			return map 
 		}
 
-//		JSON.registerObjectMarshaller(mx.com.scitum.Factor) {
-//			def map = [:]
-//			map['id'] = it?.id
-//			map['factor'] = it?.factor
-//		}
+		JSON.registerObjectMarshaller(mx.com.scitum.Dependencia) {
+			def map = [:]
+			map.item = it?.item
+			map.lowerLimit = it?.lowerLimit
+			map.upperLimit = it?.upperLimit
+			map.step = it?.step
+			return map
+		}
+
+		JSON.registerObjectMarshaller(mx.com.scitum.Factor) {
+			def map = [:]
+			map['id'] = it?.id
+			map['factor'] = it?.factor
+			map['dependencies'] = it?.dependencyDetail
+			map['nombre'] = it?.nombre
+			map['descripcion'] = it?.descripcion
+			return map
+		}
 
 //		JSON.registerObjectMarshaller(mx.com.scitum.Regla) {
 //			def map = [:]
@@ -67,6 +80,7 @@ class CustomMarshallerRegistrar {
 //			map['nombre'] = it?.nombre
 //			map['descripcion'] = it?.descripcion
 //			map['dependencies'] = it?.dependencyDetail
+//			return map
 //		}
 		 
 	}

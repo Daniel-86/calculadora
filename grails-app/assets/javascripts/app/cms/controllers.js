@@ -71,8 +71,11 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
     };
 
     $scope.addItem = function() {
+        var muted = false;
+        if(!muted) console.log('\n');
         var newData = {item: $scope.selected, descripcion: $scope.descripcion};
         $http.post("calculadora/addItem", newData).success(function(data) {
+            if(!muted) console.log('addItem data', data);
             $scope.categories = data.categories;
             $scope.childrens = data.children;
             console.log('adDItem - children', $scope.childrens);

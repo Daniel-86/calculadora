@@ -1,5 +1,6 @@
 //= require_self
 //= require angular/modules/ng-sortable.js
+//= require /app/utils/arrayUtils.js
 
 angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
 
@@ -141,7 +142,7 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
 
     .controller('factorCtrl', function ($scope, $http) {
 
-        var muted = true;
+        var muted = false;
         if(!muted) console.log('\n');
         $scope.factor = {};
         $scope.factor.id = angular.isDefined(ticketId)? ticketId: null;
@@ -154,7 +155,7 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                 if(!muted) console.log('factorCtrl data', data);
                 $scope.available = data.available;
                 $scope.factor = data.factor;
-                if($scope.factor && $scope.factor.id > 0) $scope.selected = data.factor.dependencias;
+                if($scope.factor && $scope.factor.id > 0) $scope.selected = data.factor.dependencies;
             });
         }
 
@@ -176,14 +177,14 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             var muted = true;
             if(!muted) console.log('\n');
             var factorData = {};
-            var factorDependencies = $scope.selected.map(function (obj) {
-                return obj.customId;
-            });
+            //var factorDependencies = $scope.selected.map(function (obj) {
+            //    return obj.customId;
+            //});
             if(!muted) console.log('createAjax - dependencies', factorDependencies);
-            factorData['dependencias'] = factorDependencies;
+            factorData['dependencias'] = $scope.factor.dependencies;
             factorData['factor'] = $scope.factor.factor;
-            factorData['lowerLimit'] = $scope.factor.lowerLimit;
-            factorData['upperLimit'] = $scope.factor.upperLimit;
+            //factorData['lowerLimit'] = $scope.factor.lowerLimit;
+            //factorData['upperLimit'] = $scope.factor.upperLimit;
             factorData['descripcion'] = $scope.factor.descripcion;
             factorData['nombre'] = $scope.factor.nombre;
             factorData['id'] = $scope.factor.id;
@@ -220,11 +221,12 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                 if(status === 405) {if(!muted) console.log('createFactorAjax es 405');
                     //creaForma.generalErrors = ['The specified HTTP method is not allowed for the requested' +
                     //' resource.'];
-                    $scope.alerts = [{type: 'success', msg: 'The specified HTTP method is not allowed for the requested'}];
+                    $scope.alerts = [{type: 'warning', msg: 'The specified HTTP method is not allowed for the' +
+                    ' requested'}];
                 }
                 else {
                     //creaForma.generalErrors = ["Se recibió un error "+status];
-                    $scope.alerts = [{type: 'success', msg: 'Se recibió un error '+status}];
+                    $scope.alerts = [{type: 'danger', msg: 'Se recibió un error '+status}];
                 }
             }
 
@@ -238,6 +240,33 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
                     .success(successAjax)
                     .error(errorAjax);
             }
+        };
+
+
+        $scope.addDepRow = function() {
+            var muted = false;
+            if(!muted) console.log('\n');
+            if(!muted) console.log('addDepRow lastAdded', $scope.lastAdded);
+            var newDep = {item: $scope.lastAdded, lowerLimit: '', upperLimit: '', step: 1};
+            if(!muted) console.log('addDepRow newDep', newDep);
+            if(!$scope.factor) $scope.factor = {dependencies: []};
+            if(!angular.isArray($scope.factor.dependencies)) $scope.factor.dependencies = [];
+            $scope.factor.dependencies.push(newDep);
+
+            var idx = findWithAttr($scope.available, 'customId', $scope.lastAdded.customId);
+            if(!muted) console.log('addDepRow idx', idx);
+            if(!muted) console.log('addDepRow item', $scope.available[idx]);
+            $scope.available.splice(idx-1, 1);
+
+            $scope.lastAdded = null;
+        };
+
+        $scope.dropDep = function(idx) {
+            var dropped = $scope.factor.dependencies[idx];
+            if(!$scope.available) $scope.available = [];
+            $scope.available.push(dropped.item);
+
+            $scope.factor.dependencies.splice(idx, 1);
         };
 
 

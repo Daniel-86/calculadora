@@ -35,6 +35,9 @@
             </ol>
         </div>
 
+
+
+
         <div ng-class="selected.nodeType == 'LEAF'? 'col-md-12': 'col-md-8'" ng-show="tree.length > 0">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Datos</h4></div>
@@ -85,10 +88,19 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+
         <div class="col-md-4" ng-if="selected.nodeType != 'LEAF'">
             <div class="list-group">
-                <a href="" class="list-group-item" ng-repeat="child in childrens"
-                   ng-click="showChildren(child)">{{child.descripcion}}</a>
+                <div ng-repeat="child in childrens" class="list-group-item">
+                    <a href=""
+                       ng-click="showChildren(child)">{{child.descripcion}}</a>
+                    <a href="" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
+                </div>
             </div>
             <div>
                 <form class="form">

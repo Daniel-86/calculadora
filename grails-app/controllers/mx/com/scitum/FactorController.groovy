@@ -1,5 +1,6 @@
 package mx.com.scitum
 
+import org.codehaus.groovy.grails.web.json.JSONObject
 import org.springframework.security.access.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
@@ -30,18 +31,33 @@ class FactorController {
 
     @Transactional
     def save() {
+
         Factor factorInstance = new Factor()
         bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
                                                           'nombre']])
+
         def dependenciasJSON = request.JSON.dependencias
-        dependenciasJSON.each { String id->
-            factorInstance.addToDependencias(Item.findByCustomId(id))
+        def dependencies = []
+        dependenciasJSON.each { dependency->
+            Item item = Item.findByCustomId(dependency.item?.customId)
+            if(item) {dependencies << item}
         }
-        
-        if (factorInstance == null) {
-            notFound()
-            return
-        }
+
+//        def current = factorInstance.dependencyDetail
+//        def deletions = current.findAll {!dependencies.contains(it.item)}
+        def newOnes = dependencies
+//        def updates = current.findAll {!deletions.contains(it)}
+//        updates.each {ite->
+//            def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
+//            if(!dep) return
+//            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
+//            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
+//            ite.step = dep.step == JSONObject.NULL? null: dep.step
+//        }
+//        deletions*.delete(flush: true)
+
+//        updates*.save(flush: true)
+
 
         if (factorInstance.hasErrors()) {
             respond factorInstance.errors, view:'create'
@@ -49,6 +65,11 @@ class FactorController {
         }
 
         factorInstance.save flush:true, failOnError: false
+
+        newOnes.each {
+            def aux = new Dependencia(rule: factorInstance, item: it)
+            aux.save(flush: true)
+        }
 
         request.withFormat {
             form multipartForm {
@@ -74,15 +95,29 @@ class FactorController {
                                                           'nombre']])
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
-        dependenciasJSON.each { String id->
-            Item item = Item.findByCustomId(id)
+        dependenciasJSON.each { dependency->
+            Item item = Item.findByCustomId(dependency.item?.customId)
             if(item) {dependencies << item}
-//            factorInstance.addToDependencias(Item.findByCustomId(id))
         }
-        def deletions = factorInstance.dependencias.collect()
-        deletions.removeAll(dependencies)
-        deletions.each {factorInstance.removeFromDependencias(it)}
-        dependencies.each {factorInstance.addToDependencias(it)}
+
+        def current = factorInstance.dependencyDetail
+        def deletions = current.findAll {!dependencies.contains(it.item)}
+        def newOnes = dependencies.findAll {!current.item.contains(it)}
+        def updates = current.findAll {!deletions.contains(it)}
+        updates.each {ite->
+            def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
+            if(!dep) return
+            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
+            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
+            ite.step = dep.step == JSONObject.NULL? null: dep.step
+        }
+        deletions*.delete(flush: true)
+        newOnes.each {
+            def aux = new Dependencia(rule: factorInstance, item: it)
+            aux.save(flush: true)
+        }
+        updates*.save(flush: true)
+
 
         if (factorInstance.hasErrors()) {
             respond factorInstance.errors, view:'edit'
@@ -131,9 +166,9 @@ class FactorController {
     
     def dependenciesData() {
         Factor factor = Factor.get(params.id)
-        def dependencies = factor?.dependencias?: []
-        def all = Item.list()
-        all.removeAll(dependencies)
+        def dependencies = factor?.dependencies?.collect {it.customId}?: []
+        def all = dependencies? Item.findAllByCustomIdNotInList(dependencies): Item.list()
+//        all.removeAll(dependencies)
         def data = [available: all, factor: factor]
         respond data
     }

@@ -58,9 +58,6 @@ def basePathExtraConfigs = userHome
 environments {
     development {
         grails.logging.jul.usebridge = true
-        //grails.serverURL = "http://localhost:8080/calculadora"
-
-        grails.plugin.springsecurity.logout.postOnly = false
 
         log4j = {
             appenders {
@@ -79,9 +76,7 @@ environments {
 
     production {
         grails.logging.jul.usebridge = false
-        println basePathExtraConfigs
-        println "${basePathExtraConfigs.contains('tomcat')}"
-        if(basePathExtraConfigs.contains('tomcat')) {println "Es un tomcat"; basePathExtraConfigs = '/home/sistemas'; println "base $basePathExtraConfigs";}
+        if(basePathExtraConfigs.contains('tomcat')) {basePathExtraConfigs = '/home/sistemas';}
     }
 }
 
@@ -89,7 +84,6 @@ String extraConfigFile = System.properties['os.name'].toLowerCase().contains('wi
 grails.config.locations = [
         extraConfigFile
 ]
-println extraConfigFile
 //        grails.config.locations = {
 //            "file:C:\\Users\\daniel.jimenez\\calculadora-development-config.groovy"
 //        }
