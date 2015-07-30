@@ -2,6 +2,7 @@ package mx.com.scitum
 
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -35,14 +36,13 @@ class TicketController {
         Ticket ticketInstance = new Ticket()
         bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
         def dependenciasJSON = request.JSON.dependencias
-        dependenciasJSON.each { String id->
-            ticketInstance.addToDependencias(Item.findByCustomId(id))
+        def dependencies = []
+        dependenciasJSON.each { dependency->
+            Item item = Item.findByCustomId(dependency.item?.customId)
+            if(item) {dependencies << item}
         }
 
-        if (ticketInstance == null) {
-            notFound()
-            return
-        }
+        def newOnes = dependencies
 
         if (ticketInstance.hasErrors()) {
             respond ticketInstance.errors, view:'create'
@@ -50,6 +50,11 @@ class TicketController {
         }
 
         ticketInstance.save flush:true
+
+        newOnes.each {
+            def aux = new Dependencia(rule: ticketInstance, item: it)
+            aux.save(flush: true)
+        }
 
         request.withFormat {
             form multipartForm {
@@ -75,15 +80,28 @@ class TicketController {
         bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
-        dependenciasJSON.each { String id->
-            Item item = Item.findByCustomId(id)
+        dependenciasJSON.each { dependency->
+            Item item = Item.findByCustomId(dependency.item?.customId)
             if(item) {dependencies << item}
-//            ticketInstance.addToDependencias(Item.findByCustomId(id))
         }
-        def deletions = ticketInstance.dependencias.collect()
-        deletions.removeAll(dependencies)
-        deletions.each {ticketInstance.removeFromDependencias(it)}
-        dependencies.each {ticketInstance.addToDependencias(it)}
+
+        def current = ticketInstance.dependencyDetail
+        def deletions = current.findAll {!dependencies.contains(it.item)}
+        def newOnes = dependencies.findAll {!current.item.contains(it)}
+        def updates = current.findAll {!deletions.contains(it)}
+        updates.each {ite->
+            def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
+            if(!dep) return
+            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
+            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
+            ite.step = dep.step == JSONObject.NULL? null: dep.step
+        }
+        deletions*.delete(flush: true)
+        newOnes.each {
+            def aux = new Dependencia(rule: ticketInstance, item: it)
+            aux.save(flush: true)
+        }
+        updates*.save(flush: true)
 
         if (ticketInstance.hasErrors()) {
             respond ticketInstance.errors, view:'edit'
@@ -136,9 +154,9 @@ class TicketController {
 
     def dependenciesData() {
         Ticket ticket = Ticket.get(params.id)
-        def dependencies = ticket?.dependencias?: []
-        def all = Item.list()
-        all.removeAll(dependencies)
+        def dependencies = ticket?.dependencias?.collect {it.customId}?: []
+        def all = dependencies? Item.findAllByCustomIdNotInList(dependencies): Item.list()
+//        all.removeAll(dependencies)
         def data = [available: all, ticket: ticket]
         respond data
     }

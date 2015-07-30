@@ -1,8 +1,11 @@
 package mx.com.scitum
 
 import grails.converters.JSON
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
 import mx.com.scitum.helpers.DependenciesList
 
+@Transactional(readOnly = true)
 class CalculadoraController {
 
     def springSecurityService
@@ -41,18 +44,33 @@ class CalculadoraController {
     def addItem() {
         def item = request.JSON.item
         String descripcion = request.JSON.descripcion
+        String customId = request.JSON.customId
+        String domainType = request.JSON.domainType
         def newInstance
         def itemType
         def children
         if(!item) {
-            newInstance = new Categoria(descripcion: descripcion, customId: descripcion.replaceAll(' ', '_'))
+            newInstance = new Categoria(descripcion: descripcion, customId: customId.replaceAll(' ', '_'))
         }
         else {
-            def newConcept = new Concepto(descripcion: descripcion, customId: descripcion.replaceAll(' ', '_'),
-                    costo: 0)
-            if(item.nodeType == 'ROOT')
-                newInstance = Categoria.get(item.id)
-            newInstance.addToConceptos(newConcept)
+            def newConcept = null
+            newInstance = Item.get(item.id)
+
+            if(!domainType || domainType == 'concepto') {
+                newConcept = new Concepto(
+                        descripcion: descripcion,
+                        customId: customId.replaceAll(' ', '_'),
+                        costo: 0)
+                newInstance.addToConceptos(newConcept)
+            }
+            else if(domainType == 'componente') {
+                newConcept = new ConceptoEspecial(
+                        descripcion: descripcion,
+                        customId: customId.replaceAll(' ', '_'))
+                newInstance.addToComponentes(newConcept)
+            }
+//            if(item.nodeType == 'ROOT')
+//                newInstance = Categoria.get(item.id)
 //            children = newInstance.componentes + newInstance.conceptos
 //            println "children $children"
         }
@@ -64,12 +82,20 @@ class CalculadoraController {
             children = Categoria.list(fetch: [conceptos: 'eager', componentes: 'eager'])
         else {
             children = (newInstance.componentes ?: []) + (newInstance.conceptos ?: [])
-            if(children.size() > 0) children = children[0]
+//            if(children.size() > 0) children = children[0]
         }
+        println "debug"
 //        println "children base ${children}\n\t${children[0].id} ${children[0].descripcion}  ${children[0].costo}"
-        println "children ${children as JSON}"
-        render ([categories: Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']), 'children': children] as
+//        println "children ${children as JSON}"
+        render ([categories: Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']), 'children': children,
+                 newItem: newInstance
+        ] as
                 JSON)
+    }
+
+
+    def deleteItem() {
+        respond status: OK
     }
 
     def list() {

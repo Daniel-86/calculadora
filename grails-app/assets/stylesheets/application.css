@@ -76,3 +76,7 @@ h2 {
 .number {
 	max-width: 150px;
 }
+
+.spaced-bottom {
+	margin-bottom: 10px;
+}

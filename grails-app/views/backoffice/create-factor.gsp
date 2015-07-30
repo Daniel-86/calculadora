@@ -73,8 +73,8 @@
 
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Dependencias</div>
-                    <div class="panel-body">Usa el select para agragar más dependencias</div>
+                    <div class="panel-heading"><h5>Dependencias</h5></div>
+                    <div class="panel-body">Usa el select para agregar más dependencias</div>
                     <table class="table table-striped">
                         <thead>
                         <th>ID</th>
@@ -169,35 +169,6 @@
 
                 </div>
             </div>
-
-            %{--<div class="row">--}%
-                %{--<div class="col-md-6" columnindex="0" id="column0">--}%
-                    %{--<label for="dependencies">Disponibles</label>--}%
-                    %{--<ul as-sortable="dragControlListeners" ng-model="$parent.available" id="dependencies"--}%
-                        %{--class="scrollable-list list-group">--}%
-                        %{--<li ng-repeat="item in available" as-sortable-item class="list-group-item">--}%
-                            %{--<div as-sortable-item-handle>--}%
-                                %{--{{item.customId}}--}%
-                            %{--</div>--}%
-                        %{--</li>--}%
-                    %{--</ul>--}%
-                %{--</div>--}%
-
-                %{--<div class="col-md-6" columnindex="1" id="column1">--}%
-                    %{--<label>Seleccionadas</label>--}%
-                    %{--<ul as-sortable="dragControlListeners" ng-model="$parent.selected"--}%
-                        %{--class="scrollable-list list-group">--}%
-                        %{--<li ng-repeat="item in selected" as-sortable-item class="list-group-item">--}%
-                            %{--<div as-sortable-item-handle>--}%
-                                %{--{{item.item.customId}}--}%
-                            %{--</div>--}%
-                        %{--</li>--}%
-                        %{--<li ng-if="!($parent.selected.length>0)">--}%
-                            %{--Arrastralos aquí--}%
-                        %{--</li>--}%
-                    %{--</ul>--}%
-                %{--</div>--}%
-            %{--</div>--}%
 
             <button type="submit" class="btn btn-primary" ng-disabled="createForm.$invalid">
                 {{factor.id > 0? 'Editar': 'Crear'}}</button>

@@ -9,9 +9,7 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         if(!muted) console.log('\n');
         $scope.ticket = {};
         $scope.ticket.id = ticketId;
-        //$scope.filteredItems = 0;
-        //$scope.currentPage = 1;
-        //$scope.entryLimit = 2;
+
         function getAvailableDependencies() {
             var url = 'ticket/dependenciesData' + (ticketId > 0? '/'+ticketId: '');
             //var url = 'backoffice/dependenciesData' + (ticketId > 0? '/'+ticketId: '');
@@ -33,11 +31,11 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
             var muted = true;
             if(!muted) console.log('\n');
             var ticketData = {};
-            var ticketDependencies = $scope.selected.map(function (obj) {
-                return obj.customId;
-            });
-            if(!muted) console.log('createAjax - dependencies', ticketDependencies);
-            ticketData['dependencias'] = ticketDependencies;
+            //var ticketDependencies = $scope.selected.map(function (obj) {
+            //    return obj.customId;
+            //});
+            //if(!muted) console.log('createAjax - dependencies', ticketDependencies);
+            ticketData['dependencias'] = $scope.ticket.dependencies;
             ticketData['cc'] = $scope.ticket.cc;
             ticketData['es'] = $scope.ticket.es;
             ticketData['acs'] = $scope.ticket.acs;
@@ -137,6 +135,35 @@ angular.module('backoffice.controllers', ['ui.sortable', 'ui.bootstrap'])
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
+
+
+        $scope.addDepRow = function() {
+            var muted = false;
+            if(!muted) console.log('\n');
+            if(!muted) console.log('addDepRow lastAdded', $scope.lastAdded);
+            var newDep = {item: $scope.lastAdded, lowerLimit: '', upperLimit: '', step: 1};
+            if(!muted) console.log('addDepRow newDep', newDep);
+            if(!$scope.ticket) $scope.ticket = {dependencies: []};
+            if(!angular.isArray($scope.ticket.dependencies)) $scope.ticket.dependencies = [];
+            $scope.ticket.dependencies.push(newDep);
+
+            var idx = findWithAttr($scope.available, 'customId', $scope.lastAdded.customId);
+            if(!muted) console.log('addDepRow idx', idx);
+            if(!muted) console.log('addDepRow item', $scope.available[idx]);
+            $scope.available.splice(idx-1, 1);
+
+            $scope.lastAdded = null;
+        };
+
+        $scope.dropDep = function(idx) {
+            var dropped = $scope.ticket.dependencies[idx];
+            if(!$scope.available) $scope.available = [];
+            $scope.available.push(dropped.item);
+
+            $scope.ticket.dependencies.splice(idx, 1);
+        };
+
+        
 
     })
 

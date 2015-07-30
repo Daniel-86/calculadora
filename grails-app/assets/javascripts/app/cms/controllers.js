@@ -26,7 +26,7 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
         if(!muted) console.log('showChildren property', property);
         var childrens = [];
         angular.forEach(property, function(prop) {
-            childrens.push.apply(childrens, item[prop]);
+            if(angular.isDefined(item) && angular.isArray(item[prop])) childrens.push.apply(childrens, item[prop]);
         });
         if(!muted) console.log('showChildren children', childrens);
         //return childrens;
@@ -45,6 +45,7 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
     $scope.resetView = function() {
         $scope.tree = [];
         $scope.childrens = $scope.categories;
+        $scope.selected = null;
     };
 
     $scope.goBackTill = function(item) {
@@ -73,13 +74,70 @@ angular.module('cms.controllers', ['listas']).controller('cmsCtrl', function($sc
     $scope.addItem = function() {
         var muted = false;
         if(!muted) console.log('\n');
-        var newData = {item: $scope.selected, descripcion: $scope.descripcion};
+        var newData = {item: $scope.selected, descripcion: $scope.descripcion, customId: $scope.customId, domainType: $scope.domainType};
         $http.post("calculadora/addItem", newData).success(function(data) {
             if(!muted) console.log('addItem data', data);
             $scope.categories = data.categories;
-            $scope.childrens = data.children;
-            console.log('adDItem - children', $scope.childrens);
-            $scope.showChildren($scope.selected);
+
+            //$scope.showChildren($scope.selected);
+
+            if(angular.isDefined($scope.selected)) {
+                $scope.selected = data.newItem;
+                var childrens = [];
+                angular.forEach(['componentes', 'conceptos'], function(prop) {
+                    if(angular.isDefined($scope.selected) && angular.isArray($scope.selected[prop])) childrens.push.apply(childrens, $scope.selected[prop]);
+                });
+                if(!muted) console.log('showChildren children', childrens);
+                $scope.childrens = childrens;
+                var idxTree = findWithAttr($scope.tree, 'id', $scope.selected.id);
+                $scope.tree[idxTree-1] = $scope.selected;
+            }
+            else {
+                $scope.childrens = data.children;
+            }
+            if(!muted) console.log('adDItem - children', $scope.childrens);
+            $scope.descripcion = '';
+            $scope.customId = '';
+            $scope.newItemForm.$setPristine
         });
+    };
+
+    $scope.removeChild = function(idxChild) {
+        var muted = false;
+        if(!muted) console.log('\n');
+        var item = $scope.childrens[idxChild];
+        if(!muted) console.log('removeChild item', item);
+        var delData = {item: item, parent: $scope.selected};
+
+        $http.delete("calculadora/deleteItem", delData)
+            .success(function(data) {
+                if(item) {
+                    if($scope.selected) {
+                        if (!muted) console.log('removeChild selected', $scope.selected);
+                        var isA = 'unknown';
+                        var parentIdx = findWithAttr($scope.tree, 'id', $scope.selected.id);
+                        if (!muted) console.log('removeChild tree', $scope.tree);
+                        if (!muted) console.log('removeChild parentIdx', parentIdx - 1);
+                        var parent = $scope.tree[parentIdx - 1];
+                        if (!muted) console.log('removeChild parent', parent);
+                    }
+                    var realIdx;
+                    if(parent) {
+                        if ((realIdx = findWithAttr(parent.componentes, 'customId', item.customId)) >= 0) {
+                            isA = 'componentes'
+                        }
+                        else if ((realIdx = findWithAttr(parent.conceptos, 'customId', item.customId)) >= 0) {
+                            isA = 'conceptos'
+                        }
+                        if (!muted) console.log('removeChild idxChild ' + idxChild + '  isA ' + isA + '  parentIdx ' + parentIdx - 1 + '   realIdx ' + realIdx - 1);
+                        if (!muted) console.log('removeChild selected', $scope.selected[isA][realIdx - 1]);
+                        $scope.selected[isA].splice(realIdx - 1, 1);
+                        if (!muted) console.log('removeChild tree', $scope.tree[parentIdx - 1][isA][realIdx - 1]);
+                        $scope.tree[parentIdx - 1][isA].splice(realIdx - 1, 1);
+                    }
+                    if(!muted) console.log('removeChild childrens', $scope.childrens[idxChild]);
+                    $scope.childrens.splice(idxChild, 1);
+                }
+            });
     };
 });

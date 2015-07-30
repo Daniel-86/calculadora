@@ -13,6 +13,7 @@ class CustomMarshallerRegistrar {
 			map['costo'] = it?.costo
 			map['multiple'] = it?.multiple
 			map['nodeType'] = it?.nodeType
+			map['domainClass'] = 'Concepto'
 //			map['categoria'] = it?.categoria
 //			map['padre'] = it?.padre
 			map['customId'] = it?.customId
@@ -25,6 +26,7 @@ class CustomMarshallerRegistrar {
 			map['descripcion'] = it?.descripcion
 			map['tipo'] = it?.tipo
 			map['customId'] = it?.customId
+			map['domainClass'] = 'Propiedad'
 			return map
 		}
 
@@ -37,6 +39,7 @@ class CustomMarshallerRegistrar {
 			map['conceptos'] = it?.conceptosE
 			map['propiedades'] = it?.propiedades
 			map['customId'] = it?.customId
+			map['domainClass'] = 'ConceptoEspecial'
 			return map
 		}
 
@@ -52,6 +55,7 @@ class CustomMarshallerRegistrar {
 			map['techSelected'] = [currentItem: null, propiedades: [], arr: [[[descripcion: '', selected: false]]]]
 //	    	map['toText'] = it?.toString()
 			map['customId'] = it?.customId
+			map['domainClass'] = 'Categoria'
 			return map 
 		}
 

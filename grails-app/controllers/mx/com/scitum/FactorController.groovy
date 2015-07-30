@@ -143,6 +143,9 @@ class FactorController {
             return
         }
 
+        def dependencies = factorInstance.dependencyDetail
+        dependencies.each {it.delete(flush: true)}
+
         factorInstance.delete flush:true
 
         request.withFormat {
