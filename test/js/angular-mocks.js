@@ -27,7 +27,7 @@ angular.mock = {};
  * cookies, etc...
  *
  * The api of this service is the same as that of the real {@link ng.$browser $browser}, except
- * that there are several helper methods available which can be used in tests.
+ * that there are several helpers methods available which can be used in tests.
  */
 angular.mock.$BrowserProvider = function() {
   this.$get = function() {

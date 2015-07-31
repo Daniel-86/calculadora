@@ -3709,7 +3709,7 @@ function annotate(fn, strictDi, name) {
  *
  * Often services have no configuration options and there is no need to add methods to the service
  * provider.  The provider will be no more than a constructor function with a `$get` property. For
- * these cases the {@link auto.$provide $provide} service has additional helper methods to register
+ * these cases the {@link auto.$provide $provide} service has additional helpers methods to register
  * services without specifying a provider.
  *
  * * {@link auto.$provide#provider provider(provider)} - registers a **service provider** with the
@@ -12478,7 +12478,7 @@ Parser.prototype = {
 
 
 //////////////////////////////////////////////////
-// Parser helper functions
+// Parser helpers functions
 //////////////////////////////////////////////////
 
 function setter(obj, locals, path, setValue, fullExp) {
@@ -13661,7 +13661,7 @@ function $RootScopeProvider() {
          expect(parent.salutation).toEqual('Hello');
      * ```
      *
-     * When interacting with `Scope` in tests, additional helper methods are available on the
+     * When interacting with `Scope` in tests, additional helpers methods are available on the
      * instances of `Scope` type. See {@link ngMock.$rootScope.Scope ngMock Scope} for additional
      * details.
      *
@@ -23825,7 +23825,7 @@ var ngModelOptionsDirective = function() {
 
 
 
-// helper methods
+// helpers methods
 function addSetValidityMethod(context) {
   var ctrl = context.ctrl,
       $element = context.$element,

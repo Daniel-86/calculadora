@@ -391,7 +391,7 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
             }
             if(!muted) console.log('\n');
         };
-        
+
         $scope.isOk = function(current) {
             var muted = true;
             if(!muted) console.log('\n');
@@ -626,13 +626,18 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
         };
 
 
+
+        var cantidades = {};
         $scope.calcular = function () {
-            var muted = true;
+            var muted = false;
             if(!muted) console.log('\n');
             var requestData = [];
             var categoKey;
             var categoVal;
             var volumetArr = {};
+
+            cantidades = {};
+
             for(var i=0; i<$scope.categories.length; i++) {
                 var category = $scope.categories[i];
                 var categoData = {};
@@ -648,14 +653,33 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
                     for(var compoIndx=0; compoIndx<componentes.length; compoIndx++) {
                         if(!muted) console.log('calcular - componente', componentes[compoIndx]);
                         //var compoKey = componentes[compoIndx].customId;
-                        var compoKey = componentes[compoIndx].propiedades[0].customId;
-                        var compoValue = componentes[compoIndx].propiedades[0].valor;
-                        if(!muted) console.log('calcular - compoKey', compoKey);
-                        if(!muted) console.log('calcular - compoValue', compoValue);
-                        if(compoValue > 0) {
-                            categoVal[compoKey] = compoValue;
-                            categoData[categoKey] = categoVal;
-                        }
+                        angular.forEach(componentes[compoIndx].propiedades, function(prop) {
+                            var compoKey = prop.customId;
+                            var compoValue = prop.valor;
+                            if(!muted) console.log('calcular - compoKey', compoKey);
+                            if(!muted) console.log('calcular - compoValue', compoValue);
+                            if(compoValue > 0) {
+                                categoVal[compoKey] = compoValue;
+                                categoData[categoKey] = categoVal;
+                                if(!angular.isDefined(cantidades[compoKey])) {
+                                    cantidades[compoKey] = 0;
+                                }
+                                cantidades[compoKey] += compoValue;
+                            }
+                        });
+
+                        //var compoKey = componentes[compoIndx].propiedades[0].customId;
+                        //var compoValue = componentes[compoIndx].propiedades[0].valor;
+                        //if(!muted) console.log('calcular - compoKey', compoKey);
+                        //if(!muted) console.log('calcular - compoValue', compoValue);
+                        //if(compoValue > 0) {
+                        //    categoVal[compoKey] = compoValue;
+                        //    categoData[categoKey] = categoVal;
+                        //    if(!angular.isDefined(cantidades[compoKey])) {
+                        //        cantidades[compoKey] = 0;
+                        //    }
+                        //    cantidades[compoKey] += compoValue;
+                        //}
                     }
                     if(!muted) console.log('calcular - categoData', categoData);
                 }
@@ -716,7 +740,25 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
                 $scope.resultados = data;
                 if(!muted) console.log('calcularAjax data',data);
                 $scope.baseData = data.best;
+                var partialResults = {cc: $scope.baseData.cc, acs: $scope.baseData.acs, es: $scope.baseData.es, rq: $scope.baseData.rq};
                 angular.forEach($scope.resultados.modifiers, function(mod) {
+                    var cardinality = 1;
+                    if(mod[0].lowerLimit > 0) {
+                        var nitem = cantidades[mod[0].customId];
+                        if(!muted) console.log('calcularAjax nitem', nitem);
+                        cardinality = (nitem - mod[0].lowerLimit)*mod[0].step;
+                    }
+                    if(!muted) console.log('calcularAjax cardinality', cardinality);
+                    partialResults.cc = partialResults.cc + cardinality*mod[0].factor*partialResults.cc;
+                    partialResults.acs = partialResults.acs + cardinality*mod[0].factor*partialResults.acs;
+                    partialResults.es = partialResults.es + cardinality*mod[0].factor*partialResults.es;
+                    partialResults.rq = partialResults.rq + cardinality*mod[0].factor*partialResults.rq;
+
+                    mod[0].cc = partialResults.cc;
+                    mod[0].es = partialResults.es;
+                    mod[0].rq = partialResults.rq;
+                    mod[0].acs = partialResults.acs;
+
                     if(!muted) console.log('calcularAjax mod', mod[0]);
                     if(!muted) console.log('calcularAjax baseData', $scope.baseData);
                     if(!muted) console.log('calcularAjax cal', $scope.baseData.cc  + mod[0].factor*$scope.baseData.cc);

@@ -66,14 +66,22 @@
                             %{--<input type="text" class="form-control" id="propDesc-{{$index}}" ng-model="prop.descripcion"/>--}%
                             %{--<label for="propType-{{$index}}" class="control-label">Tipo</label>--}%
                             %{--<input type="text" class="form-control" id="propType-{{$index}}" ng-model="prop.tipo"/>--}%
-                            Propiedad <strong>{{prop.descripcion}}</strong> es de tipo <em>{{prop.tipo}}</em>
+                            Propiedad <strong>{{prop.customId}}</strong> es de tipo <em>{{prop.tipo}}</em>
+                            <a href=""
+                               ng-click="dropProperty(prop, selected)"
+                               class="btn btn-link pull-right">
+                                <i class="glyphicon glyphicon-trash"></i> </a>
                         </div>
                     </div>
 
                     <div class="col-md-12" ng-if="selected.nodeType == 'BRANCH'">
                         <button class="btn btn-default btn-sm btn-add-prop" ng-click="showPropForm()" ng-hide="newProperty">Nueva propiedad</button>
                     </div>
-                    <div ng-if="newProperty">
+                    <div ng-show="newProperty">
+                        <div class="form-group">
+                            <label for="propName" class="control-label">Nombre</label>
+                            <input type="text" class="form-control" id="propName" ng-model="newPropNombre"/>
+                        </div>
                         <div class="form-group">
                             <label for="propDesc" class="control-label">Descripción</label>
                             <input type="text" class="form-control" id="propDesc" ng-model="newPropDescripcion"/>
@@ -109,7 +117,7 @@
                      ng-class="$last? 'spaced-bottom': ''">
                     <a href="" class="col-sm-10"
                        ng-click="showChildren(child)">
-                        {{child.descripcion}} <small class="pull-right">&lt{{child.domainClass}}&gt</small>
+                        {{child.customId}} <small class="pull-right">&lt{{child.domainClass}}&gt</small>
                     </a>
                     <a href=""
                        ng-click="removeChild($index)"
@@ -125,11 +133,15 @@
                         <div class=""
                              ng-show="selected && selected.domainClass !== 'Concepto' && selected.domainClass !== 'Propiedad'">
                             <label>
-                                <input type="radio" name="domainType" value="concepto" checked required
+                                <input type="radio" name="domainType" value="concepto"
+                                       checked
+                                       ng-required="selected && selected.domainClass !== 'Concepto' && selected.domainClass !== 'Propiedad'"
                                        ng-model="$parent.domainType">Concepto
                             </label>
                             <label>
-                                <input type="radio" name="domainType" value="componente" required
+                                <input type="radio" name="domainType"
+                                       value="componente"
+                                       ng-required="selected && selected.domainClass !== 'Concepto' && selected.domainClass !== 'Propiedad'"
                                        ng-model="$parent.domainType">Componente
                             </label>
                         </div>

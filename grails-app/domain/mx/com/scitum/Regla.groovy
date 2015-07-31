@@ -6,7 +6,7 @@ class Regla {
     String descripcion
     List dependencies
 
-    static hasMany = [dependencias: Item]
+//    static hasMany = [dependencias: Item]
     static transients = ['dependencies', 'dependencyDetail']
 
     static constraints = {

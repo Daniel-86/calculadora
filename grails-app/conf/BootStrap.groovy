@@ -188,8 +188,6 @@ class BootStrap {
         ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
         ticket.setNombre('tickets 1')
         ticket.setDescripcion('Para pruebas')
-        ticket.addToDependencias(Item.get(3))
-        ticket.addToDependencias(Item.get(21))
         ticket.save(flush: true)
         dependencia = new Dependencia(rule: ticket, item: Item.get(3))
         dependencia.save(flush: true)
@@ -199,8 +197,6 @@ class BootStrap {
         ticket = new Ticket(cc: 5, es: 4, acs: 3, rq: 0)
         ticket.setNombre('tickets 2')
         ticket.setDescripcion('Para pruebas')
-        ticket.addToDependencias(Item.get(48))
-        ticket.addToDependencias(Item.get(47))
         ticket.save(flush: true)
         dependencia = new Dependencia(rule: ticket, item: Item.get(48))
         dependencia.save(flush: true)
@@ -209,14 +205,12 @@ class BootStrap {
 
         Factor factor
         factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: -0.5)
-        factor.addToDependencias(Item.get(27))
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(27))
         dependencia.save(flush: true)
 
         factor = new Factor(nombre: 'qa 5', descripcion: 'despues de 5 qa disminuye 0.03 por cada qa extra',
                 factor:-0.03, lowerLimit: 5, step: 3)
-        factor.addToDependencias(Item.get(9))
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(9), lowerLimit: 5)
         dependencia.save(flush: true)

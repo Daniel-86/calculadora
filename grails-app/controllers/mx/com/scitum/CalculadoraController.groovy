@@ -1,14 +1,19 @@
 package mx.com.scitum
 
 import grails.converters.JSON
+import groovy.util.logging.Log4j
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import mx.com.scitum.helpers.DependenciesList
 
+@Log4j
 @Transactional(readOnly = true)
 class CalculadoraController {
 
     def springSecurityService
+    def unmarshallerService
+//    def log = Logger.getLogger()
 
     def index() {
         [categories: [
@@ -47,13 +52,12 @@ class CalculadoraController {
         String customId = request.JSON.customId
         String domainType = request.JSON.domainType
         def newInstance
-        def itemType
         def children
         if(!item) {
             newInstance = new Categoria(descripcion: descripcion, customId: customId.replaceAll(' ', '_'))
         }
         else {
-            def newConcept = null
+            def newConcept
             newInstance = Item.get(item.id)
 
             if(!domainType || domainType == 'concepto') {
@@ -75,18 +79,12 @@ class CalculadoraController {
 //            println "children $children"
         }
         newInstance?.save(flush: true, failOnError: true)
-        itemType = newInstance?.nodeType
-        println "ITEM $item"
-        println "DESC $descripcion"
         if(!item)
             children = Categoria.list(fetch: [conceptos: 'eager', componentes: 'eager'])
         else {
             children = (newInstance.componentes ?: []) + (newInstance.conceptos ?: [])
 //            if(children.size() > 0) children = children[0]
         }
-        println "debug"
-//        println "children base ${children}\n\t${children[0].id} ${children[0].descripcion}  ${children[0].costo}"
-//        println "children ${children as JSON}"
         render ([categories: Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']), 'children': children,
                  newItem: newInstance
         ] as
@@ -95,7 +93,22 @@ class CalculadoraController {
 
 
     def deleteItem() {
-        respond status: OK
+        def item = request.JSON.item
+        def parent = request.JSON.parent
+        log.debug "ITEM $item"
+        log.debug "PARENT $parent"
+
+        Item itemInstance = unmarshallerService.getConcreteItem(item)
+        Item parentInstance = unmarshallerService.getConcreteItem(parent)
+        if(!itemInstance || (itemInstance && !itemInstance instanceof Categoria && !parentInstance)) {
+            respond status: OK
+            return
+        }
+        if(unmarshallerService.removeDependency(parentInstance, itemInstance)) {
+            respond status: OK
+        }
+        else
+            respond status: 500
     }
 
     def list() {
@@ -208,14 +221,26 @@ class CalculadoraController {
             def deps = it.dependencyDetail
             deps.each {
                 if(it.lowerLimit) {
-                    if(it.lowerLimit > ammountMap[it.item.customId]) return false
+                    def itlow = it.lowerLimit
+                    def amo = ammountMap[it.item.customId]
+                    if(it.lowerLimit > ammountMap[it.item.customId]) {return false}
                 }
                 if(it.upperLimit) {
                     if(it.upperLimit < ammountMap[it.item.customId]) return false
                 }
             }
 
-            return true
+            def isWrong = deps.any {
+                if(it.lowerLimit)
+                    if(it.lowerLimit > ammountMap[it.item.customId]) {return true}
+                if(it.upperLimit)
+                    if(it.upperLimit < ammountMap[it.item.customId]) return true
+                return false
+            }
+
+            def algun ='debug'
+
+            return !isWrong
         }
 
         def modifiers = factores.collect {fac->
@@ -229,6 +254,7 @@ class CalculadoraController {
                 modData.factor = it.rule.factor
                 modData.nombre = it.rule.nombre
                 modData.descripcion = it.rule.descripcion
+                modData.customId = it.item.customId
                 modDataL << modData
             }
             return modDataL

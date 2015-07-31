@@ -599,55 +599,60 @@
 
                 <button type="button" class="btn btn-primary" ng-click="calcular()" ng-disabled="isReady()">Calcular
                 </button>
-
-
-                <div ng-show="resultados">
-                    <h4>Coindice con</h4>
-                    <table class="table table-striped">
-                        <thead>
-                        <th>CC</th>
-                        <th>ES</th>
-                        <th>RQ</th>
-                        <th>AS</th>
-                        </thead>
-                        <tbody>
-                        <tr title="{{resultados.best.descripcion}}">
-                            <td>{{resultados.best.cc}}</td>
-                            <td>{{resultados.best.es}}</td>
-                            <td>{{resultados.best.rq}}</td>
-                            <td>{{resultados.best.acs}}</td>    |
-                        </tr>
-                        <tr ng-repeat="res in resultados.modifiers" title="{{res[0].descripcion}}">
-                            <td>{{baseData.cc + baseData.cc * res[0].factor}}</td>
-                            <td>{{baseData.es + baseData.es*res[0].factor}}</td>
-                            <td>{{baseData.rq + baseData.rq*res[0].factor}}</td>
-                            <td>{{baseData.acs + baseData.acs*res[0].factor}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    %{--<div ng-repeat="res in resultados">--}%
-                        %{--<span ng-repeat="ite in res">--}%
-                            %{--<p>{{ite.nombre}}: {{ite.descripcion}}</p>--}%
-                            %{--<ul ng-if="ite.class.indexOf('Ticket', ite.class.length - 'Ticket'.length) !== -1">--}%
-                                %{--<li><span><strong>cc</strong> {{ite.cc}}, <strong>es</strong> {{ite.es}}, <strong>rq--}%
-                                %{--</strong> {{ite.rq}}, <strong>as</strong> {{ite.acs}}</span></li>--}%
-                                %{--<li><span><strong>cc</strong>{{ite.cc}}</span></li>--}%
-                                %{--<li><span><strong>es</strong>{{ite.es}}</span></li>--}%
-                                %{--<li><span><strong>rq</strong>{{ite.rq}}</span></li>--}%
-                                %{--<li><span><strong>as</strong>{{ite.acs}}</span></li>--}%
-                            %{--</ul>--}%
-                            %{--<ul ng-if="ite.class.indexOf('Factor', ite.class.length - 'Factor'.length) !== -1">--}%
-                                %{--<li><span><strong>factor</strong> {{ite.factor}}, {{ite.lowerLimit}} ---}%
-                                %{--{{ite.upperLimit}}</li>--}%
-                            %{--</ul>--}%
-                        %{--</span>--}%
-                    %{--</div>--}%
-                </div>
-                <div ng-show="noMatches()">
-                    Ninguna regla coincide para lo seleccionado
-                </div>
-
             </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div ng-show="resultados">
+            <h4>Número de tickets</h4>
+            <p>
+                Acontinuación se muestran los resultados de manera desglosada.
+            </p>
+            <p>
+                La primera fila tiene la información 'base' de número de tickets. El registro (en BD) seleccionado
+                coincide con todas o el mayor numero de 'dependencias' seleccionadas por el usuario.
+            </p>
+            <p>
+                Las filas restantes mustran el resultado parcial obtenido al aplicar los factores coincidentes, de
+                acuerdo a lo seleccionado por el usuario.
+            </p>
+            <p>
+                La última fila es el resultado total.
+            </p>
+            <table class="table table-striped">
+                <thead>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>CC</th>
+                <th>ES</th>
+                <th>RQ</th>
+                <th>AS</th>
+                </thead>
+                <tbody>
+                <tr title="">
+                    <td>{{resultados.best.nombre}}</td>
+                    <td>{{resultados.best.descripcion}}</td>
+                    <td>{{resultados.best.cc}}</td>
+                    <td>{{resultados.best.es}}</td>
+                    <td>{{resultados.best.rq}}</td>
+                    <td>{{resultados.best.acs}}</td>
+                </tr>
+                <tr ng-repeat="res in resultados.modifiers"
+                    ng-class="$last? 'success': ''"
+                    title="{{res[0].factor}}">
+                    <td>{{res[0].nombre}}</td>
+                    <td>{{res[0].descripcion}}</td>
+                    <td>{{res[0].cc}}</td>
+                    <td>{{res[0].es}}</td>
+                    <td>{{res[0].rq}}</td>
+                    <td>{{res[0].acs}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-show="noMatches()">
+            Ninguna regla coincide para lo seleccionado
         </div>
     </div>
 

@@ -154,7 +154,7 @@ class TicketController {
 
     def dependenciesData() {
         Ticket ticket = Ticket.get(params.id)
-        def dependencies = ticket?.dependencias?.collect {it.customId}?: []
+        def dependencies = ticket?.dependencies?.collect {it.customId}?: []
         def all = dependencies? Item.findAllByCustomIdNotInList(dependencies): Item.list()
 //        all.removeAll(dependencies)
         def data = [available: all, ticket: ticket]

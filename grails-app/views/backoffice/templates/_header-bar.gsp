@@ -31,7 +31,7 @@
                     <li><g:link uri="/factores">Factores</g:link></li>
                     <li><g:link uri="/tickets"
                                 params="[section: 'ticket']">Tabla de tickets</g:link></li>
-                    <li><g:link controller="calculadora" action="cms">CMS</g:link></li>
+                    <li><g:link controller="calculadora" action="cms">Servicios</g:link></li>
                     %{--<li class="divider"></li>--}%
                     %{--<li><a href="#">SLAs</a></li>--}%
                 </ul>

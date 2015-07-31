@@ -3499,7 +3499,7 @@ function annotate(fn) {
  *
  * Often services have no configuration options and there is no need to add methods to the service
  * provider.  The provider will be no more than a constructor function with a `$get` property. For
- * these cases the {@link auto.$provide $provide} service has additional helper methods to register
+ * these cases the {@link auto.$provide $provide} service has additional helpers methods to register
  * services without specifying a provider.
  *
  * * {@link auto.$provide#provider provider(provider)} - registers a **service provider** with the
@@ -4063,7 +4063,7 @@ function $AnchorScrollProvider() {
   this.$get = ['$window', '$location', '$rootScope', function($window, $location, $rootScope) {
     var document = $window.document;
 
-    // helper function to get first anchor from a NodeList
+    // helpers function to get first anchor from a NodeList
     // can't use filter.filter, as it accepts only instances of Array
     // and IE can't convert NodeList to an array using [].slice
     // TODO(vojta): use filter if we change it to accept lists as well
@@ -10975,7 +10975,7 @@ Parser.prototype = {
 
 
 //////////////////////////////////////////////////
-// Parser helper functions
+// Parser helpers functions
 //////////////////////////////////////////////////
 
 function setter(obj, path, setValue, fullExp, options) {
@@ -17083,7 +17083,7 @@ var inputType = {
   'file': noop
 };
 
-// A helper function to call $setValidity and return the value / undefined,
+// A helpers function to call $setValidity and return the value / undefined,
 // a pattern that is repeated a lot in the input validation logic.
 function validate(ctrl, validatorName, validity, value){
   ctrl.$setValidity(validatorName, validity);

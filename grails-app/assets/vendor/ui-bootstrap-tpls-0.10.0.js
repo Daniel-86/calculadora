@@ -1367,7 +1367,7 @@ angular.module('ui.bootstrap.dropdownToggle', []).directive('dropdownToggle', ['
 angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
 
 /**
- * A helper, internal data structure that acts as a map but also allows getting / removing
+ * A helpers, internal data structure that acts as a map but also allows getting / removing
  * elements in the LIFO order
  */
   .factory('$$stackedMap', function () {
@@ -1421,7 +1421,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
   })
 
 /**
- * A helper directive for the $modal service. It creates a backdrop element.
+ * A helpers directive for the $modal service. It creates a backdrop element.
  */
   .directive('modalBackdrop', ['$timeout', function ($timeout) {
     return {
@@ -2033,7 +2033,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   };
 
   /**
-   * This is a helper function for translating camel-case to snake-case.
+   * This is a helpers function for translating camel-case to snake-case.
    */
   function snake_case(name){
     var regexp = /[A-Z]/g;
@@ -3080,7 +3080,7 @@ angular.module('ui.bootstrap.timepicker', [])
 angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap.bindHtml'])
 
 /**
- * A helper service that can parse typeahead's syntax (string provided by users)
+ * A helpers service that can parse typeahead's syntax (string provided by users)
  * Extracted to a separate service for ease of unit testing
  */
   .factory('typeaheadParser', ['$parse', function ($parse) {

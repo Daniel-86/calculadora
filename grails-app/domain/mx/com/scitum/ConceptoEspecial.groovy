@@ -22,6 +22,10 @@ class ConceptoEspecial extends Item {
     def getNodeType() {
         'BRANCH'
     }
+
+    static mapping = {
+        propiedades cascade: "all-delete-orphan"
+    }
     
 //    def setNodeType(String s) {}
 }
