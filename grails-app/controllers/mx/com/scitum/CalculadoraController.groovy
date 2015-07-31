@@ -46,6 +46,8 @@ class CalculadoraController {
         def asdf = ""
     }
 
+    def newIndex() {render view: '/calculadora/main'}
+
     def addItem() {
         def item = request.JSON.item
         String descripcion = request.JSON.descripcion

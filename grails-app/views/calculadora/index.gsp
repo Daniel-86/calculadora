@@ -365,7 +365,7 @@
                             class="pull-right"
                             on-label="Sí"
                             off-label="No"
-                            ng-click="updateOpened(category, categoOpened[$index], $event)"
+                            ng-click="updateOpened(category, categoOpened[$index], $event); $event.stopPropagation();"
                             ng-model="category.selected"
                             ng-if="category.descripcion === 'Ingeniería en sitio'"></div>
                 </div>

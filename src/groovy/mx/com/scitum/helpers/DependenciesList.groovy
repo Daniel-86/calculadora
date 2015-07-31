@@ -28,13 +28,13 @@ class DependenciesList {
 //                found.matched = matched
 //                found.missing = found.dependencies - matched
 //                found.extra = test - matched
-            } else if (matchedVals > found.dependencies.size()) {
+            } else if (matchedVals > found?.dependencies?.size()) {
                 found = current
 //                found.matched = matched
 //                found.missing = found.dependencies - matched
 //                found.extra = test - matched
             }
-            println "Dependencies ${current.dependencies}"
+//            println "bestTicketMatch Dependencies ${current.dependencies}"
 //            println "\tFOUND $found"
             return found
         }

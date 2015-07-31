@@ -2,6 +2,7 @@
 //= require /app/calculadora/controllers
 //= require /app/calculadora/services
 //= require_tree /app/calculadora/templates/
+//= require /app/calculadora/controllers-new
 
 'use strict';
 

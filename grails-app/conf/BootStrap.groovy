@@ -185,7 +185,7 @@ class BootStrap {
         Dependencia dependencia
 
         Ticket ticket
-        ticket = new Ticket(cc: 1, es: 2, acs: 3, rq: 1)
+        ticket = new Ticket(cc: 10, es: 20, acs: 36, rq: 19)
         ticket.setNombre('tickets 1')
         ticket.setDescripcion('Para pruebas')
         ticket.save(flush: true)
@@ -194,7 +194,7 @@ class BootStrap {
         dependencia = new Dependencia(rule: ticket, item: Item.get(21))
         dependencia.save(flush: true)
 
-        ticket = new Ticket(cc: 5, es: 4, acs: 3, rq: 0)
+        ticket = new Ticket(cc: 54, es: 42, acs: 33, rq: 0)
         ticket.setNombre('tickets 2')
         ticket.setDescripcion('Para pruebas')
         ticket.save(flush: true)
@@ -204,7 +204,7 @@ class BootStrap {
         dependencia.save(flush: true)
 
         Factor factor
-        factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: -0.5)
+        factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: 0.05)
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(27))
         dependencia.save(flush: true)

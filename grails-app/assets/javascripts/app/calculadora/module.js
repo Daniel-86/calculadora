@@ -1,13 +1,15 @@
 //= require_self
 //= require controllers
 //= require services
+//= require controllers-new
 //= require_tree /app/calculadora/templates/
 
 'use strict';
 
 angular.module('calculadora', [
     'calculadora.controllers',
-    'calculadora.services'
+    'calculadora.services',
+    'calculadora.main.controllers'
 ]);
 
 //angular.module('calculadora', [

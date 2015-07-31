@@ -80,3 +80,85 @@ h2 {
 .spaced-bottom {
 	margin-bottom: 10px;
 }
+
+
+
+
+
+
+
+/*Estilos de la página principal*/
+/**/
+/**/
+.descRow {
+	margin-bottom: 6px;
+}
+
+.descMultiRow {
+	margin-bottom: 0;
+}
+
+.itemsList {
+	list-style-type: none;
+}
+.right-space {
+	margin-right: 4px;
+}
+.bottom-space {
+	margin-bottom: 5px;
+}
+.left-float {
+	float: left;
+}
+.right-float {
+	float: right !important;
+}
+.small-input {
+	max-width: 90px;
+}
+.limit-size {
+	max-width: 300px;
+}
+.min-width-x {
+	min-width: 130px;
+}
+.up-space {
+	margin-top: 10px;
+}
+.accordion-toggle {
+	display: block;
+}
+.concepto, .conceptoC {
+	display: block;
+}
+.concepto:hover {
+	background-color: #eaeaea;
+	color: #454545;
+}
+.max-width-80 {
+	max-width: 80px;
+}
+.toggle-switch span {
+	height: auto;
+}
+.toggle-switch {
+	border-color: #bbbbbb;
+}
+/*.accordion-toggle:nth-child(2) {*/
+/*height: 32px;*/
+/*}*/
+/*a.accordion-toggle:nth-of-type(2) {*/
+/*height: 32px;*/
+/*}*/
+.panel-group > .panel-default:nth-child(2) a {
+	height: 32px;
+}
+.text-muted {
+	color: #999;
+}
+.text-muted:hover {
+	text-decoration: none;
+}
+/**/
+/**/
+/*Termina estilos de la página principal*/
