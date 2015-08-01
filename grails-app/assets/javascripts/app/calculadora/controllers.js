@@ -749,10 +749,10 @@ angular.module('calculadora.controllers', ['checklist-model', 'accordion', 'togg
                         cardinality = (nitem - mod[0].lowerLimit)*mod[0].step;
                     }
                     if(!muted) console.log('calcularAjax cardinality', cardinality);
-                    partialResults.cc = partialResults.cc + cardinality*mod[0].factor*partialResults.cc;
-                    partialResults.acs = partialResults.acs + cardinality*mod[0].factor*partialResults.acs;
-                    partialResults.es = partialResults.es + cardinality*mod[0].factor*partialResults.es;
-                    partialResults.rq = partialResults.rq + cardinality*mod[0].factor*partialResults.rq;
+                    partialResults.cc = Math.round(partialResults.cc + cardinality*mod[0].factor*partialResults.cc);
+                    partialResults.acs = Math.round(partialResults.acs + cardinality*mod[0].factor*partialResults.acs);
+                    partialResults.es = Math.round(partialResults.es + cardinality*mod[0].factor*partialResults.es);
+                    partialResults.rq = Math.round(partialResults.rq + cardinality*mod[0].factor*partialResults.rq);
 
                     mod[0].cc = partialResults.cc;
                     mod[0].es = partialResults.es;
