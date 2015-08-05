@@ -13,6 +13,9 @@ class CalculadoraController {
 
     def springSecurityService
     def unmarshallerService
+
+//    static allowedMethods = [calcular: "POST"]
+
 //    def log = Logger.getLogger()
 
     def index() {
@@ -278,96 +281,5 @@ class CalculadoraController {
          * concidencias
          * **** considerar posibilidad de reportar las dependencias faltantes para coincidir completamente con la regla
          */
-//        matchedRules = allRules.findAll {rule->
-//            temptativeRules = dependenciesList.findBestMatch(rule.dependencies)
-//            subconditions = rule.dependencies.findAll {it.lowerLimit}
-//            return temptativeRules.findAll {it.matchesAny{subconditions*.rule}}
-//        }
-
-
-
-
-
-//
-//        String tipocli
-//        String sitio
-//        String volumetria
-//        List techs = []
-//        Map recursos = [:]
-//        def sitioDetail = []
-//        tree.each {categorie->
-//            categorie.each { category ->
-//                if (category) {
-//                    println "category ${category.key}"
-//                    if (category.key == 'tipo_de_cliente')
-//                        tipocli = category.value
-//                    if(category.key == 'ingenieria_en_sitio' && category.value) {
-//                        sitio = 'sitio'
-//                        recursos = category.value
-////                        sitioDetail
-//                        category.value.each {
-//                            sitioDetail << it.key
-//                        }
-////                        def
-//                    }
-//                    if (category.key == 'tecnologia') {
-//                        println "TECHS ${category.value}"
-//                        def techList = category.value
-//                        techList.each { techch ->
-//                            techch.each { tech ->
-//                                println "tech $tech"
-//                                def deviceList = tech.value
-//                                deviceList.each { device ->
-//                                    techs << device
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if(category.key == 'volumetria') {
-//                        volumetria = category.value
-//                    }
-//                }
-//            }
-//        }
-//        List queryList = []
-//        techs.each {
-//            queryList << it + tipocli + sitio + volumetria + sitioDetail
-//        }
-//        queryList = queryList.unique()
-//
-//        println "QUERYS $queryList"
-//
-////        List ticketsRecords = queryList.collect {Ticket.findByIdsString(it.join(','))}
-//        List<Ticket> tickets = Ticket.list()
-//        List<Regla> rules = Regla.list()
-//        List selectedDependencies = queryList.collect{
-//            List<Item> dependencies = []
-//            it.each {
-//                Item item = Item.findByCustomId(it as String)
-//                if(item) dependencies << item
-//            }
-//            return dependencies
-//        }
-////        selectedDependencies = selectedDependencies.unique()
-//
-//        List ticketsRecords = selectedDependencies.collect { depList->
-//            def matched = rules.findAll {depList.containsAll(it.dependencias)}
-////            def asdf = depList as Set<Item>
-////            def qwe = Regla.findAllByDescripcion('Para pruebas')
-////            Regla.executeQuery("select r from Regla r where r.dependencias.containsAll(:lista)")
-////            def miCrit = Regla.createCriteria()
-////            def algun = Regla.createCriteria().list() {
-////                inList 'dependencias', depList
-////            }
-////            Regla.findAllByDependenciasInList(asdf)
-////            return qwe
-//            return matched
-//        }
-////        List ticketsRecords = queryList.collect {paramsList-> tickets.find {it.idsList.containsAll(paramsList)}}
-//        ticketsRecords.removeAll([null, []])
-//        println "ticketsRecords $ticketsRecords"
-//
-//
-//        render (ticketsRecords as JSON)
     }
 }
