@@ -135,27 +135,27 @@ class CalculadoraController {
 
 
 
-    def bestMatch = { lista, test->
-        lista.inject([:]) { found, current ->
-            def matched = current.data.intersect(test)
-            print "\n\n${current.data} \tC\t $test \t=\t $matched\t\tmissing:${current.data - matched}\textra:${test - matched}"
-            def matchedVals = matched?.size()
-            println "\t\t*$matchedVals*"
-            if (matchedVals == current.data.size()) {
-                found = current
-                found.matched = matched
-                found.missing = found.data - matched
-                found.extra = test - matched
-            } else if (matchedVals > found.size()) {
-                found = current
-                found.matched = matched
-                found.missing = found.data - matched
-                found.extra = test - matched
-            }
-            println "\tFOUND $found"
-            return found
-        }
-    }
+//    def bestMatch = { lista, test->
+//        lista.inject([:]) { found, current ->
+//            def matched = current.data.intersect(test)
+//            print "\n\n${current.data} \tC\t $test \t=\t $matched\t\tmissing:${current.data - matched}\textra:${test - matched}"
+//            def matchedVals = matched?.size()
+//            println "\t\t*$matchedVals*"
+//            if (matchedVals == current.data.size()) {
+//                found = current
+//                found.matched = matched
+//                found.missing = found.data - matched
+//                found.extra = test - matched
+//            } else if (matchedVals > found.size()) {
+//                found = current
+//                found.matched = matched
+//                found.missing = found.data - matched
+//                found.extra = test - matched
+//            }
+//            println "\tFOUND $found"
+//            return found
+//        }
+//    }
 
 
 
@@ -180,96 +180,229 @@ class CalculadoraController {
 //            }
 //        }
 
-        List dependenciesList = []
-        List dependenciesName = []
-        Map ammountMap = [:].withDefault {0}
-        tree.each { categor->
-            categor.each { catego ->
-                dependenciesName << catego.key
-                if (catego.key == 'tipo_de_cliente') {
-                    dependenciesName << catego.value
-                } else if (catego.key == 'ingenieria_en_sitio') {
-                    dependenciesName += catego.value.keySet() as List
-                    ammountMap << catego.value
-                } else if(catego.key == 'tecnologia') {
-                    catego.value.each { techh->
-                        techh.each { tech ->
-                            dependenciesName << tech.key
-                            tech.value.each { depsPerDevice ->
-                                dependenciesName += depsPerDevice
-                                depsPerDevice.each {ammountMap[it]++}
+
+
+        List requiredDeps = []
+        List extraDeps = []
+        Map counts = [:]
+        def customCounts = []
+        Map servicesDeps = [:]
+        def auxServiceDep = [:].withDefault {[]}
+        tree.each { category->
+            if(category.key == 'tipo_de_cliente') {
+                requiredDeps << Item.findByCustomId(category.value.customId)
+            }
+            else if(category.key == 'ingenieria_en_sitio') {
+                category.value.each { componente->
+                    extraDeps << Item.findByCustomId(componente.key)
+                    componente.value.each { property->
+                        if(property.key != componente.key) {
+                            requiredDeps << Item.findByCustomId(property.key)
+                            if(property.key.contains('cantidad')) {
+                                counts[property.key] = property.value
                             }
-                            ammountMap[tech.key] = tech.value.size()
                         }
+                    }
+                }
+            }
+            else if(category.key == 'tecnologia') {
+                category.value.each {componente->
+                    componente.value.devices.eachWithIndex { device, idx->
+                        servicesDeps[componente.key+'-'+idx] = device.selection.collect {Item.findByCustomId(it)}
+                        customCounts << device.selection.collectEntries {[(it): device.count]}
+                        auxServiceDep[componente.key] << servicesDeps[componente.key+'-'+idx]
+                        counts[componente.key+'-'+idx] = device.count
+
                     }
                 }
             }
         }
 
-        dependenciesList = dependenciesName.collect {Item.findByCustomId(it)}
+//        def countData
 
         List<Regla> allRules = Regla.list()
-        def bestMatch = null
-        use(DependenciesList) {
-            bestMatch = allRules.bestTicketMatch(dependenciesList)
-        }
-        List factores = allRules.findAll {
-            if(!(it instanceof Factor))
-                return false
-            if(!dependenciesList.containsAll(it.dependencies))
-                return false
-            def deps = it.dependencyDetail
-            deps.each {
-                if(it.lowerLimit) {
-                    def itlow = it.lowerLimit
-                    def amo = ammountMap[it.item.customId]
-                    if(it.lowerLimit > ammountMap[it.item.customId]) {return false}
+        def servicesMatch = []
+        def rowsData
+        def resultData = []
+        def baseArrays = auxServiceDep.values()
+        def combinations = GroovyCollections.combinations(baseArrays)
+        combinations*.flatten().eachWithIndex { deviceDeps, idx->
+            def currentRow = combinations[idx]
+            def currentCounts = currentRow.collectEntries { partialDeps->
+                customCounts.find {partialDeps*.customId.containsAll(it.keySet())}
+            }
+            currentCounts += counts
+//            currentCounts = currentCounts.flatten()
+            rowsData = [:]
+            def bestMatch = null
+            def rowDependencies = requiredDeps+deviceDeps
+            use(DependenciesList) {
+                bestMatch = allRules.bestTicketMatch(rowDependencies)
+            }
+            if(bestMatch) {
+                def baseData = [:]
+                baseData.nombre = bestMatch?.nombre
+                baseData.descripcion = bestMatch?.descripcion
+                baseData.acs = bestMatch?.acs
+                baseData.rq = bestMatch?.rq
+                baseData.es = bestMatch?.es
+                baseData.cc = bestMatch?.cc
+                servicesMatch << baseData
+                rowsData.ticket = baseData
+            }
+            
+            def factores = allRules.findAll {
+                if(!(it instanceof Factor))
+                    return false
+                if(!rowDependencies.containsAll(it.dependencies))
+                    return false
+                def deps = it.dependencyDetail
+                deps.each {
+                    if(it.lowerLimit) {
+                        def itlow = it.lowerLimit
+                        def amo = currentCounts[it.item.customId]
+                        if(it.lowerLimit > currentCounts[it.item.customId]) {return false}
+                    }
+                    if(it.upperLimit) {
+                        if(it.upperLimit < currentCounts[it.item.customId]) return false
+                    }
                 }
-                if(it.upperLimit) {
-                    if(it.upperLimit < ammountMap[it.item.customId]) return false
+
+                def isWrong = deps.any {
+                    if(it.lowerLimit)
+                        if(it.lowerLimit > currentCounts[it.item.customId]) {return true}
+
+
+                    if(it.upperLimit)
+                        if(it.upperLimit < currentCounts[it.item.customId]) return true
+                    return false
                 }
+
+                def algun ='debug'
+
+                return !isWrong
             }
 
-            def isWrong = deps.any {
-                if(it.lowerLimit)
-                    if(it.lowerLimit > ammountMap[it.item.customId]) {return true}
-                if(it.upperLimit)
-                    if(it.upperLimit < ammountMap[it.item.customId]) return true
-                return false
+            rowsData.factores = factores?.collect {fac->
+                def modDataL = []
+                def deps = fac.dependencyDetail
+                deps.each {
+                    def modData = [:]
+                    modData.lowerLimit = it.lowerLimit
+                    modData.upperLimit = it.upperLimit
+                    modData.step = it.step
+                    modData.factor = it.rule.factor
+                    modData.nombre = it.rule.nombre
+                    modData.descripcion = it.rule.descripcion
+                    modData.customId = it.item.customId
+                    modDataL << modData
+                }
+                return modDataL
             }
+            rowsData.factores = rowsData.factores.flatten()
+            rowsData.counts = currentCounts
 
-            def algun ='debug'
-
-            return !isWrong
+            resultData << rowsData
         }
 
-        def modifiers = factores.collect {fac->
-            def modDataL = []
-            def deps = fac.dependencyDetail
-            deps.each {
-                def modData = [:]
-                modData.lowerLimit = it.lowerLimit
-                modData.upperLimit = it.upperLimit
-                modData.step = it.step
-                modData.factor = it.rule.factor
-                modData.nombre = it.rule.nombre
-                modData.descripcion = it.rule.descripcion
-                modData.customId = it.item.customId
-                modDataL << modData
-            }
-            return modDataL
-        }
-        def baseData = [:]
-        baseData.nombre = bestMatch?.nombre
-        baseData.descripcion = bestMatch?.descripcion
-        baseData.acs = bestMatch?.acs
-        baseData.rq = bestMatch?.rq
-        baseData.es = bestMatch?.es
-        baseData.cc = bestMatch?.cc
-        def data = [best: baseData, modifiers: modifiers]
-//        println "${data as JSON}"
 
-        render(data as JSON)
+        render ([results: resultData, counts: counts] as JSON)
+        
+
+
+
+//        List dependenciesList = []
+//        List dependenciesName = []
+//        Map ammountMap = [:].withDefault {0}
+//        tree.each { categor->
+//            categor.each { catego ->
+//                dependenciesName << catego.key
+//                if (catego.key == 'tipo_de_cliente') {
+//                    dependenciesName << catego.value
+//                } else if (catego.key == 'ingenieria_en_sitio') {
+//                    dependenciesName += catego.value.keySet() as List
+//                    ammountMap << catego.value
+//                } else if(catego.key == 'tecnologia') {
+//                    catego.value.each { techh->
+//                        techh.each { tech ->
+//                            dependenciesName << tech.key
+//                            tech.value.each { depsPerDevice ->
+//                                dependenciesName += depsPerDevice
+//                                depsPerDevice.each {ammountMap[it]++}
+//                            }
+//                            ammountMap[tech.key] = tech.value.size()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        dependenciesList = dependenciesName.collect {Item.findByCustomId(it)}
+//
+////        List<Regla> allRules = Regla.list()
+//        def bestMatch = null
+//        use(DependenciesList) {
+//            bestMatch = allRules.bestTicketMatch(dependenciesList)
+//        }
+//        List factores = allRules.findAll {
+//            if(!(it instanceof Factor))
+//                return false
+//            if(!dependenciesList.containsAll(it.dependencies))
+//                return false
+//            def deps = it.dependencyDetail
+//            deps.each {
+//                if(it.lowerLimit) {
+//                    def itlow = it.lowerLimit
+//                    def amo = ammountMap[it.item.customId]
+//                    if(it.lowerLimit > ammountMap[it.item.customId]) {return false}
+//                }
+//                if(it.upperLimit) {
+//                    if(it.upperLimit < ammountMap[it.item.customId]) return false
+//                }
+//            }
+//
+//            def isWrong = deps.any {
+//                if(it.lowerLimit)
+//                    if(it.lowerLimit > ammountMap[it.item.customId]) {return true}
+//
+//
+//                if(it.upperLimit)
+//                    if(it.upperLimit < ammountMap[it.item.customId]) return true
+//                return false
+//            }
+//
+//            def algun ='debug'
+//
+//            return !isWrong
+//        }
+//
+//        def modifiers = factores.collect {fac->
+//            def modDataL = []
+//            def deps = fac.dependencyDetail
+//            deps.each {
+//                def modData = [:]
+//                modData.lowerLimit = it.lowerLimit
+//                modData.upperLimit = it.upperLimit
+//                modData.step = it.step
+//                modData.factor = it.rule.factor
+//                modData.nombre = it.rule.nombre
+//                modData.descripcion = it.rule.descripcion
+//                modData.customId = it.item.customId
+//                modDataL << modData
+//            }
+//            return modDataL
+//        }
+//        def baseData = [:]
+//        baseData.nombre = bestMatch?.nombre
+//        baseData.descripcion = bestMatch?.descripcion
+//        baseData.acs = bestMatch?.acs
+//        baseData.rq = bestMatch?.rq
+//        baseData.es = bestMatch?.es
+//        baseData.cc = bestMatch?.cc
+//        def data = [best: baseData, modifiers: modifiers, bestMatches: servicesMatch]
+////        println "${data as JSON}"
+//
+//        render(data as JSON)
 
 
         /**

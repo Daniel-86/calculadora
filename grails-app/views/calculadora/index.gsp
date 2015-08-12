@@ -597,8 +597,14 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary" ng-click="calcular()" ng-disabled="isReady()">Calcular
-                </button>
+                <div class="col-md-12">
+                    <button type="button"
+                            class="btn btn-primary pull-right"
+                            ng-click="calcular()"
+                            ng-disabled="isReady()">
+                        Calcular
+                    </button>
+                </div>
             </div>
         </div>
     </div>
