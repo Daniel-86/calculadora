@@ -6,11 +6,11 @@ import org.springframework.security.access.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Secured(['ROLE_ADMIN'])
+//@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class FactorController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: ["POST", 'OPTIONS'], update: ["PUT", 'OPTIONS'], delete: ["DELETE", 'OPTIONS']]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -136,7 +136,14 @@ class FactorController {
     }
 
     @Transactional
-    def delete(Factor factorInstance) {
+    def delete() {
+
+        def itemData = request.JSON.item; println "itemData $itemData"
+
+        def itemId = params.id
+        Factor factorInstance = itemId? Factor.get(itemId): null
+
+//        Factor factorInstance = itemData?.id? Factor.get(itemData.id): null
 
         if (factorInstance == null) {
             notFound()
