@@ -1,6 +1,7 @@
 package mx.com.scitum
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Log4j
 
 import static org.springframework.http.HttpStatus.*
@@ -8,6 +9,7 @@ import grails.transaction.Transactional
 import mx.com.scitum.helpers.DependenciesList
 
 @Log4j
+//@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class CalculadoraController {
 

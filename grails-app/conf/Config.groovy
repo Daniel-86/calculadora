@@ -144,3 +144,22 @@ grails.plugin.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_USER
 '''
 
+grails.plugin.springsecurity.filterChain.chainMap = [
+        '/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+]
+
+grails.plugin.springsecurity.rest.login.useJsonCredentials = true
+grails.plugin.springsecurity.rest.login.failureStatusCode = 401
+//grails.plugin.springsecurity.rest.token.storage.useGorm = true
+//grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'mx.com.scitum.auth.AuthenticationToken'
+//grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName = 'token'
+//grails.plugin.springsecurity.rest.token.storage.gorm.usernamePropertyName = 'username'
+
+cors.headers = [
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type, x-requested-with, x-auth-token',
+        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS',
+        'Access-Control-Max-Age': 3600
+]
+
