@@ -37,9 +37,9 @@ class UnmarshallerService {
         else if (dep instanceof Propiedad && parent instanceof ConceptoEspecial) {
             parent.removeFromPropiedades(dep)
         }
-        parent?.save(flush: true)
+        parent?.save(flush: true, failOnError: true)
 
-        if(!dep instanceof Propiedad) trimTree(dep)
+        if(!(dep instanceof Propiedad)) trimTree(dep)
 
         return true
     }
@@ -72,11 +72,15 @@ class UnmarshallerService {
             List<Item> conceptos = item.conceptosE
             List<Propiedad> propiedades = item.propiedades
             item.conceptosE = []
-            item.propiedades = []
+//            item.propiedades = []
             conceptos.each { child->
                 trimTree(child)
             }
-            propiedades*.delete(flush: true)
+            try {
+                propiedades*.delete(flush: true)
+            } catch (all) {
+//                all.printStackTrace()
+            }
             item.delete(flush: true)
         }
         else if (item instanceof Categoria) {

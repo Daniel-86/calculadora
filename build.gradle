@@ -117,7 +117,8 @@ dependencies {
 		[name: 'geb', version: gebVersion, scope: 'test'],
 		[name: 'spring-security-core', version: '2.0-RC5'],
 		[name: 'spring-security-ldap', version: '2.0-RC2'],
-		[name: 'spring-security-ui', version: '1.0-RC2']
+		[name: 'spring-security-ui', version: '1.0-RC2'],
+		[name: 'spring-security-rest', version: '1.5.1']
 	]
 
 	plugins.each { plugin ->

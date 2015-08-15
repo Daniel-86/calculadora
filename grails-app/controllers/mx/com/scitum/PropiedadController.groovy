@@ -10,7 +10,7 @@ class PropiedadController {
 
     def unmarshallerService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: ["POST", 'OPTIONS'], update: ["PUT", 'OPTIONS'], delete: ["DELETE", 'OPTIONS']]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -27,13 +27,14 @@ class PropiedadController {
 
     @Transactional
     def save() {
+        if(request.method == 'OPTIONS') {respond OK; return;}
         Propiedad propiedadInstance = new Propiedad()
         bindData(propiedadInstance, request.JSON, [include: ['customId', 'descripcion', 'tipo']])
 
         def parentJSON = request.JSON.parent
-        ConceptoEspecial parent = parentJSON.id?
+        ConceptoEspecial parent = parentJSON?.id?
                 ConceptoEspecial.get(parentJSON.id):
-                ConceptoEspecial.findByCustomId(parentJSON.customId)
+                ConceptoEspecial.findByCustomId(parentJSON?.customId)
 
         if (propiedadInstance == null || !parent) {
             notFound()
@@ -65,6 +66,7 @@ class PropiedadController {
 
     @Transactional
     def update(Propiedad propiedadInstance) {
+        if(request.method == 'OPTIONS') {respond OK; return;}
         if (propiedadInstance == null) {
             notFound()
             return
@@ -88,7 +90,7 @@ class PropiedadController {
 
     @Transactional
     def delete() {
-
+        if(request.method == 'OPTIONS') {respond OK; return;}
         Propiedad propiedadInstance = request.JSON.id? Propiedad.get(request.JSON.id): Propiedad
                 .findByCustomId(request.JSON.customId)
 
