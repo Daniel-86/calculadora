@@ -13,7 +13,7 @@ class DependenciesList {
      * Encuentra el elemento de la lista que coincide con todos o con la mayoria de las dependencias especificadas
      * @param lista La lista en la cual buscar
      * @param test Las dependencias por las que buscar
-     * @return Un único elemento del tipo mx.com.scitum.Dependencia
+     * @return Un ï¿½nico elemento del tipo mx.com.scitum.Dependencia
      */
     static def bestTicketMatch(List lista, test) {
         lista.inject([:]) { found, current ->
@@ -24,15 +24,17 @@ class DependenciesList {
             def matchedVals = matched?.size()
 //            println "\t\t*$matchedVals*"
             if (matchedVals == current.dependencies.size()) {
-                found = current
-//                found.matched = matched
-//                found.missing = found.dependencies - matched
-//                found.extra = test - matched
-            } else if (matchedVals > found?.dependencies?.size()) {
-                found = current
-//                found.matched = matched
-//                found.missing = found.dependencies - matched
-//                found.extra = test - matched
+//                found = current
+                found.current = current
+                found.matched = matched
+                found.missing = current.dependencies - matched
+                found.extra = test - matched
+            } else if (matchedVals > found?.current?.dependencies?.size()) {
+//                found = current
+                found.current = current
+                found.matched = matched
+                found.missing = current.dependencies - matched
+                found.extra = test - matched
             }
 //            println "bestTicketMatch Dependencies ${current.dependencies}"
 //            println "\tFOUND $found"

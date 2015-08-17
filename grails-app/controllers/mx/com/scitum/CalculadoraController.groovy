@@ -185,7 +185,10 @@ class CalculadoraController {
                         customCounts << device.selection.collectEntries {[(it): device.count]}
                         auxServiceDep[componente.key] << servicesDeps[componente.key+'-'+idx]
                         counts[componente.key+'-'+idx] = device.count
-
+                        if(!counts[componente.key]) {
+                            counts[componente.key] = 0
+                        }
+                        counts[componente.key]++
                     }
                 }
             }
@@ -207,12 +210,13 @@ class CalculadoraController {
             currentCounts += counts
 //            currentCounts = currentCounts.flatten()
             rowsData = [:]
-            def bestMatch = null
+            def bestMatchData = null
             def rowDependencies = requiredDeps+deviceDeps
             use(DependenciesList) {
-                bestMatch = allRules.bestTicketMatch(rowDependencies)
+                bestMatchData = allRules.bestTicketMatch(rowDependencies)
             }
-            if(bestMatch) {
+            if(bestMatchData?.matched) {
+                def bestMatch = bestMatchData.current
                 def baseData = [:]
                 baseData.nombre = bestMatch?.nombre
                 baseData.descripcion = bestMatch?.descripcion
@@ -220,10 +224,11 @@ class CalculadoraController {
                 baseData.rq = bestMatch?.rq
                 baseData.es = bestMatch?.es
                 baseData.cc = bestMatch?.cc
+                baseData.best = bestMatchData
                 servicesMatch << baseData
                 rowsData.ticket = baseData
             }
-            
+
             def factores = allRules.findAll {
                 if(!(it instanceof Factor))
                     return false
@@ -277,6 +282,7 @@ class CalculadoraController {
 
             resultData << rowsData
         }
+        def abas = 2
 
 
         render ([results: resultData, counts: counts] as JSON)
