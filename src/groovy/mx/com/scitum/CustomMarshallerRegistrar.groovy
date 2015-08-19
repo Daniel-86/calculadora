@@ -17,6 +17,8 @@ class CustomMarshallerRegistrar {
 //			map['categoria'] = it?.categoria
 //			map['padre'] = it?.padre
 			map['customId'] = it?.customId
+			map['nombre'] = it?.nombre
+			map['visible'] = it?.visible
 //	    	map['toText'] = it?.toString()
 			return map 
 		}
@@ -26,7 +28,9 @@ class CustomMarshallerRegistrar {
 			map['descripcion'] = it?.descripcion
 			map['tipo'] = it?.tipo
 			map['customId'] = it?.customId
+			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Propiedad'
+			map['visible'] = it?.visible
 			return map
 		}
 
@@ -36,10 +40,12 @@ class CustomMarshallerRegistrar {
 			map['nodeType'] = it?.nodeType
 //			map['categoria'] = it?.categoria
 //			map['padre'] = it?.padre
-			map['conceptos'] = it?.conceptosE
-			map['propiedades'] = it?.propiedades
+			map['conceptos'] = it?.conceptosE?: []
+			map['propiedades'] = it?.propiedades?: []
 			map['customId'] = it?.customId
+			map['nombre'] = it?.nombre
 			map['domainClass'] = 'ConceptoEspecial'
+			map['visible'] = it?.visible
 			return map
 		}
 
@@ -50,13 +56,15 @@ class CustomMarshallerRegistrar {
 			map['multiple'] = it?.multiple
 			map['required'] = it?.required
 			map['nodeType'] = it?.nodeType
-			map['conceptos'] = it?.conceptos
-			map['componentes'] = it?.componentes
+			map['conceptos'] = it?.conceptos?: []
+			map['componentes'] = it?.componentes?: []
 			map['techSelected'] = [currentItem: null, propiedades: [], arr: [[[descripcion: '', selected: false]]]]
 //	    	map['toText'] = it?.toString()
 			map['customId'] = it?.customId
+			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Categoria'
-			return map 
+			map['visible'] = it?.visible
+			return map
 		}
 
 		JSON.registerObjectMarshaller(mx.com.scitum.Dependencia) {
@@ -74,6 +82,7 @@ class CustomMarshallerRegistrar {
 			map['factor'] = it?.factor
 			map['dependencies'] = it?.dependencyDetail
 			map['nombre'] = it?.nombre
+			map['customId'] = it?.customId
 			map['descripcion'] = it?.descripcion
 			return map
 		}
@@ -87,6 +96,7 @@ class CustomMarshallerRegistrar {
 			map['rq'] = it?.rq
 			map['dependencies'] = it?.dependencyDetail
 			map['nombre'] = it?.nombre
+			map['customId'] = it?.customId
 			map['descripcion'] = it?.descripcion
 			return map
 		}

@@ -35,8 +35,10 @@ class BootStrap {
                 new Concepto(descripcion: 'Privado', costo: 2, nombre: 'privado'),
                 new Concepto(descripcion: 'Financiero', costo: 3, nombre: 'financiero')].each {
             it.setNombre(it.descripcion)
+            it.setCustomId(it.descripcion)
             category.addToConceptos(it)
         }
+        category.setCustomId('tipo de cliente')
         category.setNombre('tipo de cliente')
         category.save(flush: true, failOnError: true)
 
@@ -53,9 +55,11 @@ class BootStrap {
                 new Concepto(descripcion: 'Sí', costo: 1, nombre: 'si'),
                 new Concepto(descripcion: 'No', costo: 0, nombre: 'no')].each {
             it.setNombre(it.descripcion)
+            it.setCustomId(it.descripcion)
             category.addToConceptos(it)
         }
         category.setNombre(category.descripcion)
+        category.setCustomId(category.descripcion)
         def arrPropC2, arrConC2
         ConceptoEspecial ceC2
         def techPropsC2 = {
@@ -69,36 +73,46 @@ class BootStrap {
 //        }
         ceC2 = new ConceptoEspecial(descripcion: 'Ingeniero de operaciones', nombre: 'ingeniero de operaciones')
         ceC2.setNombre(ceC2.descripcion)
+        ceC2.setCustomId(ceC2.descripcion)
         arrPropC2 = techPropsC2();
-        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('ingeniero de operaciones cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('ingeniero de operaciones cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'QA', nombre: 'qa')
         ceC2.setNombre(ceC2.descripcion)
+        ceC2.setCustomId(ceC2.descripcion)
         arrPropC2 = techPropsC2();
-        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('qa cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('qa cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'Analista', nombre: 'analista')
         ceC2.setNombre(ceC2.descripcion)
+        ceC2.setCustomId(ceC2.descripcion)
         arrPropC2 = techPropsC2();
-        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('analista cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('analista cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'Service manager', nombre: 'service manager')
         ceC2.setNombre(ceC2.descripcion)
+        ceC2.setCustomId(ceC2.descripcion)
         arrPropC2 = techPropsC2();
-        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('service manager cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('service manager cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'CSIRT', nombre: 'csirt')
         ceC2.setNombre(ceC2.descripcion)
+        ceC2.setCustomId(ceC2.descripcion)
         arrPropC2 = techPropsC2();
-        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('csirt cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
+        arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('csirt cantidad')
         arrPropC2.each { ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
@@ -113,6 +127,7 @@ class BootStrap {
                 required: true, 
                 nombre: 'tecnología')
         category.setNombre(category.descripcion)
+        category.setCustomId(category.descripcion)
         def arrProp, arrCon
         def technologyProps = {
             def lista = [
@@ -137,56 +152,68 @@ class BootStrap {
 
         ConceptoEspecial conceptoEspecial = new ConceptoEspecial(descripcion: 'Firewall', nombre: 'firewall')
         conceptoEspecial.setNombre(conceptoEspecial.descripcion)
+        conceptoEspecial.setCustomId(conceptoEspecial.descripcion)
         arrProp = technologyProps()
         arrProp.each {
-            it.setNombre(conceptoEspecial.customId+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = technologyConcepts()
         arrCon.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'IPS', nombre: 'ips')
         conceptoEspecial.setNombre(conceptoEspecial.descripcion)
+        conceptoEspecial.setCustomId(conceptoEspecial.descripcion)
         arrProp = technologyProps()
         arrProp.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = technologyConcepts()
         arrCon.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'Filtrado web', nombre: 'filtrado web')
         conceptoEspecial.setNombre(conceptoEspecial.descripcion)
+        conceptoEspecial.setCustomId(conceptoEspecial.descripcion)
         arrProp = technologyProps()
         arrProp.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = technologyConcepts()
         arrCon.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
 
         conceptoEspecial = new ConceptoEspecial(descripcion: 'Antispam', nombre: 'antispam')
         conceptoEspecial.setNombre(conceptoEspecial.descripcion)
+        conceptoEspecial.setCustomId(conceptoEspecial.descripcion)
         arrProp = technologyProps()
         arrProp.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToPropiedades(it)
         }
         arrCon = technologyConcepts()
         arrCon.each {
-            it.setNombre(conceptoEspecial.nombre+'_'+it.descripcion)
+            it.setNombre(it.descripcion)
+            it.setCustomId(conceptoEspecial.nombre+'_'+it.descripcion)
             conceptoEspecial.addToConceptosE(it)
         }
         category.addToComponentes(conceptoEspecial)
@@ -201,6 +228,7 @@ class BootStrap {
         Ticket ticket
         ticket = new Ticket(cc: 10, es: 20, acs: 36, rq: 19)
         ticket.setNombre('tickets 1')
+        ticket.setCustomId('tickets 1')
         ticket.setDescripcion('Para pruebas')
         ticket.save(flush: true)
         dependencia = new Dependencia(rule: ticket, item: Item.get(3))
@@ -210,6 +238,7 @@ class BootStrap {
 
         ticket = new Ticket(cc: 54, es: 42, acs: 33, rq: 0)
         ticket.setNombre('tickets 2')
+        ticket.setCustomId('tickets 2')
         ticket.setDescripcion('Para pruebas')
         ticket.save(flush: true)
         dependencia = new Dependencia(rule: ticket, item: Item.get(48))
@@ -219,6 +248,7 @@ class BootStrap {
 
         ticket = new Ticket(cc: 29, es: 34, acs: 98, rq: 0, nombre: 'miticket', descripcion: 'para pruebas')
         ticket.setNombre('mi ticket')
+        ticket.setCustomId('mi ticket')
         ticket.save(flush: true)
         dependencia = new Dependencia(rule: ticket, item: Item.get(3))
         dependencia.save(flush: true)
@@ -234,6 +264,7 @@ class BootStrap {
         Factor factor
         factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: 0.05)
         factor.setNombre('Firewall con HA')
+        factor.setCustomId('Firewall con HA')
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(27))
         dependencia.save(flush: true)
@@ -241,12 +272,14 @@ class BootStrap {
         factor = new Factor(nombre: 'qa 5', descripcion: 'despues de 5 qa disminuye 0.03 por cada qa extra',
                 factor:-0.03, lowerLimit: 5, step: 3)
         factor.setNombre('qa 5')
+        factor.setCustomId('qa 5')
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(9), lowerLimit: 5)
         dependencia.save(flush: true)
 
         factor = new Factor(nombre: 'web appcontrol', descripcion: 'web con app control', factor: 0.35, step: 1)
         factor.setNombre('web appcontrol')
+        factor.setCustomId('web appcontrol')
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(46))
         dependencia.save(flush: true)
@@ -255,6 +288,7 @@ class BootStrap {
 
         factor = new Factor(nombre: 'web appcontrol', descripcion: 'web con app control', factor: 0.05, step: 1)
         factor.setNombre('web appcontrol')
+        factor.setCustomId('web appcontrol1')
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(46), lowerLimit: 3, upperLimit: 9, step: 2)
         dependencia.save(flush: true)

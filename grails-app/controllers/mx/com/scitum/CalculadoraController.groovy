@@ -55,7 +55,10 @@ class CalculadoraController {
         def children
         if(!newItemData.parent) {
             newInstance = new Categoria(descripcion: newItemData.descripcion,
-                    customId: newItemData.customId.replaceAll(' ', '_'))
+                    nombre: newItemData.nombre.replaceAll(' ', '_'),
+                    customId: newItemData.nombre)
+            newInstance.setNombre(newItemData.nombre)
+            newInstance.setCustomId(newItemData.nombre)
             newInstance?.save(flush: true, failOnError: true)
         }
         else {
@@ -65,8 +68,11 @@ class CalculadoraController {
             if(!newItemData.domainType || newItemData.domainType == 'concepto') {
                 newInstance = new Concepto(
                         descripcion: newItemData.descripcion,
-                        customId: newItemData.customId.replaceAll(' ', '_'),
+                        nombre: newItemData.nombre,
+                        customId: newItemData.nombre,
                         costo: 0)
+                newInstance.setNombre(newItemData.nombre)
+                newInstance.setCustomId(newItemData.nombre)
                 if(parent instanceof Categoria)
                     parent.addToConceptos(newInstance)
                 else if(parent instanceof ConceptoEspecial)
@@ -75,7 +81,10 @@ class CalculadoraController {
             else if(newItemData.domainType == 'componente') {
                 newInstance = new ConceptoEspecial(
                         descripcion: newItemData.descripcion,
-                        customId: newItemData.customId.replaceAll(' ', '_'))
+                        nombre: newItemData.nombre,
+                        customId: newItemData.nombre)
+                newInstance.setNombre(newItemData.nombre)
+                newInstance.setCustomId(newItemData.nombre)
                 if(parent instanceof Categoria)
                     parent.addToComponentes(newInstance)
             }
@@ -100,6 +109,7 @@ class CalculadoraController {
 //            + (newInstance.conceptos?: [])
 //            if(children.size() > 0) children = children[0]
         }
+        def allCategos = Categoria.list(fetch:[conceptos: "eager", componentes: 'eager'])
         render ([categories: Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']),
                  'children': children,
                  newItem: newInstance] as JSON)
