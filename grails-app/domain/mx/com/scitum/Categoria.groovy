@@ -2,12 +2,10 @@ package mx.com.scitum
 
 class Categoria  extends Item{
 
-//    String descripcion
     Boolean multiple = false
     Boolean required = true
     List conceptos
     List componentes
-//    String customId
 
     String nodeType
     static transients = ['nodeType']
@@ -16,7 +14,6 @@ class Categoria  extends Item{
 
     static constraints = {
         nodeType bindable: true
-//        customId unique: true
     }
 
     def getNodeType() {

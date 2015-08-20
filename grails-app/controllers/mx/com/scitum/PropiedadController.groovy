@@ -29,7 +29,7 @@ class PropiedadController {
     def save() {
         if(request.method == 'OPTIONS') {respond OK; return;}
         Propiedad propiedadInstance = new Propiedad()
-        bindData(propiedadInstance, request.JSON, [include: ['customId', 'descripcion', 'tipo']])
+        bindData(propiedadInstance, request.JSON, [include: ['nombre', 'descripcion', 'tipo']])
 
         def parentJSON = request.JSON.parent
         ConceptoEspecial parent = parentJSON?.id?
@@ -41,12 +41,17 @@ class PropiedadController {
             return
         }
 
+        propiedadInstance.setCustomId(parent.customId+'_'+propiedadInstance.nombre)
+        propiedadInstance.propietario = parent
+
+        parent.addToPropiedades(propiedadInstance)
+
+        propiedadInstance.validate()
         if (propiedadInstance.hasErrors()) {
             respond propiedadInstance.errors, view:'create'
             return
         }
 
-        parent.addToPropiedades(propiedadInstance)
         parent.save(flush: true)
 
 //        propiedadInstance.save flush:true

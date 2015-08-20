@@ -59,7 +59,6 @@ class CustomMarshallerRegistrar {
 			map['conceptos'] = it?.conceptos?: []
 			map['componentes'] = it?.componentes?: []
 			map['techSelected'] = [currentItem: null, propiedades: [], arr: [[[descripcion: '', selected: false]]]]
-//	    	map['toText'] = it?.toString()
 			map['customId'] = it?.customId
 			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Categoria'

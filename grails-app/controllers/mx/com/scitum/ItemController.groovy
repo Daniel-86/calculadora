@@ -53,12 +53,14 @@ class ItemController {
     @Transactional
     def update() {
         Item itemInstance = request.JSON.id? Item.get(request.JSON.id): Item.findByCustomId(request.JSON.customId)
+//        itemInstance = Item.get(1)
         if (itemInstance == null) {
             notFound()
             return
         }
 
         bindData(itemInstance, request.JSON, [include: ['nombre', 'descripcion', 'visible']])
+//        itemInstance.setNombre('')
 
         if (itemInstance.hasErrors()) {
             respond itemInstance.errors, view:'edit'
