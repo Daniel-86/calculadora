@@ -283,6 +283,7 @@ class CalculadoraController {
                     modData.nombre = it.rule.nombre
                     modData.descripcion = it.rule.descripcion
                     modData.customId = it.item.customId
+                    modData.target = it.rule.target*.toString()
                     modDataL << modData
                 }
                 return modDataL

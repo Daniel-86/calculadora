@@ -16,6 +16,8 @@ class Factor extends Regla{
 
     static transients = ['range']
 
+    static hasMany = [target: Target]
+
     static constraints = {
         lowerLimit nullable: true, validator: {val, obj-> if(val && obj.upperLimit) {return val <= obj.upperLimit}}
         upperLimit nullable: true, validator: {val, obj-> if(val && obj.lowerLimit) {return val >= obj.lowerLimit}}
@@ -25,4 +27,8 @@ class Factor extends Regla{
         return upperLimit - lowerLimit
     }
 
+}
+
+enum Target {
+    CC, ES, RQ, ACS
 }

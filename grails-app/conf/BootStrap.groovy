@@ -5,6 +5,7 @@ import mx.com.scitum.Dependencia
 import mx.com.scitum.Factor
 import mx.com.scitum.Item
 import mx.com.scitum.Propiedad
+import mx.com.scitum.Target
 import mx.com.scitum.Ticket
 import mx.com.scitum.auth.Role
 import mx.com.scitum.auth.User
@@ -265,6 +266,8 @@ class BootStrap {
         factor = new Factor(nombre: 'Firewall con HA', descripcion: 'Firewall con alta disponibilidad', factor: 0.05)
         factor.setNombre('Firewall con HA')
         factor.setCustomId('Firewall con HA')
+        factor.addToTarget(Target.CC)
+        factor.addToTarget(Target.ES)
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(27))
         dependencia.save(flush: true)
@@ -273,6 +276,10 @@ class BootStrap {
                 factor:-0.03, lowerLimit: 5, step: 3)
         factor.setNombre('qa 5')
         factor.setCustomId('qa 5')
+        factor.addToTarget(Target.ES)
+        factor.addToTarget(Target.CC)
+        factor.addToTarget(Target.ACS)
+        factor.addToTarget(Target.RQ)
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(9), lowerLimit: 5)
         dependencia.save(flush: true)
@@ -280,6 +287,10 @@ class BootStrap {
         factor = new Factor(nombre: 'web appcontrol', descripcion: 'web con app control', factor: 0.35, step: 1)
         factor.setNombre('web appcontrol')
         factor.setCustomId('web appcontrol')
+        factor.addToTarget(Target.ES)
+        factor.addToTarget(Target.CC)
+        factor.addToTarget(Target.ACS)
+        factor.addToTarget(Target.RQ)
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(46))
         dependencia.save(flush: true)
@@ -289,6 +300,10 @@ class BootStrap {
         factor = new Factor(nombre: 'web appcontrol', descripcion: 'web con app control', factor: 0.05, step: 1)
         factor.setNombre('web appcontrol')
         factor.setCustomId('web appcontrol1')
+        factor.addToTarget(Target.ES)
+        factor.addToTarget(Target.CC)
+        factor.addToTarget(Target.ACS)
+        factor.addToTarget(Target.RQ)
         factor.save(flush: true)
         dependencia = new Dependencia(rule: factor, item: Item.get(46), lowerLimit: 3, upperLimit: 9, step: 2)
         dependencia.save(flush: true)

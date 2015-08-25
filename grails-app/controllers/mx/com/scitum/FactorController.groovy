@@ -35,6 +35,10 @@ class FactorController {
         Factor factorInstance = new Factor()
         bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
                                                           'nombre']])
+        def target = request.JSON.target
+        target.each {
+            factorInstance.addToTarget(Target."$it")
+        }
 
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
@@ -93,6 +97,19 @@ class FactorController {
         }
         bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
                                                           'nombre']])
+
+        def target = request.JSON.target
+        target = target.collect {Target."$it"}
+//        def intersects = factorInstance.target.intersect(target)
+        def newTarget = target - factorInstance.target
+        def droppedOnes = factorInstance.target - target
+        droppedOnes.each {
+            factorInstance.removeFromTarget(it)
+        }
+        newTarget.each {
+            factorInstance.addToTarget(it)
+        }
+
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { dependency->

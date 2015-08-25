@@ -83,6 +83,7 @@ class CustomMarshallerRegistrar {
 			map['nombre'] = it?.nombre
 			map['customId'] = it?.customId
 			map['descripcion'] = it?.descripcion
+			map['target'] = it?.target?.collect {t-> t.toString()}
 			return map
 		}
 
