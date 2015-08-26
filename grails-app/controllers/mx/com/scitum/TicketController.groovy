@@ -7,7 +7,7 @@ import org.codehaus.groovy.grails.web.json.JSONObject
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-//@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class TicketController {
 

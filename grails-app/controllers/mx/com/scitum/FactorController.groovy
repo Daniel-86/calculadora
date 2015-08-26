@@ -6,7 +6,7 @@ import org.springframework.security.access.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-//@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class FactorController {
 

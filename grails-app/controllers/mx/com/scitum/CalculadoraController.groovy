@@ -136,6 +136,8 @@ class CalculadoraController {
             respond status: 500
     }
 
+
+    @Secured(['ROLE_USER'])
     def list() {
         List categories = Categoria.list(fetch:[conceptos: "eager", componentes: 'eager']);
 //        JSON.use('deep') {
@@ -160,7 +162,7 @@ class CalculadoraController {
 
 
 
-
+    @Secured(['ROLE_USER'])
     def calcular() {
 
         def tree = request.JSON.postData
