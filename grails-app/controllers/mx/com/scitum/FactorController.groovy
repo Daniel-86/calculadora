@@ -10,7 +10,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class FactorController {
 
-    static allowedMethods = [save: ["POST", 'OPTIONS'], update: ["PUT", 'OPTIONS'], delete: ["DELETE", 'OPTIONS']]
+    static allowedMethods = [save: ["POST"], update: ["PUT"], delete: ["DELETE"]]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -33,8 +33,8 @@ class FactorController {
     def save() {
 
         Factor factorInstance = new Factor()
-        bindData(factorInstance, request.JSON, [include: ['factor', 'descripcion',
-                                                          'nombre']])
+        bindData(factorInstance, request.JSON, [include: ['factor', 'descripcion', 'nombre']])
+        factorInstance.setCustomId(factorInstance.nombre)
         def target = request.JSON.target
         target.each {
             factorInstance.addToTarget(Target."$it")
@@ -47,28 +47,14 @@ class FactorController {
             if(item) {dependencies << [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]}
         }
 
-//        def current = factorInstance.dependencyDetail
-//        def deletions = current.findAll {!dependencies.contains(it.item)}
         def newOnes = dependencies
-//        def updates = current.findAll {!deletions.contains(it)}
-//        updates.each {ite->
-//            def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
-//            if(!dep) return
-//            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
-//            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
-//            ite.step = dep.step == JSONObject.NULL? null: dep.step
-//        }
-//        deletions*.delete(flush: true)
-
-//        updates*.save(flush: true)
-
 
         if (factorInstance.hasErrors()) {
             respond factorInstance.errors, view:'create'
             return
         }
 
-        factorInstance.save flush:true, failOnError: false
+        factorInstance.save flush:true
 
         newOnes.each {
             def upper = (it.upperLimit &&
@@ -78,7 +64,8 @@ class FactorController {
             def aux = new Dependencia(rule: factorInstance,
                     item: it.item,
                     lowerLimit: it.lowerLimit,
-                    upperLimit: upper)
+                    upperLimit: upper,
+                    step: it.step)
             aux.save(flush: true)
         }
 
@@ -102,8 +89,7 @@ class FactorController {
             notFound()
             return
         }
-        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
-                                                          'nombre']])
+        bindData(factorInstance, request.JSON, [include: ['factor', 'descripcion', 'nombre']])
 
         def target = request.JSON.target
         target = target.collect {Target."$it"}
@@ -144,10 +130,11 @@ class FactorController {
                     (it.upperLimit in Number ||
                             (it.upperLimit in String && it.upperLimit.isNumber())))?
                     it.upperLimit: null
-            def aux = new Dependencia(rule: ticketInstance,
+            def aux = new Dependencia(rule: factorInstance,
                     item: it.item,
                     lowerLimit: it.lowerLimit,
-                    upperLimit: upper)
+                    upperLimit: upper,
+                    step: it.step)
             aux.save(flush: true)
         }
         updates*.save(flush: true)
