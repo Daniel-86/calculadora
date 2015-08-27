@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 import mx.com.scitum.helpers.DependenciesList
 
 @Log4j
-@Secured(['ROLE_ADMIN'])
+//@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class CalculadoraController {
 

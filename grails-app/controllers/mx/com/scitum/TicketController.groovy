@@ -31,15 +31,17 @@ class TicketController {
         respond new Ticket(params)
     }
 
-    @Transactional
+//    @Transactional
     def save() {
+        def asdf = request.JSON
         Ticket ticketInstance = new Ticket()
         bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
+        ticketInstance.setCustomId(ticketInstance.nombre)
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { dependency->
             Item item = Item.findByCustomId(dependency.item?.customId)
-            if(item) {dependencies << item}
+            if(item) {dependencies << [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]}
         }
 
         def newOnes = dependencies
@@ -52,7 +54,14 @@ class TicketController {
         ticketInstance.save flush:true
 
         newOnes.each {
-            def aux = new Dependencia(rule: ticketInstance, item: it)
+            def upper = (it.upperLimit &&
+                    (it.upperLimit in Number ||
+                            (it.upperLimit in String && it.upperLimit.isNumber())))?
+                    it.upperLimit: null
+            def aux = new Dependencia(rule: ticketInstance,
+                    item: it.item,
+                    lowerLimit: it.lowerLimit,
+                    upperLimit: upper)
             aux.save(flush: true)
         }
 
@@ -69,7 +78,7 @@ class TicketController {
         respond ticketInstance
     }
 
-    @Transactional
+//    @Transactional
     def update() {
         def dats = request.JSON
         Ticket ticketInstance = Ticket.get(request.JSON.id)
@@ -78,27 +87,44 @@ class TicketController {
             return
         }
         bindData(ticketInstance, request.JSON, [include: ['cc', 'es', 'acs', 'rq', 'nombre', 'descripcion']])
+        ticketInstance.setCustomId(ticketInstance.nombre)
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { dependency->
             Item item = Item.findByCustomId(dependency.item?.customId)
-            if(item) {dependencies << item}
+            def depData = [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]
+            if(item) {dependencies << depData}
         }
 
         def current = ticketInstance.dependencyDetail
-        def deletions = current.findAll {!dependencies.contains(it.item)}
-        def newOnes = dependencies.findAll {!current.item.contains(it)}
+        def deletions = current.findAll {!dependencies.item.contains(it.item)}
+        def newOnes = dependencies.findAll {!current.item.contains(it.item)}
         def updates = current.findAll {!deletions.contains(it)}
         updates.each {ite->
             def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
             if(!dep) return
-            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
-            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
+            println "\nvalor${dep.upperLimit}"
+            println "es json nulo ${dep.upperLimit == JSONObject.NULL}"
+            println "es numero ${dep.upperLimit in Number}"
+            println "es string ${dep.upperLimit in String}"
+            println "es string numero ${dep.upperLimit in String && dep.upperLimit.isNumber()}"
+            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit?.toInteger()
+            ite.upperLimit = (dep.upperLimit == JSONObject.NULL || (dep.upperLimit in
+                    String && !(dep.upperLimit.isNumber())))?
+                    null: dep.upperLimit?.toInteger()
             ite.step = dep.step == JSONObject.NULL? null: dep.step
+            println "despues ${ite.upperLimit}"
         }
         deletions*.delete(flush: true)
         newOnes.each {
-            def aux = new Dependencia(rule: ticketInstance, item: it)
+            def upper = (it.upperLimit &&
+                    (it.upperLimit in Number ||
+                            (it.upperLimit in String && it.upperLimit.isNumber())))?
+                    it.upperLimit: null
+            def aux = new Dependencia(rule: ticketInstance,
+                    item: it.item,
+                    lowerLimit: it.lowerLimit,
+                    upperLimit: upper)
             aux.save(flush: true)
         }
         updates*.save(flush: true)

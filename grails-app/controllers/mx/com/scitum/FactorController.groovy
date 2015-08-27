@@ -29,11 +29,11 @@ class FactorController {
         respond new Factor(params)
     }
 
-    @Transactional
+//    @Transactional
     def save() {
 
         Factor factorInstance = new Factor()
-        bindData(factorInstance, request.JSON, [include: ['factor', 'lowerLimit', 'upperLimit', 'descripcion',
+        bindData(factorInstance, request.JSON, [include: ['factor', 'descripcion',
                                                           'nombre']])
         def target = request.JSON.target
         target.each {
@@ -44,7 +44,7 @@ class FactorController {
         def dependencies = []
         dependenciasJSON.each { dependency->
             Item item = Item.findByCustomId(dependency.item?.customId)
-            if(item) {dependencies << item}
+            if(item) {dependencies << [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]}
         }
 
 //        def current = factorInstance.dependencyDetail
@@ -71,7 +71,14 @@ class FactorController {
         factorInstance.save flush:true, failOnError: false
 
         newOnes.each {
-            def aux = new Dependencia(rule: factorInstance, item: it)
+            def upper = (it.upperLimit &&
+                    (it.upperLimit in Number ||
+                            (it.upperLimit in String && it.upperLimit.isNumber())))?
+                    it.upperLimit: null
+            def aux = new Dependencia(rule: factorInstance,
+                    item: it.item,
+                    lowerLimit: it.lowerLimit,
+                    upperLimit: upper)
             aux.save(flush: true)
         }
 
@@ -88,7 +95,7 @@ class FactorController {
         respond factorInstance
     }
 
-    @Transactional
+//    @Transactional
     def update() {
         Factor factorInstance = Factor.get(request.JSON.id)
         if (factorInstance == null) {
@@ -114,23 +121,33 @@ class FactorController {
         def dependencies = []
         dependenciasJSON.each { dependency->
             Item item = Item.findByCustomId(dependency.item?.customId)
-            if(item) {dependencies << item}
+            def depData = [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]
+            if(item) {dependencies << depData}
         }
 
         def current = factorInstance.dependencyDetail
-        def deletions = current.findAll {!dependencies.contains(it.item)}
-        def newOnes = dependencies.findAll {!current.item.contains(it)}
+        def deletions = current.findAll {!dependencies.item.contains(it.item)}
+        def newOnes = dependencies.findAll {!current.item.contains(it.item)}
         def updates = current.findAll {!deletions.contains(it)}
         updates.each {ite->
             def dep = dependenciasJSON.find {ite.item.customId == it.item.customId}
             if(!dep) return
-            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit
-            ite.upperLimit = dep.upperLimit == JSONObject.NULL? null: dep.upperLimit
+            ite.lowerLimit = dep.lowerLimit == JSONObject.NULL? null: dep.lowerLimit?.toInteger()
+            ite.upperLimit = (dep.upperLimit == JSONObject.NULL || (dep.upperLimit in
+                    String && !(dep.upperLimit.isNumber())))?
+                    null: dep.upperLimit?.toInteger()
             ite.step = dep.step == JSONObject.NULL? null: dep.step
         }
         deletions*.delete(flush: true)
         newOnes.each {
-            def aux = new Dependencia(rule: factorInstance, item: it)
+            def upper = (it.upperLimit &&
+                    (it.upperLimit in Number ||
+                            (it.upperLimit in String && it.upperLimit.isNumber())))?
+                    it.upperLimit: null
+            def aux = new Dependencia(rule: ticketInstance,
+                    item: it.item,
+                    lowerLimit: it.lowerLimit,
+                    upperLimit: upper)
             aux.save(flush: true)
         }
         updates*.save(flush: true)

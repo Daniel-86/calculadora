@@ -8,24 +8,24 @@ class Factor extends Regla{
 
 //    String descripcion
     Double factor
-    Integer lowerLimit
-    Integer upperLimit
-    Integer range
-    String applyTo = 'all'
-    Integer step = 1
+//    Integer lowerLimit
+//    Integer upperLimit
+//    Integer range
+//    String applyTo = 'all'
+//    Integer step = 1
 
     static transients = ['range']
 
     static hasMany = [target: Target]
 
     static constraints = {
-        lowerLimit nullable: true, validator: {val, obj-> if(val && obj.upperLimit) {return val <= obj.upperLimit}}
-        upperLimit nullable: true, validator: {val, obj-> if(val && obj.lowerLimit) {return val >= obj.lowerLimit}}
+//        lowerLimit nullable: true, validator: {val, obj-> if(val && obj.upperLimit) {return val <= obj.upperLimit}}
+//        upperLimit nullable: true, validator: {val, obj-> if(val && obj.lowerLimit) {return val >= obj.lowerLimit}}
     }
 
-    def getRange() {
-        return upperLimit - lowerLimit
-    }
+//    def getRange() {
+//        return upperLimit - lowerLimit
+//    }
 
 }
 
