@@ -8,18 +8,17 @@ class Item {
     String customId
     String nombre
     Boolean visible = true
+    Boolean eligible = true
+    Boolean single = false
 
     static constraints = {
         customId unique: true
+        volumetry min: 1
     }
 
     void setCustomId(String value) {
-//        customId = CleaningStuff.makeSafeURL(value)
         String tentativeId = CleaningStuff.makeSafeURL(value)
         def existsCount = Item.findAllByCustomIdIlike(tentativeId+'%')
-        if(!this.id && existsCount?.size())
-            def asdf = 'asdf'
-//        if(this.id && existsCount?.size())
         customId = tentativeId + (!this.id && existsCount?.size()? existsCount.size(): '')
     }
 

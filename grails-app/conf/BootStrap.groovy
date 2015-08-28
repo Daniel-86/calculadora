@@ -29,12 +29,13 @@ class BootStrap {
                 descripcion: 'Tipo de cliente',
                 multiple: false,
                 required: true,
-                nombre: 'tipo de cliente'
-                )
+                nombre: 'tipo de cliente',
+                single: true,
+                eligible: false)
         [
-                new Concepto(descripcion: 'Gobierno', costo: 23, nombre: 'gobierno'),
-                new Concepto(descripcion: 'Privado', costo: 2, nombre: 'privado'),
-                new Concepto(descripcion: 'Financiero', costo: 3, nombre: 'financiero')].each {
+                new Concepto(descripcion: 'Gobierno', costo: 23, nombre: 'gobierno', single: true),
+                new Concepto(descripcion: 'Privado', costo: 2, nombre: 'privado', single: true),
+                new Concepto(descripcion: 'Financiero', costo: 3, nombre: 'financiero', single: true)].each {
             it.setNombre(it.descripcion)
             it.setCustomId(it.descripcion)
             category.addToConceptos(it)
@@ -51,21 +52,15 @@ class BootStrap {
                 descripcion: 'Ingeniería en sitio',
                 multiple: false,
                 required: true, 
-                nombre: 'ingenieria_en_sitio')
-        [
-                new Concepto(descripcion: 'Sí', costo: 1, nombre: 'si'),
-                new Concepto(descripcion: 'No', costo: 0, nombre: 'no')].each {
-            it.setNombre(it.descripcion)
-            it.setCustomId(it.descripcion)
-            category.addToConceptos(it)
-        }
+                nombre: 'ingenieria_en_sitio',
+                single: true)
         category.setNombre(category.descripcion)
         category.setCustomId(category.descripcion)
         def arrPropC2, arrConC2
         ConceptoEspecial ceC2
         def techPropsC2 = {
             def lista = [
-                    new Propiedad(descripcion: 'cantidad', tipo: 'int', nombre: 'cantidad')
+                    new Propiedad(descripcion: 'cantidad', tipo: 'int', nombre: 'cantidad', single: false)
             ]
             return lista
         }
@@ -126,27 +121,60 @@ class BootStrap {
                 descripcion: 'Tecnología',
                 multiple: true,
                 required: true, 
-                nombre: 'tecnología')
+                nombre: 'tecnología',
+                single: true,
+                eligible: false)
         category.setNombre(category.descripcion)
         category.setCustomId(category.descripcion)
         def arrProp, arrCon
         def technologyProps = {
             def lista = [
-                new Propiedad(nombre: 'cantidad', descripcion: 'cantidad', tipo: 'Integer'),
+                new Propiedad(nombre: 'cantidad', descripcion: 'cantidad', tipo: 'Integer', single: false),
                 new Propiedad(nombre: 'volumetría', descripcion: 'volumetría')
             ]
             return lista
         }
         def technologyConcepts = {
             def lista = [
-                new Concepto(nombre: 'Firewall/NAT', descripcion: 'Firewall/NAT', costo: 23, multiple: true),
-                new Concepto(nombre: 'VPN IPSEC', descripcion: 'VPN IPSEC', costo: 2, multiple: true),
-                new Concepto(nombre: 'VPN SSL', descripcion: 'VPN SSL', costo: 3, multiple: true),
-                new Concepto(nombre: 'IPS', descripcion: 'IPS', costo: 3, multiple: true),
-                new Concepto(nombre: 'Application control', descripcion: 'Application control', costo: 3, multiple: true),
-                new Concepto(nombre: 'URL filtering', descripcion: 'URL filtering', costo: 3, multiple: true),
-                new Concepto(nombre: 'Antivirus', descripcion: 'Antivirus', costo: 123, multiple: true),
-                new Concepto(nombre: 'HA', descripcion: 'HA', costo:  23, multiple: true)
+                new Concepto(nombre: 'Firewall/NAT',
+                        descripcion: 'Firewall/NAT',
+                        costo: 23,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'VPN IPSEC',
+                        descripcion: 'VPN IPSEC',
+                        costo: 2,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'VPN SSL',
+                        descripcion: 'VPN SSL',
+                        costo: 3,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'IPS',
+                        descripcion: 'IPS',
+                        costo: 3,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'Application control',
+                        descripcion: 'Application control',
+                        costo: 3,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'URL filtering',
+                        descripcion: 'URL filtering',
+                        costo: 3,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'Antivirus',
+                        descripcion: 'Antivirus',
+                        costo: 123,
+                        multiple: true,
+                        single: false),
+                new Concepto(nombre: 'HA',
+                        descripcion: 'HA',
+                        costo: 23,
+                        multiple: true, single: false)
             ]
             return lista
         }

@@ -93,6 +93,10 @@ task jasmineWatch(type: NodeTask, dependsOn: 'setupJasmine') {
 
 test.dependsOn jasmineRun
 
+configurations {
+	addToClassLoader
+}
+
 dependencies {
 	springloaded 'org.springframework:springloaded:1.2.3.RELEASE@jar'
 	
@@ -129,5 +133,13 @@ dependencies {
 	runtime('org.grails.plugins:hibernate4:4.3.8.1') {
     		exclude module: 'xml-apis'
 	}
+
+	addToClassLoader group: 'commons-cli', name:'commons-cli', version: '1.2'
 	
+}
+
+
+URLClassLoader loader = GroovyObject.class.classLoader
+configurations.addToClassLoader.each {File file->
+	loader.addURL(file.toURL())
 }
