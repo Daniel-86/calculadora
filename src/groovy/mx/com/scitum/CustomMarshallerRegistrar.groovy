@@ -19,6 +19,8 @@ class CustomMarshallerRegistrar {
 			map['customId'] = it?.customId
 			map['nombre'] = it?.nombre
 			map['visible'] = it?.visible
+			map['eligible'] = it?.eligible
+			map['single'] = it?.single
 //	    	map['toText'] = it?.toString()
 			return map 
 		}
@@ -31,6 +33,8 @@ class CustomMarshallerRegistrar {
 			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Propiedad'
 			map['visible'] = it?.visible
+			map['eligible'] = it?.eligible
+			map['single'] = it?.single
 			return map
 		}
 
@@ -46,6 +50,8 @@ class CustomMarshallerRegistrar {
 			map['nombre'] = it?.nombre
 			map['domainClass'] = 'ConceptoEspecial'
 			map['visible'] = it?.visible
+			map['eligible'] = it?.eligible
+			map['single'] = it?.single
 			return map
 		}
 
@@ -63,6 +69,8 @@ class CustomMarshallerRegistrar {
 			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Categoria'
 			map['visible'] = it?.visible
+			map['eligible'] = it?.eligible
+			map['single'] = it?.single
 			return map
 		}
 

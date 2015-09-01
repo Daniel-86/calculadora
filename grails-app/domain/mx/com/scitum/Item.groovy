@@ -13,7 +13,6 @@ class Item {
 
     static constraints = {
         customId unique: true
-        volumetry min: 1
     }
 
     void setCustomId(String value) {

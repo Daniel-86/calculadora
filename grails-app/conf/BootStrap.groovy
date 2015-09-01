@@ -32,12 +32,15 @@ class BootStrap {
                 nombre: 'tipo de cliente',
                 single: true,
                 eligible: false)
+        category.setSingle(true)
+        category.setEligible(false)
         [
                 new Concepto(descripcion: 'Gobierno', costo: 23, nombre: 'gobierno', single: true),
                 new Concepto(descripcion: 'Privado', costo: 2, nombre: 'privado', single: true),
                 new Concepto(descripcion: 'Financiero', costo: 3, nombre: 'financiero', single: true)].each {
             it.setNombre(it.descripcion)
             it.setCustomId(it.descripcion)
+            it.setSingle(true)
             category.addToConceptos(it)
         }
         category.setCustomId('tipo de cliente')
@@ -54,6 +57,7 @@ class BootStrap {
                 required: true, 
                 nombre: 'ingenieria_en_sitio',
                 single: true)
+        category.setSingle(true)
         category.setNombre(category.descripcion)
         category.setCustomId(category.descripcion)
         def arrPropC2, arrConC2
@@ -124,6 +128,8 @@ class BootStrap {
                 nombre: 'tecnología',
                 single: true,
                 eligible: false)
+        category.setSingle(true)
+        category.setEligible(false)
         category.setNombre(category.descripcion)
         category.setCustomId(category.descripcion)
         def arrProp, arrCon

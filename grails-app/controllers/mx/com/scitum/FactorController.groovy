@@ -43,8 +43,25 @@ class FactorController {
         def dependenciasJSON = request.JSON.dependencias
         def dependencies = []
         dependenciasJSON.each { dependency->
-            Item item = Item.findByCustomId(dependency.item?.customId)
-            if(item) {dependencies << [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]}
+            Item item = Item.findByCustomIdAndEligibleAndVisible(dependency.item?.customId, true, true)
+            if(item) {dependencies << [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency
+                    .lowerLimit, step: dependency.step]}
+        }
+        if(!dependencies) {
+            factorInstance.errors.reject("mx.com.scitum.factor.dependencies.error.required", 'Debes especificar al ' +
+                    'menos una dependencia')
+        }
+        else {
+
+            def multipleCount = dependencies.inject(0) { partial, item ->
+                if (item?.lowerLimit) {
+                    partial++
+                }
+                return partial
+            }
+            if (multipleCount > 1) {
+                factorInstance.errors.reject('mx.com.scitum.factor.dependencies.error.multipleCount', 'Solo puede haber una depencencia con valores inferior y/o superior')
+            }
         }
 
         def newOnes = dependencies
@@ -109,6 +126,23 @@ class FactorController {
             Item item = Item.findByCustomId(dependency.item?.customId)
             def depData = [item:item, upperLimit: dependency.upperLimit, lowerLimit: dependency.lowerLimit]
             if(item) {dependencies << depData}
+        }
+
+        if(!dependencies) {
+            factorInstance.errors.reject("mx.com.scitum.factor.dependencies.error.required", 'Debes especificar al ' +
+                    'menos una dependencia')
+        }
+        else {
+
+            def multipleCount = dependencies.inject(0) { partial, item ->
+                if (item?.lowerLimit) {
+                    partial++
+                }
+                return partial
+            }
+            if (multipleCount > 1) {
+                factorInstance.errors.reject('mx.com.scitum.factor.dependencies.error.multipleCount', 'Solo puede haber una depencencia con valores inferior y/o superior')
+            }
         }
 
         def current = factorInstance.dependencyDetail
@@ -198,7 +232,8 @@ class FactorController {
     def dependenciesData() {
         Factor factor = Factor.get(params.id)
         def dependencies = factor?.dependencies?.collect {it.customId}?: []
-        def all = dependencies? Item.findAllByCustomIdNotInList(dependencies): Item.list()
+        def all = dependencies? Item.findAllByCustomIdNotInList(dependencies): Item.findAllByVisibleAndEligible(true,
+                true)
 //        all.removeAll(dependencies)
         def data = [available: all, factor: factor]
         respond data
