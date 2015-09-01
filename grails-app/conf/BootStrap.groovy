@@ -3,6 +3,7 @@ import mx.com.scitum.Concepto
 import mx.com.scitum.ConceptoEspecial
 import mx.com.scitum.Dependencia
 import mx.com.scitum.Factor
+import mx.com.scitum.FieldType
 import mx.com.scitum.Item
 import mx.com.scitum.Propiedad
 import mx.com.scitum.Target
@@ -77,7 +78,7 @@ class BootStrap {
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('ingeniero de operaciones cantidad')
-        arrPropC2.each { ceC2.addToPropiedades(it)}
+        arrPropC2.each { it.setCustomType(FieldType.NUMBER); ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'QA', nombre: 'qa')
@@ -95,7 +96,7 @@ class BootStrap {
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('analista cantidad')
-        arrPropC2.each { ceC2.addToPropiedades(it)}
+        arrPropC2.each { it.setCustomType(FieldType.NUMBER); ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'Service manager', nombre: 'service manager')
@@ -104,7 +105,7 @@ class BootStrap {
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('service manager cantidad')
-        arrPropC2.each { ceC2.addToPropiedades(it)}
+        arrPropC2.each { it.setCustomType(FieldType.NUMBER); ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'CSIRT', nombre: 'csirt')
@@ -113,7 +114,7 @@ class BootStrap {
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('csirt cantidad')
-        arrPropC2.each { ceC2.addToPropiedades(it)}
+        arrPropC2.each { it.setCustomType(FieldType.NUMBER); ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         category.save(flush: true, failOnError: true)
@@ -135,9 +136,16 @@ class BootStrap {
         def arrProp, arrCon
         def technologyProps = {
             def lista = [
-                new Propiedad(nombre: 'cantidad', descripcion: 'cantidad', tipo: 'Integer', single: false),
-                new Propiedad(nombre: 'volumetría', descripcion: 'volumetría')
+                new Propiedad(nombre: 'cantidad', descripcion: 'cantidad', tipo: 'Integer', single: false,
+                        customType: FieldType.NUMBER),
+//                new Propiedad(nombre: 'volumetría', descripcion: 'volumetría', customType: FieldType.RADIO),
+//                new Propiedad(nombre: 'volumetría', descripcion: 'volumetría', customType: FieldType.RADIO),
+//                new Propiedad(nombre: 'volumetría', descripcion: 'volumetría', customType: FieldType.RADIO),
+                new Propiedad(nombre: 'volumetría', descripcion: 'volumetría', customType: FieldType.RADIO)
             ]
+            lista[1].addToOptions('Small Bussiness hasta 500 usuarios')
+            lista[1].addToOptions('Medium Bussiness hasta 5,000 usuarios')
+            lista[1].addToOptions('Datacenters & Large Enterprise más de 5,000 usuarios')
             return lista
         }
         def technologyConcepts = {

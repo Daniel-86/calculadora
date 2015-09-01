@@ -140,4 +140,8 @@ class PropiedadController {
             '*'{ render status: NOT_FOUND }
         }
     }
+
+    def listTypes() {
+        respond FieldType.values()?.collect {it.toString()}
+    }
 }

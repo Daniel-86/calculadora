@@ -28,13 +28,14 @@ class CustomMarshallerRegistrar {
 		JSON.registerObjectMarshaller(mx.com.scitum.Propiedad) {
 			def map = [:]
 			map['descripcion'] = it?.descripcion
-			map['tipo'] = it?.tipo
+			map['tipo'] = it?.customType?.toString()
 			map['customId'] = it?.customId
 			map['nombre'] = it?.nombre
 			map['domainClass'] = 'Propiedad'
 			map['visible'] = it?.visible
 			map['eligible'] = it?.eligible
 			map['single'] = it?.single
+			map['options'] = it?.options?: []
 			return map
 		}
 
