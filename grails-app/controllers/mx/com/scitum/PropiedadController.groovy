@@ -33,6 +33,13 @@ class PropiedadController {
         propiedadInstance.setNombre(request.JSON.nombre)
         propiedadInstance.setDescripcion(request.JSON.descripcion)
         propiedadInstance.setTipo(request.JSON.tipo)
+        propiedadInstance.setCustomType(FieldType."${request.JSON.tipo}")
+        if(propiedadInstance.customType in Propiedad.propsWithOptions) {
+            def options = request.JSON.options
+            options.each {
+                propiedadInstance.addToOptions(it)
+            }
+        }
 //        bindData(propiedadInstance, request.JSON, [include: ['nombre', 'descripcion', 'tipo']])
 
         def parentJSON = request.JSON.parent

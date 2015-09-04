@@ -18,6 +18,8 @@ class Propiedad extends Item{
 //        customId unique: true
     }
 
+    static propsWithOptions = [FieldType.CHECK, FieldType.RADIO]
+
 //    def getGroupName() {
 //        if(customType in [FieldType.RADIO, FieldType.CHECK]) { groupName }
 //        else null
