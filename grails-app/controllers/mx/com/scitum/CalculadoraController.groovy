@@ -59,6 +59,11 @@ class CalculadoraController {
                     customId: newItemData.nombre)
             newInstance.setNombre(newItemData.nombre)
             newInstance.setCustomId(newItemData.nombre)
+            newInstance.validate()
+            if(newInstance.hasErrors()) {
+                respond newInstance.errors
+                return
+            }
             newInstance?.save(flush: true, failOnError: true)
         }
         else {
