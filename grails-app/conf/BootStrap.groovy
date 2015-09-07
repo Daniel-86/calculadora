@@ -87,7 +87,7 @@ class BootStrap {
         arrPropC2 = techPropsC2();
         arrPropC2.find {it.descripcion == 'cantidad'}?.setNombre('cantidad')
         arrPropC2.find {it.descripcion == 'cantidad'}?.setCustomId('qa cantidad')
-        arrPropC2.each { ceC2.addToPropiedades(it)}
+        arrPropC2.each { it.setCustomType(FieldType.NUMBER); ceC2.addToPropiedades(it)}
         category.addToComponentes(ceC2)
 
         ceC2 = new ConceptoEspecial(descripcion: 'Analista', nombre: 'analista')
