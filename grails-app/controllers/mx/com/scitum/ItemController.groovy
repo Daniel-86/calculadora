@@ -60,7 +60,38 @@ class ItemController {
             return
         }
 
+        def lastVisibleStatus = itemInstance.visible
         bindData(itemInstance, request.JSON, [include: ['nombre', 'descripcion', 'visible']])
+        if(lastVisibleStatus != itemInstance.visible) {
+            if(itemInstance instanceof ConceptoEspecial) {
+                itemInstance.propiedades.each {
+                    it.visible = !lastVisibleStatus
+                    it.save(flush: true)
+                }
+                itemInstance.conceptosE.each {
+                    it.visible = !lastVisibleStatus
+                    it.save(flush: true)
+                }
+            }
+            else if(itemInstance instanceof Categoria) {
+                itemInstance.componentes.each {ConceptoEspecial c->
+                    c.visible = !lastVisibleStatus
+                    c.propiedades.each {
+                        it.visible = !lastVisibleStatus
+                        it.save(flush: true)
+                    }
+                    c.conceptosE.each {
+                        it.visible = !lastVisibleStatus
+                        it.save(flush: true)
+                    }
+                    c.save(flush: true)
+                }
+                itemInstance.conceptos.each {
+                    it.visible = !lastVisibleStatus
+                    it.save(flush: true)
+                }
+            }
+        }
 //        itemInstance.setCustomId(itemInstance.nombre)
 
         if (itemInstance.hasErrors()) {

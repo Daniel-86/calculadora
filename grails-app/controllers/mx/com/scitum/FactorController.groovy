@@ -50,6 +50,8 @@ class FactorController {
         if(!dependencies) {
             factorInstance.errors.reject("mx.com.scitum.factor.dependencies.error.required", 'Debes especificar al ' +
                     'menos una dependencia')
+//            respond factorInstance.errors, view:'create'
+//            return
         }
         else {
 
@@ -156,7 +158,7 @@ class FactorController {
             ite.upperLimit = (dep.upperLimit == JSONObject.NULL || (dep.upperLimit in
                     String && !(dep.upperLimit.isNumber())))?
                     null: dep.upperLimit?.toInteger()
-            ite.step = dep.step == JSONObject.NULL? null: dep.step
+            ite.step = dep.step == JSONObject.NULL? 1: dep.step
         }
         deletions*.delete(flush: true)
         newOnes.each {

@@ -180,14 +180,14 @@ class CalculadoraController {
         def auxServiceDep = [:].withDefault {[]}
         tree.each { category->
             if(category.key == 'tipo_de_cliente') {
-                requiredDeps << Item.findByCustomId(category.value.customId)
+                requiredDeps << Item.findByCustomIdAndEligibleAndVisible(category.value.customId, true, true)
             }
             else if(category.key == 'ingenieria_en_sitio') {
                 category.value.each { componente->
-                    extraDeps << Item.findByCustomId(componente.key)
+                    extraDeps << Item.findByCustomIdAndEligibleAndVisible(componente.key as String, true, true)
                     componente.value.each { property->
                         if(property.key != componente.key) {
-                            requiredDeps << Item.findByCustomId(property.key)
+                            requiredDeps << Item.findByCustomIdAndEligibleAndVisible(property.key as String, true, true)
                             if(property.key.contains('cantidad')) {
                                 counts[property.key] = property.value
                             }
@@ -198,7 +198,8 @@ class CalculadoraController {
             else if(category.key == 'tecnologia') {
                 category.value.each {componente->
                     componente.value.devices.eachWithIndex { device, idx->
-                        servicesDeps[componente.key+'-'+idx] = device.selection.collect {Item.findByCustomId(it)}
+                        servicesDeps[componente.key+'-'+idx] = device.selection.collect {Item
+                                .findByCustomIdAndEligibleAndVisible(it as String, true, true)}
                         customCounts << device.selection.collectEntries {[(it): device.count]}
                         auxServiceDep[componente.key] << servicesDeps[componente.key+'-'+idx]
                         counts[componente.key+'-'+idx] = device.count
