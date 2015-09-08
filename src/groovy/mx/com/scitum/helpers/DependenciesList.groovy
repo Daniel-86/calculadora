@@ -20,24 +20,40 @@ class DependenciesList {
             if(current instanceof Factor)
                 return found
             def matched = current.dependencies.intersect(test)
+            if(!found.current) {
+                found.current = current
+                found.matched = matched
+                found.missing = current.dependencies - matched
+                found.extra = test - matched
+                return found
+            }
 //            print "\n\n${current.data} \tC\t $test \t=\t $matched\t\tmissing:${current.data - matched}\textra:${test - matched}"
             def matchedVals = matched?.size()
 //            println "\t\t*$matchedVals*"
             if (matchedVals == current.dependencies.size()) {
-//                found = current
-                found.current = current
-                found.matched = matched
-                found.missing = current.dependencies - matched
-                found.extra = test - matched
-            } else if (matchedVals > found?.current?.dependencies?.size()) {
-//                found = current
-                found.current = current
-                found.matched = matched
-                found.missing = current.dependencies - matched
-                found.extra = test - matched
+                if(found.current) {
+                    def currentExtra = test - matched
+                    if((matchedVals == found.current.depemdencies.size() && currentExtra.size() < found.extra.size())
+                            || (matchedVals > found.current.dependencies.size())) {
+                        found.current = current
+                        found.matched = matched
+                        found.missing = current.dependencies - matched
+                        found.extra = test - matched
+                    }
+                }
+                else {
+                    found.current = current
+                    found.matched = matched
+                    found.missing = current.dependencies - matched
+                    found.extra = test - matched
+                }
             }
-//            println "bestTicketMatch Dependencies ${current.dependencies}"
-//            println "\tFOUND $found"
+//            else if (matchedVals > found?.current?.dependencies?.size()) {
+//                found.current = current
+//                found.matched = matched
+//                found.missing = current.dependencies - matched
+//                found.extra = test - matched
+//            }
             return found
         }
     }
