@@ -233,7 +233,7 @@ class CalculadoraController {
             use(DependenciesList) {
                 bestMatchData = allRules.bestTicketMatch(rowDependencies)
             }
-            if(bestMatchData?.matched) {
+//            if(bestMatchData?.matched) {
                 def bestMatch = bestMatchData.current
                 def baseData = [:]
                 baseData.nombre = bestMatch?.nombre
@@ -245,7 +245,7 @@ class CalculadoraController {
                 baseData.best = bestMatchData
                 servicesMatch << baseData
                 rowsData.ticket = baseData
-            }
+//            }
 
             def factores = allRules.findAll {
                 if(!(it instanceof Factor))

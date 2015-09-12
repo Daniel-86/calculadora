@@ -84,7 +84,7 @@ class FactorController {
                     item: it.item,
                     lowerLimit: it.lowerLimit,
                     upperLimit: upper,
-                    step: it.step)
+                    step: it.step?: 1)
             aux.save(flush: true)
         }
 
@@ -170,7 +170,7 @@ class FactorController {
                     item: it.item,
                     lowerLimit: it.lowerLimit,
                     upperLimit: upper,
-                    step: it.step)
+                    step: it.step?: 1)
             aux.save(flush: true)
         }
         updates*.save(flush: true)
