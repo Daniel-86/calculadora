@@ -455,6 +455,15 @@ class BootStrap {
             userRole.save(flush: true)
         }
 
+        if(!User.findByUsername('gmendoza')) {
+            log.debug("Agregando el usuario 'gmendoza' con rol 'ROLE_ADMIN'")
+            user = new User('gmendoza', 'asdf')
+            user.save(flush: true)
+            role = Role.findByAuthority('ROLE_ADMIN')
+            userRole = new UserRole(user, role)
+            userRole.save(flush: true)
+        }
+
 
 	}
     def destroy = {
