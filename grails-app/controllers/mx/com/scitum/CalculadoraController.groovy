@@ -233,6 +233,7 @@ class CalculadoraController {
             use(DependenciesList) {
                 bestMatchData = allRules.bestTicketMatch(rowDependencies)
             }
+            if(!bestMatchData) return;
 //            if(bestMatchData?.matched) {
                 def bestMatch = bestMatchData.current
                 def baseData = [:]

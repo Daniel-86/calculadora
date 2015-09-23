@@ -1,25 +1,30 @@
 package mx.com.scitum.helpers
 
 import mx.com.scitum.Factor
+import mx.com.scitum.Item
 
 /**
  * Created by daniel.jimenez on 24/07/2015.
  *
- * Agrega funcionalidad, de manera dinamica, a una lista de mx.com.scitum.Dependencia
+ * Agrega funcionalidad de manera dinamica a una lista de mx.com.scitum.Dependencia
  */
 class DependenciesList {
 
+//    static def requiredItems
+
     /**
-     * Encuentra el elemento de la lista que coincide con todos o con la mayoria de las dependencias especificadas
+     * Encuentra el elemento de la lista que coincide con todos o con la mayoría de las dependencias especificadas
      * @param lista La lista en la cual buscar
      * @param test Las dependencias por las que buscar
-     * @return Un �nico elemento del tipo mx.com.scitum.Dependencia
+     * @return Un único elemento del tipo mx.com.scitum.Dependencia o nulo
      */
     static def bestTicketMatch(List lista, test) {
         lista.inject([:]) { found, current ->
             if(current instanceof Factor)
                 return found
             def matched = current.dependencies.intersect(test)
+            if( !(Item.findByCustomId('tipo_de_cliente').conceptos.any {matched.contains(it)}) )
+                return found
             if(!found.current) {
                 found.current = current
                 found.matched = matched
